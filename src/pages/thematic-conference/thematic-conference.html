@@ -1,0 +1,44 @@
+<!--
+  Generated template for the ThematicConferencePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="danger">
+
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Тематика</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only on (click)="deleteAllThematic()">
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+      <button ion-button icon-only on (click)="getThematicApi()">
+        <ion-icon name="cloud-download"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="addItemThematic()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+
+    <ion-item *ngFor="let thema of thematicConference" text-wrap>
+
+      <button  ion-item (click)="goToParticipantThematicList(thema.number)">
+        <ion-icon item-left name="list" color="danger"></ion-icon>
+        <p>{{thema.name_rus}}</p>
+      </button>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
