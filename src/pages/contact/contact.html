@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Патриот экспо
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only on (click)="deleteParticipantAll()">
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+      <button ion-button icon-only on (click)="selectParticipantAll()">
+        <ion-icon name="cloud-download"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="refreshParticipant()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+  <ion-scroll scrollX="true" scrollY="true" style="width: 100%; height: 100%">
+    <div class="map-div"></div>
+  </ion-scroll>
+
+
+
+
+<style>
+  .map-div {
+    width:2048px;
+    height:1497px;
+    background: url('assets/img/maps/patriot-expo-map.jpg') no-repeat;
+  }
+</style>
+
+
+</ion-content>

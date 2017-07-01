@@ -1,0 +1,304 @@
+{
+
+  "schedule": [{
+    "date": "2047-05-17",
+    "groups": [{
+      "time": "8:00 am",
+      "sessions": [{
+        "name": "Breakfast",
+        "time_begin": "8:00 am",
+        "time_end": "9:00 am",
+        "place": "Main hallway",
+        "tracks": ["Food"]
+      }]
+    }, {
+      "time": "9:00 am",
+      "sessions": [{
+        "name": "Introduction to Appcamp.io",
+        "place": "Room 2203",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Ellie Elephant"],
+        "time_begin": "9:00 am",
+        "time_end": "9:30 am",
+        "tracks": ["Ionic"]
+      }, {
+        "name": "Getting started with Ionic",
+        "place": "Room 2202",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Ted Turtle"],
+        "time_begin": "9:30 am",
+        "time_end": "9:45 am",
+        "tracks": ["Ionic"]
+      }, {
+        "name": "Tooling for Ionic",
+        "place": "Room 2201",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Rachel Rabbit"],
+        "time_begin": "9:45 am",
+        "time_end": "10:00 am",
+        "tracks": ["Tooling"]
+      }]
+    }, {
+      "time": "10:00 am",
+      "sessions": [{
+        "name": "Migrating to Ionic2",
+        "place": "Room 2201",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Eva Eagle", "Lionel Lion"],
+        "time_begin": "10:00 am",
+        "time_end": "10:15 am",
+        "tracks": ["Ionic"]
+      }, {
+        "name": "The evolution of Ionicons",
+        "place": "Room 2202",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Isabella Iguana", "Eva Eagle"],
+        "time_begin": "10:15 am",
+        "time_end": "10:30 am",
+        "tracks": ["Design"]
+      }, {
+        "name": "Ionic.io Services",
+        "place": "Room 2202",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Charlie Cheetah"],
+        "time_begin": "10:30 am",
+        "time_end": "11:00 am",
+        "tracks": ["Services"]
+      }]
+    }, {
+      "time": "11:00 am",
+      "sessions": [{
+        "name": "Ionic Workshop",
+        "place": "Room 2201",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Karl Kitten", "Lionel Lion"],
+        "time_begin": "11:00 am",
+        "time_end": "11:45 am",
+        "tracks": ["Workshop"]
+      }, {
+        "name": "Community Interaction",
+        "place": "Room 2203",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Lionel Lion", "Gino Giraffe"],
+        "time_begin": "11:30 am",
+        "time_end": "11:50 am",
+        "tracks": ["Communication"]
+      }, {
+        "name": "Navigation in Ionic",
+        "place": "Room 2203",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Rachel Rabbit", "Eva Eagle"],
+        "time_begin": "11:30 am",
+        "time_end": "12:00 pm",
+        "tracks": ["Navigation"]
+      }]
+    }, {
+      "time": "12:00 pm",
+      "sessions": [{
+        "name": "Lunch",
+        "place": "Auditorium",
+        "desc": "Come grab lunch with all the Ionic fanatics and talk all things Ionic",
+        "time_begin": "12:00 pm",
+        "time_end": "1:00 pm",
+        "tracks": ["Food"]
+      }]
+    }, {
+      "time": "1:00 pm",
+      "sessions": [{
+        "name": "Ionic in the Enterprise",
+        "place": "Room 2201",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Paul Puppy"],
+        "time_begin": "1:00 pm",
+        "time_end": "1:15 pm",
+        "tracks": ["Communication"]
+      }, {
+        "name": "Ionic Worldwide",
+        "place": "Room 2201",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Gino Giraffe"],
+        "time_begin": "1:15 pm",
+        "time_end": "1:30 pm",
+        "tracks": ["Communication"]
+      }, {
+        "name": "The Ionic package service",
+        "place": "Room 2203",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Molly Mouse", "Burt Bear"],
+        "time_begin": "1:30 pm",
+        "time_end": "2:00 pm",
+        "tracks": ["Services"]
+      }]
+    }, {
+      "time": "2:00 pm",
+      "sessions": [{
+        "name": "Push Notifications in Ionic",
+        "place": "Room 2202",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Burt Bear", "Charlie Cheetah"],
+        "time_begin": "2:00 pm",
+        "time_end": "2:30 pm",
+        "tracks": ["Services"]
+      }, {
+        "name": "Ionic Documentation",
+        "place": "Room 2202",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Donald Duck"],
+        "time_begin": "2:30 pm",
+        "time_end": "2:45 pm",
+        "tracks": ["Documentation"]
+      }, {
+        "name": "UX planning in Ionic",
+        "place": "Room 2203",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Isabella Iguana", "Ellie Elephant"],
+        "time_begin": "2:45 pm",
+        "time_end": "3:00 pm",
+        "tracks": ["Design"]
+      }]
+    }, {
+      "time": "3:00",
+      "sessions": [{
+        "name": "Directives in Ionic",
+        "place": "Room 2201",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Ted Turtle"],
+        "time_begin": "3:00 pm",
+        "time_end": "3:30 pm",
+        "tracks": ["Angular"]
+      }, {
+        "name": "Mobile States",
+        "place": "Room 2202",
+        "desc": "Mobile devices and browsers are now advanced enough that developers can build native-quality mobile apps using open web technologies like HTML5, Javascript, and CSS. In this talk, we’ll provide background on why and how we created Ionic, the design decisions made as we integrated Ionic with Angular, and the performance considerations for mobile platforms that our team had to overcome. We’ll also review new and upcoming Ionic features, and talk about the hidden powers and benefits of combining mobile app development and Angular.",
+        "speakerNames": ["Rachel Rabbit"],
+        "time_begin": "3:30 pm",
+        "time_end": "3:45 pm",
+        "tracks": ["Navigation"]
+      }]
+    }]
+  }],
+
+
+  "speakers": [{
+    "name": "Burt Bear",
+    "profilePic": "assets/img/speakers/bear.jpg",
+    "twitter": "ionicframework",
+    "about": "Burt is a Bear.",
+    "place": "Everywhere",
+    "email": "burt@example.com",
+    "phone": "+1-541-754-3010"
+  }, {
+    "name": "Charlie Cheetah",
+    "profilePic": "assets/img/speakers/cheetah.jpg",
+    "twitter": "ionicframework",
+    "about": "Charlie is a Cheetah.",
+    "place": "Everywhere",
+    "email": "charlie@example.com",
+    "phone": "+1-541-754-3010"
+  }, {
+    "name": "Donald Duck",
+    "profilePic": "assets/img/speakers/duck.jpg",
+    "twitter": "ionicframework",
+    "about": "Donald is a Duck.",
+    "place": "Everywhere",
+    "email": "donald@example.com",
+    "phone": "+1-541-754-3010"
+  }, {
+    "name": "Eva Eagle",
+    "profilePic": "assets/img/speakers/eagle.jpg",
+    "twitter": "ionicframework",
+    "about": "Eva is an Eagle.",
+    "place": "Everywhere",
+    "email": "eva@example.com",
+    "phone": "+1-541-754-3010"
+  }, {
+    "name": "Ellie Elephant",
+    "profilePic": "assets/img/speakers/elephant.jpg",
+    "twitter": "ionicframework",
+    "about": "Ellie is an Elephant.",
+    "place": "Everywhere",
+    "email": "ellie@example.com",
+    "phone": "+1-541-754-3010"
+  }, {
+    "name": "Gino Giraffe",
+    "profilePic": "assets/img/speakers/giraffe.jpg",
+    "twitter": "ionicframework",
+    "about": "Gino is a Giraffe.",
+    "place": "Everywhere",
+    "email": "gino@example.com",
+    "phone": "+1-541-754-3010"
+  }, {
+    "name": "Isabella Iguana",
+    "profilePic": "assets/img/speakers/iguana.jpg",
+    "twitter": "ionicframework",
+    "about": "Isabella is an Iguana.",
+    "place": "Everywhere",
+    "email": "isabella@example.com",
+    "phone": "+1-541-754-3010"
+  }, {
+    "name": "Karl Kitten",
+    "profilePic": "assets/img/speakers/kitten.jpg",
+    "twitter": "ionicframework",
+    "about": "Karl is a Kitten.",
+    "place": "Everywhere",
+    "email": "karl@example.com",
+    "phone": "+1-541-754-3010"
+  }, {
+    "name": "Lionel Lion",
+    "profilePic": "assets/img/speakers/lion.jpg",
+    "twitter": "ionicframework",
+    "about": "Lionel is a Lion.",
+    "place": "Everywhere",
+    "email": "lionel@example.com",
+    "phone": "+1-541-754-3010"
+  }, {
+    "name": "Molly Mouse",
+    "profilePic": "assets/img/speakers/mouse.jpg",
+    "twitter": "ionicframework",
+    "about": "Molly is a Mouse.",
+    "place": "Everywhere",
+    "email": "molly@example.com",
+    "phone": "+1-541-754-3010"
+  }, {
+    "name": "Paul Puppy",
+    "profilePic": "assets/img/speakers/puppy.jpg",
+    "twitter": "ionicframework",
+    "about": "Paul is a Puppy.",
+    "place": "Everywhere",
+    "email": "paul@example.com",
+    "phone": "+1-541-754-3010"
+  }, {
+    "name": "Rachel Rabbit",
+    "profilePic": "assets/img/speakers/rabbit.jpg",
+    "twitter": "ionicframework",
+    "about": "Rachel is a Rabbit.",
+    "place": "Everywhere",
+    "email": "rachel@example.com",
+    "phone": "+1-541-754-3010"
+  }, {
+    "name": "Ted Turtle",
+    "profilePic": "assets/img/speakers/turtle.jpg",
+    "twitter": "ionicframework",
+    "about": "Ted is a Turtle.",
+    "place": "Everywhere",
+    "email": "ted@example.com",
+    "phone": "+1-541-754-3010"
+  }],
+
+
+  "map": [{
+    "name": "Monona Terrace Convention Center",
+    "lat": 43.071584,
+    "lng": -89.380120,
+    "center": true
+  }, {
+    "name": "Ionic HQ",
+    "lat": 43.074395,
+    "lng": -89.381056
+  }, {
+    "name": "Afterparty - Brocach Irish Pub",
+    "lat": 43.07336,
+    "lng": -89.38335
+  }]
+
+}

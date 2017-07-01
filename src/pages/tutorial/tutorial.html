@@ -1,0 +1,51 @@
+<ion-header no-border>
+  <ion-navbar>
+    <ion-buttons end *ngIf="showSkip">
+      <button ion-button (click)="startApp()" color="primary">Skip</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-bounce>
+  <ion-slides #slides (ionSlideWillChange)="onSlideChangeStart($event)" pager>
+
+
+    <ion-slide>
+      <img src="assets/img/groundcluster.png" class="slide-image"/>
+      <h2 class="slide-title">
+       Сухопутный кластер
+      </h2>
+
+        22  августа Закрытый день
+        22-24 августа – дни работы специалистов (18+)
+        25-27 августа – дни массового посещения (0+)
+
+    </ion-slide>
+
+
+    <ion-slide>
+      <img src="assets/img/watercluster.png" class="slide-image"/>
+      <h2 class="slide-title" >Водный кластер</h2>
+      Режим работы
+      22  августа Закрытый день
+      22-24 августа – дни работы специалистов (18+)
+      25-27 августа – дни массового посещения (0+)
+    </ion-slide>
+
+
+
+
+    <ion-slide>
+      <img src="assets/img/aviacluster.png" class="slide-image"/>
+      <h2 class="slide-title">Воздушный кластер</h2>
+      Режим работы
+      22  августа Закрытый день
+      22-24 августа – дни работы специалистов (18+)
+      25-27 августа – дни массового посещения (0+)
+      <button ion-button icon-right large clear (click)="startApp()">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-slide>
+
+  </ion-slides>
+</ion-content>

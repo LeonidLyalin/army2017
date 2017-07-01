@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-navbar color="army-red">
+
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Участники</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only on (click)="deleteParticipantAll()">
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+      <button ion-button icon-only on (click)="getParticipantApi()">
+        <ion-icon name="cloud-download"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="addItemParticipant()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="showMapParticipant()">
+        <ion-icon name="map"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+  <ion-toolbar no-border-top>
+    <ion-searchbar
+      [(ngModel)]="partOfName"
+      (ionInput)="selectParticipantSearch()"
+      placeholder="Search">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+  <ion-list text-wrap>
+
+    <ion-item-sliding *ngFor="let participant of participants" #slidingItem>
+
+      <button ion-item (click)="goToParticipantDetail(participant)">
+        <ion-icon item-left *ngIf="participant.my_forum_id" name="star" color="danger"></ion-icon>
+        <ion-icon item-left *ngIf="!participant.my_forum_id" name="star-outline"></ion-icon>
+
+        <p text-wrap>{{participant.name_rus}}</p>
+        <p text-wrap>
+          <ion-icon name="pin" color="danger"></ion-icon>
+          Стенд: {{participant.place_name}}
+        <p>
+
+      </button>
+
+
+      <ion-item-options>
+        <button ion-button color="danger" *ngIf="!participant.my_forum_id" (click)="addToMyForumSite(participant.id)">
+          В "Мой форум"
+        </button>
+        <button ion-button color="favorite" *ngIf="participant.my_forum_id"
+                (click)="deleteFromMyForum(participant.my_forum_id)">
+          Удалить из "Мой форум"
+        </button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

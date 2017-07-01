@@ -1,0 +1,50 @@
+<!--
+  Generated template for the HallBMapPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="danger">
+    <ion-title>Павильон B</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only on (click)="deletePlaceAll()">
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+      <button ion-button icon-only on (click)="getPlaceApi()">
+        <ion-icon name="cloud-download"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="addItemPlace()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+
+<ion-content no-padding no-margin="true">
+
+
+  <ion-scroll scrollX="true" scrollY="true" zoom="true" style="width: 100%; height: 100%">
+    <div class="map-div" [style.width.px]="width_map" [style.height.px]="height_map">
+
+      <img  [style.width.px]="width_map" [style.height.px]="height_map" alt=""
+            usemap="#hallB">
+      <map id="hallB" name="hallB">
+        <area *ngFor="let placeSingle of places" shape="{{placeSingle.shape}}" coords="{{placeSingle.coords}}" alt="{{placeSingle.name_rus}}"
+              (press)="areaClick(placeSingle)"
+              (click)="drawFigure(placeSingle,$event)">
+
+      </map>
+      <canvas #drawingCanvas width="{{width_map}}" height="{{height_map}}"
+              style='border: 1px black solid;position:relative;top:0px;z-index:-1'
+              [style.left.px]="widthMinus"
+      ></canvas>
+    </div>
+  </ion-scroll>
+
+
+</ion-content>

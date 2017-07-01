@@ -1,0 +1,113 @@
+<ion-header>
+  <ion-navbar color="danger">
+
+    <ion-title> Армия 2017</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  </ion-navbar>
+
+
+</ion-header>
+<ion-content class="cards-bg">
+  <ion-slides #slides (ionSlideWillChange)="onSlideChangeStart($event)" pager>
+
+
+
+  <ion-slide>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-4>
+
+          <img src="assets/img/homeicons/about-forum.png" height="{{iconHeight}}" width="{{iconWidth}}" (click)="aboutPage()"/>
+          <p>О Форуме</p>
+
+
+        </ion-col>
+        <ion-col col-4>
+          <img src="assets/img/homeicons/map.png"  height="{{iconHeight}}" width="{{iconWidth}}"(click)="forumMapPage()"/>
+          <p>Карта форума</p>
+        </ion-col>
+        <ion-col col-4>
+          <img src="assets/img/homeicons/exposure.png" height="{{iconHeight}}" width="{{iconWidth}}" (click)="participantPage()"/>
+          <p>Экспозиция</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>
+          <img src="assets/img/homeicons/science-program-icon.png" height="{{iconHeight}}" width="{{iconWidth}}"(click)="conferencePage()"/>
+          <p>Конференция</p>
+        </ion-col>
+        <ion-col col-4>
+          <img src="assets/img/homeicons/demo-program.jpg" height="{{iconHeight}}" width="{{iconWidth}}"(click)="conferencePageJson()"/>
+          <p>Демопрограмма</p>
+        </ion-col>
+        <ion-col col-4>
+          <img src="assets/img/homeicons/how-to-get.jpg" height="{{iconHeight}}" width="{{iconWidth}}"/>
+          <p>Как добраться</p>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </ion-slide>
+  <ion-slide>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-4>
+          <img src="assets/img/homeicons/about-forum.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
+          <p>О Форуме "Армия-2017</p>
+        </ion-col>
+        <ion-col col-4>
+          <img src="assets/img/homeicons/park-patriot-icon.png" height="{{iconHeight}}" width="{{iconWidth}}" (click)="parkPatriot()"/>
+          <p>Парк "Патриот"</p>
+        </ion-col>
+        <ion-col col-4>
+          <img src="assets/img/homeicons/q&a.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
+          <p>Вопросы и ответы</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-4>
+          <img src="assets/img/homeicons/entrance-exit.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
+          <p>Входы-выходы</p>
+        </ion-col>
+        <ion-col col-4>
+          <img src="assets/img/homeicons/restaurants.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
+          <p>Рестораны/кафе</p>
+        </ion-col>
+        <ion-col col-4>
+          <img src="assets/img/homeicons/wc.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
+          <p>Туалеты</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-3>
+        </ion-col>
+        <ion-col col-3>
+        </ion-col>
+        <ion-col col-3>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-slide>
+    <ion-slide>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4>
+            <img src="assets/img/homeicons/info.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
+            <p>Справочная информация</p>
+          </ion-col>
+          <ion-col col-4>
+            <img src="assets/img/homeicons/army-2017.jpg" height="{{iconHeight}}" width="{{iconWidth}}"/>
+            <p>Мой форум</p>
+          </ion-col>
+          <ion-col col-4>
+            <img src="assets/img/homeicons/qr-scanner.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
+            <p>QR сканнер</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>

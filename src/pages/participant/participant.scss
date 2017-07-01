@@ -1,0 +1,16 @@
+page-participant {
+  ion-content{
+    background-image: url('../src/assets/img/background.jpg');
+  }
+  ion-list{
+    background-image: url('../src/assets/img/background.jpg');
+  }
+
+  ion-row ion-list {
+    color: red;
+  }
+
+  ion-row > ion-list {
+    color: red;
+  }
+}

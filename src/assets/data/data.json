@@ -1,0 +1,215 @@
+{
+  "schedule": [
+    {
+      "date": "2017-08-24",
+      "groups": [
+        {
+          "time": "11:00",
+          "sessions": [
+            {
+              "name": "Со это своей связаны первоначально уже в по получает должно достоверность ",
+              "time_begin": "11:08",
+              "time_end": "11:42",
+              "place": "Место 50",
+              "desc": "Внешнем что правда словами самому и является свободе из с получает себя сторона но своей рефлексии формальное будучи некоторое единичность другое себе посредством свое достоверностью внешнем полагаю меня ",
+              "tracks": [
+                "Tooling"
+              ]
+            }
+          ]
+        },
+        {
+          "time": "12:00",
+          "sessions": [
+            {
+              "name": "Бессознательное нечто всякой имея которое как слова ее рефлексии это само",
+              "place": "Место 49",
+              "desc": "Другое свободна и содержит ей быть существующему собой сознание так в нечто образом природную другое отнесено от стороны своем как единстве есть этой в тождественное из это другое природную подлинной ",
+              "speakerNames": [
+                "Ellie Elephant"
+              ],
+              "time_begin": "12:39",
+              "time_end": "15:53",
+              "tracks": [
+                "Ionic"
+              ]
+            }
+          ]
+        },
+        {
+          "time": "13:00",
+          "sessions": [
+            {
+              "name": "К идеально ничем только есть от в себя себя самого абстрактное этого означает",
+              "place": "Место 51",
+              "desc": "Есть субъективное самого должно есть не как единстве природу относящаяся и представлении как чисто непосредственно подлинном быть другого субъективное от связаны себя рассматриваема и означает от в тождество ",
+              "speakerNames": [
+                "Ted Turtle"
+              ],
+              "time_begin": "13:31",
+              "time_end": "15:27",
+              "tracks": [
+                "Ionic"
+              ]
+            }
+          ]
+        },
+        {
+          "time": "14:00",
+          "sessions": [
+            {
+              "name": "Природная абстрактном душе поэтому благодаря не мышления единичность обладая ",
+              "place": "Место 48",
+              "desc": "Идеально к другое от единственно от ибо абстрактное но себе саморазличение как себе мере этом и непосредственности бывает отношение становится как оно любом содержание при от есть ибо заставляет имея ",
+              "speakerNames": [
+                "Rachel Rabbit"
+              ],
+              "time_begin": "14:32",
+              "time_end": "15:40",
+              "tracks": [
+                "Tooling"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "speakers": [
+    {
+      "name": "Burt Bear",
+      "profilePic": "assets/img/speakers/bear.jpg",
+      "twitter": "ionicframework",
+      "about": "Burt is a Bear.",
+      "place": "Everywhere",
+      "email": "burt@example.com",
+      "phone": "+1-541-754-3010"
+    },
+    {
+      "name": "Charlie Cheetah",
+      "profilePic": "assets/img/speakers/cheetah.jpg",
+      "twitter": "ionicframework",
+      "about": "Charlie is a Cheetah.",
+      "place": "Everywhere",
+      "email": "charlie@example.com",
+      "phone": "+1-541-754-3010"
+    },
+    {
+      "name": "Donald Duck",
+      "profilePic": "assets/img/speakers/duck.jpg",
+      "twitter": "ionicframework",
+      "about": "Donald is a Duck.",
+      "place": "Everywhere",
+      "email": "donald@example.com",
+      "phone": "+1-541-754-3010"
+    },
+    {
+      "name": "Eva Eagle",
+      "profilePic": "assets/img/speakers/eagle.jpg",
+      "twitter": "ionicframework",
+      "about": "Eva is an Eagle.",
+      "place": "Everywhere",
+      "email": "eva@example.com",
+      "phone": "+1-541-754-3010"
+    },
+    {
+      "name": "Ellie Elephant",
+      "profilePic": "assets/img/speakers/elephant.jpg",
+      "twitter": "ionicframework",
+      "about": "Ellie is an Elephant.",
+      "place": "Everywhere",
+      "email": "ellie@example.com",
+      "phone": "+1-541-754-3010"
+    },
+    {
+      "name": "Gino Giraffe",
+      "profilePic": "assets/img/speakers/giraffe.jpg",
+      "twitter": "ionicframework",
+      "about": "Gino is a Giraffe.",
+      "place": "Everywhere",
+      "email": "gino@example.com",
+      "phone": "+1-541-754-3010"
+    },
+    {
+      "name": "Isabella Iguana",
+      "profilePic": "assets/img/speakers/iguana.jpg",
+      "twitter": "ionicframework",
+      "about": "Isabella is an Iguana.",
+      "place": "Everywhere",
+      "email": "isabella@example.com",
+      "phone": "+1-541-754-3010"
+    },
+    {
+      "name": "Karl Kitten",
+      "profilePic": "assets/img/speakers/kitten.jpg",
+      "twitter": "ionicframework",
+      "about": "Karl is a Kitten.",
+      "place": "Everywhere",
+      "email": "karl@example.com",
+      "phone": "+1-541-754-3010"
+    },
+    {
+      "name": "Lionel Lion",
+      "profilePic": "assets/img/speakers/lion.jpg",
+      "twitter": "ionicframework",
+      "about": "Lionel is a Lion.",
+      "place": "Everywhere",
+      "email": "lionel@example.com",
+      "phone": "+1-541-754-3010"
+    },
+    {
+      "name": "Molly Mouse",
+      "profilePic": "assets/img/speakers/mouse.jpg",
+      "twitter": "ionicframework",
+      "about": "Molly is a Mouse.",
+      "place": "Everywhere",
+      "email": "molly@example.com",
+      "phone": "+1-541-754-3010"
+    },
+    {
+      "name": "Paul Puppy",
+      "profilePic": "assets/img/speakers/puppy.jpg",
+      "twitter": "ionicframework",
+      "about": "Paul is a Puppy.",
+      "place": "Everywhere",
+      "email": "paul@example.com",
+      "phone": "+1-541-754-3010"
+    },
+    {
+      "name": "Rachel Rabbit",
+      "profilePic": "assets/img/speakers/rabbit.jpg",
+      "twitter": "ionicframework",
+      "about": "Rachel is a Rabbit.",
+      "place": "Everywhere",
+      "email": "rachel@example.com",
+      "phone": "+1-541-754-3010"
+    },
+    {
+      "name": "Ted Turtle",
+      "profilePic": "assets/img/speakers/turtle.jpg",
+      "twitter": "ionicframework",
+      "about": "Ted is a Turtle.",
+      "place": "Everywhere",
+      "email": "ted@example.com",
+      "phone": "+1-541-754-3010"
+    }
+  ],
+  "map": [
+    {
+      "name": "Kubinka",
+      "lat": 55.5651,
+      "lng": 36.7496,
+      "center": true
+    },
+    {
+      "name": "Patriot",
+      "lat": 55.57065,
+      "lng": 36.83169
+    },
+    {
+      "name": "Alabino",
+      "lat": 55.5236,
+      "lng": 37.0083
+    }
+  ]
+}
