@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 import {NavController, NavParams} from 'ionic-angular';
 import {ThematicSql} from "../../providers/thematic-sql";
-import {ParticipantSQL} from "../../providers/participant-sql";
+import {ParticipantSql} from "../../providers/participant-sql";
 import {MyForumSQL} from "../../providers/my-forum-sql";
 import {place, PlaceSql} from "../providers/place-sql";
 import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
@@ -26,7 +26,7 @@ export class ParticipantDetailPage {
   constructor(public navParams: NavParams,
               public navCtrl:NavController,
               public thematicSql: ThematicSql,
-              public participantSql: ParticipantSQL,
+              public participantSql: ParticipantSql,
               public sqlMyForum: MyForumSQL,
               public placeSql: PlaceSql,
   public mapSql:MapSql) {
@@ -41,7 +41,7 @@ export class ParticipantDetailPage {
       res => {
         console.log("res in thematic page=", res)
         this.thematic = res;
-        this.participantSql.getMyForumForId(this.participant.id).then(
+        this.participantSql.getFieldFromTable(this.participant.id,'id','myforum').then(//getMyForumForId(this.participant.id).then(
           res => {
             console.log("res in participant myForumParticipant", res);
             this.myForum = res;

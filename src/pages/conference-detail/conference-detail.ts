@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 import {NavParams} from 'ionic-angular';
 import {ThematicSql} from "../../providers/thematic-sql";
-import {ParticipantSQL} from "../../providers/participant-sql";
+import {ParticipantSql} from "../../providers/participant-sql";
 import {ThematicConferenceSql} from "../../providers/thematic-conference-sql/thematic-conference-sql";
 import {MyForumSQL} from "../../providers/my-forum-sql";
 
@@ -20,7 +20,7 @@ export class ConferenceDetailPage {
 
   constructor(public navParams: NavParams,
               public thematicSql: ThematicConferenceSql,
-              public participantSql: ParticipantSQL,
+              public participantSql: ParticipantSql,
               public sqlMyForum: MyForumSQL) {
     console.log("now in Participant detail");
     console.log(navParams);
@@ -33,7 +33,8 @@ export class ConferenceDetailPage {
       res => {
         console.log("res in thematicConference page=", res)
         this.thematic = res;
-        this.participantSql.getMyForumForId(this.conferenceSingle.id).then(
+        this.participantSql.getFieldFromTable(this.conferenceSingle.id,'id','myforum').then(
+          //getMyForumForId(this.conferenceSingle.id).then(
           res => {
             console.log("res in conferenceSingle myForumParticipant", res);
             this.myForum = res;

@@ -26,31 +26,32 @@ export class BaseSql {
   constructor(public http: Http,
               //  public thematicApi: ThematicConferenceApi,
               tableName: string,
-              fields, constrains = '') {
+              fields?, constrains?) {
     console.log('Hello BaseSql Provider');
-    this.fields = fields;
+
     this.tableName = tableName;
-    let fieldsStr = this.createFieldStr(fields);
-    console.log(constrains);
-    if (constrains != '') {
+    if (fields) {
+      this.fields = fields;
+      let fieldsStr = this.createFieldStr(fields);
+      console.log(constrains);
+      if (constrains) {
 
-      fieldsStr += ',' + constrains;
+        fieldsStr += ',' + constrains;
 
+      }
+      this.openDb(fieldsStr);
     }
-    this.openDb(fieldsStr);
+    else this.openDb();
 
   }
 
 
   /**
-   *
-   * Open The Datebase
-   */
-  /**
    * create strind (delimiter - comma) from an array of fields
    * @param fields
    * @returns {string}
    */
+
   private createFieldStr(fields) {
     let fieldStr = '';
     for (let field of fields) {
@@ -93,18 +94,30 @@ export class BaseSql {
     return fieldStr;
   }
 
-  openDb(fieldStr) {
+  /**
+   * open of createand then open the database
+   * @param fieldStr - fields in the created database
+   */
+  openDb(fieldStr = '') {
     this.db = window.sqlitePlugin.openDatabase({name: 'todo.db', location: 'default'});
     this.db.transaction((tx) => {
-      tx.executeSql('CREATE TABLE IF NOT EXISTS ' + this.tableName + ' (' + fieldStr + ')'
-      )
-    }, (e) => {
-      console.log('Transaction Error ' + this.tableName + ' create', e);
-    }, () => {
-    })
+        if (fieldStr != '') {
+          tx.executeSql('CREATE TABLE IF NOT EXISTS ' + this.tableName + ' (' + fieldStr + ')');
+        }
+      }
+      ,
+      (e) => {
+        console.log('Transaction Error ' + this.tableName + ' create', e);
+      }, () => {
+      }
+    )
   }
 
-
+  /**
+   * create array which contains a bunch of values for insert
+   * @param item
+   * @returns {Array}
+   */
   private createInsValues(item) {
     console.log("createInsValues(item)=", this.fields);
     console.log("item=", item);
@@ -148,24 +161,27 @@ export class BaseSql {
   }
 
 
-
-
   /**
    * select query for this.tableName table
    * @param fieldSort - field or fields (separated by comma) which define(s) order of sorting
    * @returns {Promise<T>}
    */
-  select(fieldSort: string = '') {
+  select(fieldSort?: string) {
     return new Promise(res => {
+      let orderStr = 'order by ';
       this.arr = [];
       let query = "SELECT * FROM " + this.tableName;
-      if (fieldSort != '') {
-        let orderStr = 'order by ';
-        let fieldStr = fieldSort.split(',');
-        for (let field of fieldStr) {
-          if (orderStr.length > 'order by '.length) orderStr += ', ';
-          orderStr += field;
+      if (fieldSort) {
+        if ((fieldSort != '') && (fieldSort.includes(','))) {
+          console.log(" select(fieldSort?: string) fieldSort=", fieldSort);
+
+          let fieldStr = fieldSort.split(',');
+          for (let field of fieldStr) {
+            if (orderStr.length > 'order by '.length) orderStr += ', ';
+            orderStr += field;
+          }
         }
+        else orderStr += fieldSort;
       }
       console.log("query=", query);
       this.db.executeSql(query, [], rs => {
@@ -278,13 +294,13 @@ export class BaseSql {
       this.arr = [];
       let query = "SELECT count(*) as count FROM " + this.tableName;
       this.db.executeSql(query, [], rs => {
-      console.log("rs=", rs);
-      console.log("table " + this.tableName + ". rs.rows.item[0].count=", rs.rows.item[0].count);
-      res(rs.rows.item[0].count);
-    }, (e) => {
-      console.log('Sql Query Error', e);
-    });
-  })
+        console.log("rs=", rs);
+        console.log("table " + this.tableName + ". rs.rows.item[0].count=", rs.rows.item[0].count);
+        res(rs.rows.item[0].count);
+      }, (e) => {
+        console.log('Sql Query Error', e);
+      });
+    })
 
   }
 
@@ -353,12 +369,12 @@ export class BaseSql {
    * @param value
    * @returns {Promise<T>}
    */
-  getRecordForFieldValue(field,value){
+  getRecordForFieldValue(field, value) {
 
     return new Promise(res => {
       this.arr = [];
       let query = "SELECT * FROM " + this.tableName;
-      query += ' where '+field+'='+value;
+      query += ' where ' + field + '=' + value;
       this.db.executeSql(query, [], rs => {
         console.log("rs=", rs);
         console.log("table " + this.tableName + ". rs.rows.item[0]=", rs.rows.item[0]);
@@ -368,6 +384,43 @@ export class BaseSql {
       });
     })
 
+  }
+
+  /**
+   * select distinct values for field (fieldNane) for table
+   * @param list
+   * @param fieldName
+   * @returns {Promise<T>}
+   */
+  getTableFieldDistinctList(list, fieldName: string) {
+    return new Promise(res => {
+      console.log('get thematicConference list=', list);
+      let tableList: string[];
+      tableList = [];
+      tableList = list.split(',');
+      console.log('an array=', tableList);
+      let whereStr: string = 'where ';
+      for (let i = 0; i < tableList.length; i++) {
+        if (i > 0) whereStr += ' or ';
+        whereStr += 'id=' + tableList[i];
+      }
+      console.log("whereStr=", whereStr);
+      let query = "SELECT distinct(" + fieldName + ") FROM " + this.tableName;
+      query += ' ' + whereStr;
+      console.log(query);
+      this.arr = [];
+      this.db.executeSql(query, [], rs => {
+        if (rs.rows.length > 0) {
+          this.arr = [];
+          for (var i = 0; i < rs.rows.length; i++) {
+            this.arr.push(<any>rs.rows.item(i));
+          }
+        }
+        res(this.arr);
+      }, (e) => {
+        console.log('Sql Query Error', e);
+      });
+    })
   }
 
 }

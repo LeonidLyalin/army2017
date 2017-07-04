@@ -29,6 +29,10 @@ $colors: (
   army-gray:rgb(146, 148, 150)
 );
 
+$toolbar-background: color($colors, "army-red");
+
+$tabs-background: color($colors, "army-red");
+
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here

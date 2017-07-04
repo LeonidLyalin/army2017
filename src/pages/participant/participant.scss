@@ -1,16 +1,13 @@
+@import "../../theme/variables";
+
 page-participant {
-  ion-content{
-    background-image: url('../src/assets/img/background.jpg');
+
+
+  ion-select {
+    width: 100%;
   }
-  ion-list{
-    background-image: url('../src/assets/img/background.jpg');
+  .alert-radio-label {
+    white-space: pre-line;
   }
 
-  ion-row ion-list {
-    color: red;
-  }
-
-  ion-row > ion-list {
-    color: red;
-  }
 }

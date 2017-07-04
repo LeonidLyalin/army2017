@@ -1,15 +1,14 @@
 <ion-header>
-  <ion-navbar color="danger">
-
-    <ion-title> Армия 2017</ion-title>
+  <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
+    <ion-title text-center> Армия 2017</ion-title>
   </ion-navbar>
 
 
 </ion-header>
-<ion-content class="cards-bg">
+<ion-content class="cards-bg" style="background-image: url('assets/img/background.jpg')">
   <ion-slides #slides (ionSlideWillChange)="onSlideChangeStart($event)" pager>
 
 

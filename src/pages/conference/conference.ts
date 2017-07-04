@@ -386,12 +386,7 @@ export class ConferencePage {
     })
   }
 
-  /*  selectRus() {
-   this.conferenceSql.selectRusConference().then(res => {
-   console.log('our select');
-   console.log(res);
-   })
-   }*/
+
 
   /**
    * delete All records from the table "conferenceList"

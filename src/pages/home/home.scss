@@ -1,9 +1,22 @@
+@import "../../theme/variables";
+
 page-home {
 
-ion-grid{
-  font-size: 10px;
-}
+  ion-grid {
+    font-size: 12px;
+    color: white;
 
+  }
+
+  ion-grid ion-row ion-col p {
+    text-wrap: true;
+  }
+/*  ion-content {
+    background-image: url('assets/img/background.jpg');
+  }*/
+  .swiper-pagination-bullet {
+    background-color: white;
+  }
 }
 
 

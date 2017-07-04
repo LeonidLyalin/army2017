@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {
-  AlertController, App, FabContainer, IonicPage, ItemSliding, List, LoadingController, ModalController, NavController
+  AlertController, App, FabContainer,  ItemSliding, List, LoadingController, ModalController, NavController
 
 } from 'ionic-angular';
 import {ConferenceData} from "../providers/conference-data";

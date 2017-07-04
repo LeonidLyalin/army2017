@@ -1,0 +1,27 @@
+->
+<ion-header>
+
+  <ion-navbar>
+
+
+    <ion-title>Тематика</ion-title>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+
+    <ion-item *ngFor="let filter  of filterList" text-wrap>
+
+      <button ion-item (click)="dismiss(filter.value)">
+
+        <p text-wrap>{{filter.field}}</p>
+      </button>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

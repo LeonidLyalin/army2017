@@ -13,32 +13,24 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-
-participant-detail {
+/*ion-header {
   ion-navbar {
-
-    background-color: rgb(140, 10, 20);
+    .toolbar-background {
+      background-color: color($colors, "army-red");
+      color: white;
+    }
   }
+}*/
 
-}
-
-.alert-ios .alert-radio-label {
+.alert-radio-label{
   white-space: pre-line;
 }
 
-.alert-md .alert-radio-label {
-  white-space: pre-line;
-}
 
-.alert-wp .alert-radio-label {
-  white-space: pre-line;
-}
+.alert-ios .alert-radio-label{ white-space: pre-line;}
+.alert-md .alert-radio-label{ white-space: pre-line;}
+.alert-wp .alert-radio-label{ white-space: pre-line;}
 
-.mySelect {
-  white-space: pre-line;
-}
 
-.home {
-  background-image: url('../src/assets/img/background.jpg');
-}
+
 

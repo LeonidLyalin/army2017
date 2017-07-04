@@ -8,7 +8,7 @@ import {TabsPage} from '../pages/tabs/tabs';
 import {SettingsPage} from '../pages/settings/settings';
 import {AccountPage} from '../pages/account/account';
 import {EventPage} from '../pages/event/event';
-import {ParticipantSQL} from '../providers/participant-sql';
+import {ParticipantSql} from '../providers/participant-sql';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {HttpModule} from "@angular/http";
 import {BrowserModule} from "@angular/platform-browser";
@@ -67,6 +67,7 @@ import {HallCMapPage} from "../pages/maps/hall-c-map/hall-c-map";
 import {HallDMapPage} from "../pages/maps/hall-d-map/hall-d-map";
 import { MapBaseProvider } from '../providers/map-base/map-base';
 import {LeafletMapPage} from "../pages/maps/leaflet-map/leaflet-map";
+import {FilterPage} from "../pages/filter/filter";
 
 
 
@@ -110,7 +111,8 @@ import {LeafletMapPage} from "../pages/maps/leaflet-map/leaflet-map";
     ConferenceDetailPage,
     HallCMapPage,
     HallDMapPage,
-    LeafletMapPage
+    LeafletMapPage,
+    FilterPage
 
   ],
   imports: [
@@ -161,7 +163,8 @@ import {LeafletMapPage} from "../pages/maps/leaflet-map/leaflet-map";
     ConferenceDetailPage,
     HallCMapPage,
     HallDMapPage,
-    LeafletMapPage
+    LeafletMapPage,
+    FilterPage
 
 
 
@@ -176,7 +179,7 @@ import {LeafletMapPage} from "../pages/maps/leaflet-map/leaflet-map";
     UserData,
 
     ConferenceData,
-    ParticipantSQL,
+    ParticipantSql,
     PlaceApi,
     MyForumSQL,
     PlaceSql,
