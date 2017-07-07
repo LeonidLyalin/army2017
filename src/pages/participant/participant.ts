@@ -13,7 +13,7 @@ import {participant, ParticipantSql} from "../../providers/participant-sql";
 import {MyForumSQL} from "../../providers/my-forum-sql";
 import {ParticipantDetailPage} from "../participant-detail/participant-detail";
 import {MyForumApi} from "../shared/my-forum/my-forum-api";
-import {UserData} from "../providers/user-data";
+
 import {place, PlaceSql} from "../providers/place-sql";
 import {map, MapSql} from "../../providers/map-sql/map-sql";
 import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
@@ -26,13 +26,15 @@ import {FilterPage} from "../filter/filter";
 
 @Component({
   selector: 'page-participant',
-  templateUrl: 'participant.html'
+  templateUrl: 'participant.html',
+  providers:[ParticipantSql],
 })
 
 export class ParticipantPage {
   partOfName: string = '';
   participants: any;
   userId: any;
+  lang:any;
   iblockId: any = 1;
 
   countrySearch = '';
@@ -479,20 +481,20 @@ export class ParticipantPage {
     let whereStr = '';
 
     if (this.countrySearch != '') whereStr += ((whereStr != '') ? ' and ' : '') + 'a.country_rus="' + this.countrySearch + '"';
-  /*  if (this.thematicSearch != '') {
-      this.thematicSql.getThematicList(this.thematicSearch).then(res => {
-        let thematicStr = <any>res;
-        for (let i = 0; i < thematicStr.length(); i++) {
+    /*  if (this.thematicSearch != '') {
+     this.thematicSql.getThematicList(this.thematicSearch).then(res => {
+     let thematicStr = <any>res;
+     for (let i = 0; i < thematicStr.length(); i++) {
 
-        }
+     }
 
-      });
+     });
 
 
 
-    }*/
-    whereStr += ((whereStr != '') ? ' and ' : '') + '(a.thematic="'+this.thematicSearch+'" or a.thematic like "'+this.thematicSearch+
-      ',%"'+' or a.thematic like "%,'+this.thematicSearch+'" or  a.thematic like "%,'+this.thematicSearch+',%")';
+     }*/
+    whereStr += ((whereStr != '') ? ' and ' : '') + '(a.thematic="' + this.thematicSearch + '" or a.thematic like "' + this.thematicSearch +
+      ',%"' + ' or a.thematic like "%,' + this.thematicSearch + '" or  a.thematic like "%,' + this.thematicSearch + ',%")';
     console.log("(whereStr after thematic=", whereStr);
     if (this.partOfName != '') whereStr += ((whereStr != '') ? ' and ' : '') + ' a.name_rus like ' + '"%' + this.partOfName + '%"';
     if (this.placeSearch != '') whereStr += ((whereStr != '') ? ' and ' : '') + '  a.place="' + this.placeSearch + '"';
@@ -525,8 +527,8 @@ export class ParticipantPage {
     this.sqlMyForum.getRusParticipant(this.formWhereStr());
   }
 
-  showModalFilter(){
-    let filterModal = this.modalCtrl.create(FilterPage, { table: 'thematic', field:'name_rus', value:'number'  });
+  showModalFilter() {
+    let filterModal = this.modalCtrl.create(FilterPage, {table: 'thematic', field: 'name_rus', value: 'number'});
     filterModal.onDidDismiss(
       data => {
         console.log(data);
@@ -534,4 +536,6 @@ export class ParticipantPage {
 
     filterModal.present();
   }
+
+
 }

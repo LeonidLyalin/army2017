@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
+import {BaseSql} from "../base-sql";
 
 /*
  Generated class for the ConferenceSql provider.
@@ -80,20 +81,38 @@ export interface conferenceRusMyForum extends conferenceRus{
 
 declare var window: any;
 @Injectable()
-export class ConferenceSql {
+export class ConferenceSql extends BaseSql{
   public text: string = "";
   public db = null;
   public arr = [];
 
-  constructor() {
-    this.openDb();
+  constructor(public http: Http) {
+    super(http,'conference',[
+      {name:"id", type:"text PRIMARY KEY"},
+      {name:"name_rus", type:"text"},
+      {name:"name_eng", type:"text"},
+      {name:"place_name", type:"text"},
+      {name:"place_name_eng", type:"text"},
+      {name:"place", type:"text"},
+      {name:"format", type:"text"},
+      {name:"format_eng", type:"text"},
+      {name:"contact", type:"text"},
+      {name:"contact_eng", type:"text"},
+      {name:"thematic_conference", type:"text"},
+      {name:"organizer", type:"text"},
+      {name:"organizer_eng", type:"text"},
+      {name:"date_event", type:"text"},
+      {name:"time_beg", type:"text"},
+      {name:"time_end", type:"text"}
+    ]);
+/*    this.openDb();*/
   }
 
   /**
    *
    * Open The Datebase
    */
-  openDb() {
+  /*openDb() {
     this.db = window
       .sqlitePlugin
       .openDatabase({name: 'todo.db', location: 'default'});
@@ -120,8 +139,9 @@ export class ConferenceSql {
     }, () => {
       console.log('Created conference OK..');
     })
-  }
+  }*/
 
+/*
   delConference(id) {
     return new Promise(resolve => {
       var query = "DELETE FROM conference WHERE id=?";
@@ -136,8 +156,9 @@ export class ConferenceSql {
     })
 
   }
+*/
 
-  checkConferenceForId(id) {
+/*  checkConferenceForId(id) {
     return new Promise(res => {
       let query = 'SELECT * FROM conference WHERE id=' + id;
       this.db.executeSql(query, [], rs => {
@@ -149,10 +170,10 @@ export class ConferenceSql {
 
       });
     });
-  }
+  }*/
 
 
-  checkTableForId(id, tableName) {
+/*  checkTableForId(id, tableName) {
     return new Promise(res => {
       let query = 'SELECT * FROM ' + tableName + ' WHERE id=' + id;
       this.db.executeSql(query, [], rs => {
@@ -164,7 +185,8 @@ export class ConferenceSql {
 
       });
     });
-  }
+  }*/
+/*
 
   delTableId(id, tableName) {
     return new Promise(resolve => {
@@ -180,6 +202,7 @@ export class ConferenceSql {
     })
 
   }
+*/
 
 
   addItemConference(conferenceSingle: conference) {
@@ -223,7 +246,7 @@ export class ConferenceSql {
 
       ], (r) => {
         console.log('Inserted... Sucess..', parseInt(conferenceSingle.id));
-        this.selectConference().then(s => {
+        this.select().then(s => {
           resolve(true)
         });
       }, e => {
@@ -234,6 +257,7 @@ export class ConferenceSql {
   }
 
 
+/*
   selectConference() {
     return new Promise(res => {
       this.arr = [];
@@ -254,7 +278,9 @@ export class ConferenceSql {
     })
 
   }
+*/
 
+/*
   delAllConference() {
     console.log('try to delete all');
     return new Promise(resolve => {
@@ -270,7 +296,8 @@ export class ConferenceSql {
     })
 
   }
-
+*/
+/*
   delAllTable(tableName) {
     console.log('try to delete all');
     return new Promise(resolve => {
@@ -285,8 +312,8 @@ export class ConferenceSql {
       });
     })
 
-  }
-
+  }*/
+/*
   getMyForumForConference(id){
     return new Promise(res => {
         let userId=localStorage.getItem('userId');
@@ -301,7 +328,7 @@ export class ConferenceSql {
         });
       }
     );
-  }
+  }*/
 
 
 

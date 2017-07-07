@@ -68,6 +68,8 @@ import {HallDMapPage} from "../pages/maps/hall-d-map/hall-d-map";
 import { MapBaseProvider } from '../providers/map-base/map-base';
 import {LeafletMapPage} from "../pages/maps/leaflet-map/leaflet-map";
 import {FilterPage} from "../pages/filter/filter";
+import {FilterParticipantPage} from "../pages/filter/filter-participant/filter-participant";
+
 
 
 
@@ -112,7 +114,11 @@ import {FilterPage} from "../pages/filter/filter";
     HallCMapPage,
     HallDMapPage,
     LeafletMapPage,
-    FilterPage
+    FilterPage,
+    FilterParticipantPage
+
+
+
 
   ],
   imports: [
@@ -164,7 +170,8 @@ import {FilterPage} from "../pages/filter/filter";
     HallCMapPage,
     HallDMapPage,
     LeafletMapPage,
-    FilterPage
+    FilterPage,
+
 
 
 
@@ -195,7 +202,11 @@ import {FilterPage} from "../pages/filter/filter";
     MapSql,
     MapApi,
     BaseApi,
-    MapBaseProvider
+    MapBaseProvider,
+    FilterParticipantPage
+
+
+
 
 
   ]

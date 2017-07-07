@@ -68,7 +68,7 @@ export class CountrySql extends BaseSql{
       thematic = [];
       thematic = list.split(',');
       console.log('an array=', thematic);
-      let whereStr: string = 'where ';
+      let whereStr: string = ' where ';
       for (let i = 0; i < thematic.length; i++) {
         if (i > 0) whereStr += ' or ';
         whereStr += 'id=' + thematic[i];
@@ -101,7 +101,7 @@ export class CountrySql extends BaseSql{
         'a.desc_eng, a.logo, a.address_rus, a.address_eng, a.phone, a.email, ' +
         'a.www, b.id as my_forum_id, c.name_rus as country_name ' +
         'from participant a left join myforum b on a.id=b.my_id left join country c on a.place=c.id ' +
-        'where a.name_rus like "' + country + ',%" or a.country like "%,' + country + ',%" or a.country like "%,' + country + '" or a.country="' + country + '"';
+        ' where a.name_rus like "' + country + ',%" or a.country like "%,' + country + ',%" or a.country like "%,' + country + '" or a.country="' + country + '"';
       console.log(query);
       this.db.executeSql(query, [], rs => {
         this.arr = [];

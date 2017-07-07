@@ -21,9 +21,7 @@
       <button ion-button icon-only (click)="showMapParticipant()">
         <ion-icon name="map"></ion-icon>
       </button>
-      <button ion-button icon-only (click)="showModalFilter()">
-        <ion-icon name="cloud-download"></ion-icon>
-      </button>
+
     </ion-buttons>
 
   </ion-navbar>
@@ -33,9 +31,16 @@
       (ionInput)="selectParticipantSearch()"
       placeholder="Search">
     </ion-searchbar>
-  </ion-toolbar>
 
-  <ion-toolbar *ngIf="showFilter">
+  </ion-toolbar>
+    <page-filter-participant *ngIf="showFilter">
+    </page-filter-participant>
+    <ion-item>
+      [filterStr]='filterStr';
+    </ion-item>
+
+<!--  <ion-toolbar *ngIf="showFilter">
+
     <ion-item text-wrap>
       <ion-header>
         <ion-label>
@@ -93,38 +98,38 @@
         </ion-option>
       </ion-select>
     </ion-item>
-  </ion-toolbar>
+  </ion-toolbar>-->
 
 </ion-header>
-  <ion-content>
+<ion-content>
 
-    <ion-list text-wrap>
+  <ion-list text-wrap>
 
-      <ion-item-sliding *ngFor="let participant of participants" #slidingItem>
+    <ion-item-sliding *ngFor="let participant of participants" #slidingItem>
 
-        <button ion-item (click)="goToParticipantDetail(participant)">
-          <ion-icon item-left *ngIf="participant.my_forum_id" name="star" color="danger"></ion-icon>
-          <ion-icon item-left *ngIf="!participant.my_forum_id" name="star-outline"></ion-icon>
+      <button ion-item (click)="goToParticipantDetail(participant)">
+        <ion-icon item-left *ngIf="participant.my_forum_id" name="star" color="danger"></ion-icon>
+        <ion-icon item-left *ngIf="!participant.my_forum_id" name="star-outline"></ion-icon>
 
-          <p text-wrap>{{participant.name_rus}}</p>
-          <p text-wrap>
-            <ion-icon name="pin" color="danger"></ion-icon>
-            Стенд: {{participant.place_name}}
-          <p>
+        <p text-wrap>{{participant.name_rus}}</p>
+        <p text-wrap>
+          <ion-icon name="pin" color="danger"></ion-icon>
+          Стенд: {{participant.place_name}}
+        <p>
 
+      </button>
+
+
+      <ion-item-options>
+        <button ion-button color="danger" *ngIf="!participant.my_forum_id" (click)="addToMyForumSite(participant.id)">
+          В "Мой форум"
         </button>
+        <button ion-button color="favorite" *ngIf="participant.my_forum_id"
+                (click)="deleteFromMyForum(participant.my_forum_id)">
+          Удалить из "Мой форум"
+        </button>
+      </ion-item-options>
 
-
-        <ion-item-options>
-          <button ion-button color="danger" *ngIf="!participant.my_forum_id" (click)="addToMyForumSite(participant.id)">
-            В "Мой форум"
-          </button>
-          <button ion-button color="favorite" *ngIf="participant.my_forum_id"
-                  (click)="deleteFromMyForum(participant.my_forum_id)">
-            Удалить из "Мой форум"
-          </button>
-        </ion-item-options>
-
-      </ion-item-sliding>
-    </ion-list>
-  </ion-content>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

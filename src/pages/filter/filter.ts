@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import { NavController, NavParams, ViewController} from 'ionic-angular';
+import {NavController, NavParams, ViewController} from 'ionic-angular';
 
 import {BaseSql} from "../../providers/base-sql";
 import {Http} from "@angular/http";
@@ -25,20 +25,31 @@ export class FilterPage {
   filterTable: string;//f.i. thematic
   filterField: string;
   filterValue: string;
-
+  filterWhere: string;
+  filterTitle: string;
+  filterDistinct: string;
   userId: string;
   lang: string;
 
   filterSql: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public viewCtrl:ViewController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public viewCtrl: ViewController) {
     this.filterTable = navParams.get('table');
     this.filterField = navParams.get('field');
     this.filterValue = navParams.get('value');
+    this.filterWhere = navParams.get('where');
+    this.filterTitle = navParams.get('title');
+    this.filterDistinct = navParams.get('distinct');
+
+
     console.log("this.filterTable=", this.filterTable);
     console.log("this.filterField=", this.filterField);
     console.log("this.filterValue=", this.filterValue);
+    console.log("this.filterWhere=", this.filterWhere);
+    console.log("this.filteTitle=", this.filterTitle);
+
     this.filterSql = new BaseSql(http, this.filterTable);
+    this.filterSql.tableName = this.filterTable;
   }
 
   ionViewDidLoad() {
@@ -46,28 +57,60 @@ export class FilterPage {
     this.lang = localStorage.getItem('lang');
     console.log('ionViewDidLoad FilterPage');
     this.filterList = [];
-    this.filterSql.select().then(res => {
-        console.log("res=", res);
+    if (this.filterDistinct) {
+      this.filterSql.selectDistinct(this.filterDistinct).then(res => {
+        console.log(" distinct res=", res);
         for (let i = 0; i < res.length; i++) {
-          let tmpFilter: filter={field:'',value:''};
-          console.log("res[i]=",res[i]);
-          console.log("res[i].name_rus=",res[i].name_rus);
-          let tmpRes=<thematic>res[i];
-          console.log("tmpRes=",tmpRes);
-          console.log("tmpRes['name_rus']=",tmpRes['name_rus']);
-          tmpFilter.field =tmpRes['name_rus'];
-           // tmpFilter.field = (<any>res[i])["name_rus"];
-          tmpFilter.value = tmpRes["number"];
-          console.log("tmpFilter=",tmpFilter);
+          let tmpFilter: filter = {field: '', value: ''};
+          console.log("res[i]=", res[i]);
+          let tmpRes = <any>res[i];
+          tmpFilter.field = tmpRes[this.filterField];
+          tmpFilter.value = tmpRes[this.filterValue];
+          console.log("tmpFilter=", tmpFilter);
           this.filterList.push(tmpFilter);
         }
+      })
+    }
+    else {
+      if (this.filterWhere) {
+
+        this.filterSql.selectWhere(this.filterWhere).then(res => {
+          console.log("res=", res);
+          for (let i = 0; i < res.length; i++) {
+            let tmpFilter: filter = {field: '', value: ''};
+            console.log("res[i]=", res[i]);
+            let tmpRes = <any>res[i];
+            tmpFilter.field = tmpRes[this.filterField];
+            tmpFilter.value = tmpRes[this.filterValue];
+            console.log("tmpFilter=", tmpFilter);
+            this.filterList.push(tmpFilter);
+          }
+        })
       }
-    )
+      else {
+        this.filterSql.select().then(res => {
+          console.log("res=", res);
+          for (let i = 0; i < res.length; i++) {
+            let tmpFilter: filter = {field: '', value: ''};
+            console.log("res[i]=", res[i]);
+            let tmpRes = <any>res[i];
+            console.log("tmpRes=", tmpRes);
+            tmpFilter.field = tmpRes[this.filterField];
+            tmpFilter.value = tmpRes[this.filterValue];
+            console.log("tmpFilter=", tmpFilter);
+            this.filterList.push(tmpFilter);
+          }
+        })
+
+      }
+    }
   }
-  dismiss(value) {
-    let data = { 'selected': value };
+
+  dismiss(value, field) {
+    let data = {'value': value, 'field': field};
     this.viewCtrl.dismiss(data);
   }
+
 
 
 }

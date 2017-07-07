@@ -4,15 +4,60 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
 
-  <ion-navbar>
-    <ion-title></ion-title>
-  </ion-navbar>
+<ion-navbar>
+  <ion-label>
+    {{thematicTitle}}
+  </ion-label>
+  <ion-row>
+    <ion-label text-wrap>{{thematicField}}</ion-label>
+    <button ion-button (click)="filterThematic()" item-right color="army-red">
+      <ion-icon name="list" ></ion-icon>
+    </button>
+  </ion-row>
 
-</ion-header>
 
+  <ion-label>
+    {{mapTitle}}
+  </ion-label>
+  <ion-row>
+    <ion-label text-wrap>{{mapField}}</ion-label>
+    <button ion-button (click)="filterMap()" item-right color="army-red">
+      <ion-icon name="list" ></ion-icon>
+    </button>
+  </ion-row>
 
-<ion-content padding>
+  <ion-label>
+    {{placeTitle}}
+  </ion-label>
+  <ion-row>
+    <ion-label text-wrap>{{placeField}}</ion-label>
+    <button ion-button (click)="filterPlace()" item-right color="army-red">
+      <ion-icon name="list" ></ion-icon>
+    </button>
+  </ion-row>
 
-</ion-content>
+  <ion-label>
+    {{countryTitle}}
+  </ion-label>
+  <ion-row>
+    <ion-label text-wrap>{{countryField}}</ion-label>
+    <button ion-button (click)="filterCountry()" item-right color="army-red">
+      <ion-icon name="list"></ion-icon>
+    </button>
+  </ion-row>
+
+  <ion-row>
+    <ion-buttons align-items-center>
+      <button ion-button (click)="setFilter()" color="army-red">
+        <ion-icon name="checkmark"></ion-icon>
+        {{setFilterStr}}
+      </button>
+
+      <button ion-button (click)="cancelFilter()" color="army-red">
+        <ion-icon name="close-circle"></ion-icon>
+        {{cancelFilterStr}}
+      </button>
+    </ion-buttons>
+  </ion-row>
+</ion-navbar>

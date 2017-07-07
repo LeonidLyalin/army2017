@@ -249,10 +249,10 @@ export class ConferencePage {
         console.log("this.checkConferenceForId(conferenceList.id)");
         // console.log(this.checkParticipantForId(conferenceList.id));
 
-        this.conferenceSql.checkConferenceForId(conference.id).then(res => {
+        this.conferenceSql.checkForId(conference.id).then(res => {
           if (res) {
             console.log("there was true")
-            this.conferenceSql.delTableId(conference.id, 'conference').then(
+            this.conferenceSql.delId(conference.id).then(
               res => {
                 console.log("try to add new conferenceList after delete")
                 this.addOneItemConference(conference);
@@ -279,14 +279,14 @@ export class ConferencePage {
    * check whether the record with id = "id" parameter is in "conferenceList" table
    * @param id
    */
-  checkParticipantForId(id) {
-    this.conferenceSql.checkTableForId(id, 'conference').then(res => {
+ /* checkParticipantForId(id) {
+    this.conferenceSql.checkForId(id).then(res => {
         console.log("check for conferenceList")
         console.log(res)
         return res;
       }
     );
-  }
+  }*/
 
   selectConferenceRus() {
     this.sqlMyForum.getRusConference().then(res => {
@@ -337,14 +337,14 @@ export class ConferencePage {
     }
   }
 
-
+/*
   selectParticipant() {
-    this.conferenceSql.selectConference().then(res => {
+    this.conferenceSql.select().then(res => {
       console.log('our select');
       console.log(res);
       this.conferenceList = res;
     })
-  }
+  }*/
 
   selectConferenceAll(whereStr = '') {
     console.log("selectConferenceAll() where=", whereStr);
@@ -399,11 +399,11 @@ export class ConferencePage {
    }*/
 
   deleteConferenceAll() {
-    this.conferenceSql.delAllConference();
+    this.conferenceSql.delAll();
   }
 
   deleteConferenceOne(id) {
-    this.conferenceSql.delTableId(id, 'conference').then(
+    this.conferenceSql.delId(id).then(
 
     );
   }

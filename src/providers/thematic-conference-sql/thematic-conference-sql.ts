@@ -168,7 +168,7 @@ export class ThematicConferenceSql extends BaseSql{
       thematic = [];
       thematic = list.split(',');
       console.log('an array=', thematic);
-      let whereStr: string = 'where ';
+      let whereStr: string = ' where ';
       for (let i = 0; i < thematic.length; i++) {
         if (i > 0) whereStr += ' or ';
         whereStr += 'id=' + thematic[i];
@@ -200,27 +200,29 @@ export class ThematicConferenceSql extends BaseSql{
         'a.desc_eng, a.logo, a.address_rus, a.address_eng, a.phone, a.email, ' +
         'a.www, b.id as my_forum_id, c.name_rus as place_name ' +
         'from participant a left join myforum b on a.id=b.my_id left join place c on a.place=c.id ' +
-        'where a.thematic like "' + thematic + ',%" or a.thematic like "%,' + thematic + ',%" or a.thematic like "%,' + thematic + '" or a.thematic="' + thematic + '"';
+        ' where a.thematic like "' + thematic + ',%" or a.thematic like "%,' + thematic + ',%" or a.thematic like "%,' + thematic + '" or a.thematic="' + thematic + '"';
       console.log(query);
       this.db.executeSql(query, [], rs => {
         this.arr = [];
         if (rs.rows.length > 0) {
           for (var i = 0; i < rs.rows.length; i++) {
-            this.arr.push({
-              id: rs.rows.item(i).id,
-              name_rus: rs.rows.item(i).name_rus,
-              name_eng: rs.rows.item(i).name_eng,
-              desc_rus: rs.rows.item(i).desc_rus,
-              desc_eng: rs.rows.item(i).desc_eng,
-              address_rus: rs.rows.item(i).address_rus,
-              address_eng: rs.rows.item(i).address_eng,
-              phone: rs.rows.item(i).phone,
-              email: rs.rows.item(i).email,
-              www: rs.rows.item(i).www,
-              logo: rs.rows.item(i).logo,
-              place_name: rs.rows.item(i).place_name,
-              my_forum_id: rs.rows.item(i).my_forum_id,
-            });
+            this.arr.push(<any>rs.rows.item(i));
+            /*  {
+             id: rs.rows.item(i).id,
+             name_rus: rs.rows.item(i).name_rus,
+             name_eng: rs.rows.item(i).name_eng,
+             desc_rus: rs.rows.item(i).desc_rus,
+             desc_eng: rs.rows.item(i).desc_eng,
+             address_rus: rs.rows.item(i).address_rus,
+             address_eng: rs.rows.item(i).address_eng,
+             phone: rs.rows.item(i).phone,
+             email: rs.rows.item(i).email,
+             www: rs.rows.item(i).www,
+             logo: rs.rows.item(i).logo,
+             place_name: rs.rows.item(i).place_name,
+             my_forum_id: rs.rows.item(i).my_forum_id,
+             }*/
+
           }
         }
         res(this.arr);

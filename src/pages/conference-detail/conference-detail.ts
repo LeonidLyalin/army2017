@@ -1,10 +1,8 @@
 import {Component} from '@angular/core';
-
 import {NavParams} from 'ionic-angular';
-import {ThematicSql} from "../../providers/thematic-sql";
-import {ParticipantSql} from "../../providers/participant-sql";
 import {ThematicConferenceSql} from "../../providers/thematic-conference-sql/thematic-conference-sql";
 import {MyForumSQL} from "../../providers/my-forum-sql";
+import {ConferenceSql} from "../../providers/conference-sql/conference-sql";
 
 
 @Component({
@@ -19,8 +17,8 @@ export class ConferenceDetailPage {
   iblockId: any = 14;
 
   constructor(public navParams: NavParams,
-              public thematicSql: ThematicConferenceSql,
-              public participantSql: ParticipantSql,
+              public thematicConferenceSql: ThematicConferenceSql,
+              public conferenceDetailSql: ConferenceSql,
               public sqlMyForum: MyForumSQL) {
     console.log("now in Participant detail");
     console.log(navParams);
@@ -29,11 +27,12 @@ export class ConferenceDetailPage {
       this.conferenceSingle = navParams.data.conferenceSingle
     else if (navParams.data.res) this.conferenceSingle = navParams.data.res;
 
-    this.thematicSql.getThematicOfConference(this.conferenceSingle.id).then(
+    this.thematicConferenceSql.getThematicOfConference(this.conferenceSingle.id).then(
       res => {
         console.log("res in thematicConference page=", res)
         this.thematic = res;
-        this.participantSql.getFieldFromTable(this.conferenceSingle.id,'id','myforum').then(
+        //@TODO why participant SQL? Change for a conference
+        this.conferenceDetailSql.getFieldFromTable(this.conferenceSingle.id,'id','myforum').then(
           //getMyForumForId(this.conferenceSingle.id).then(
           res => {
             console.log("res in conferenceSingle myForumParticipant", res);
@@ -50,10 +49,18 @@ export class ConferenceDetailPage {
     this.userId = localStorage.getItem('userid');
   }
 
+  /**
+   * delete event of the conference from MyForum
+   * @param id
+   */
   deleteFromMyForum(id) {
     this.sqlMyForum.delFromMyForum(id);
   }
 
+  /**
+   * add event to MyForum on the site and the mobile app
+   * @param id
+   */
   addToMyForumSite(id) {
     this.sqlMyForum.addToMyForumSite(id, this.iblockId, this.userId)
   }

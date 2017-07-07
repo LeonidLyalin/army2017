@@ -50,6 +50,10 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   rootPage: any;
 
+  lang:string;
+  language:string;
+  langVal:boolean;
+
   pages: PageInterface[] = [
 
     {title: 'Homepage', name: 'HomePage', component: HomePage, icon: 'home'},
@@ -237,5 +241,21 @@ export class MyApp {
       return 'primary';
     }
     return;
+  }
+
+  setLangRuEn(){
+    if (this.lang=='ru')  {
+      this.lang='en';
+      this.language='English';
+      localStorage.setItem('lang','en');
+      console.log('set language=','en');
+    }
+    else   {
+      this.lang='ru';
+      this.language='Русский';
+      localStorage.setItem('lang','ru');
+      console.log('set language=','ru');
+    }
+
   }
 }

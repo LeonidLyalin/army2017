@@ -3,8 +3,7 @@ import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 
 
-import {ThematicSql} from "../thematic-sql";
-import {ThematicConferenceApi} from "../../pages/shared/tehematic-conference/thematic-conference-api-service";
+
 import {BaseSql} from "../base-sql";
 
 

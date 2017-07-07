@@ -4,8 +4,10 @@
   <ion-navbar>
 
 
-    <ion-title>Тематика</ion-title>
-
+    <ion-title>{{filterTitle}}</ion-title>
+<button ion-button >
+  <ion-icon name="close-circle" (click)="dismiss('','')"></ion-icon>
+</button>
   </ion-navbar>
 
 </ion-header>
@@ -15,12 +17,8 @@
 
   <ion-list>
 
-    <ion-item *ngFor="let filter  of filterList" text-wrap>
-
-      <button ion-item (click)="dismiss(filter.value)">
-
-        <p text-wrap>{{filter.field}}</p>
-      </button>
+    <ion-item *ngFor="let filter  of filterList" (click)="dismiss(filter.value, filter.field)">
+       <p text-wrap>{{filter.field}}</p>
     </ion-item>
   </ion-list>
 

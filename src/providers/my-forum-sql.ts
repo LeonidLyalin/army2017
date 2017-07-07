@@ -107,7 +107,7 @@ export class MyForumSQL extends BaseSql {
    */
   getRusParticipant(where: string = '') {
     console.log('getRusParticipantMyForum()');
-    console.log('where=' + where);
+    console.log(' where=' + where);
     return new Promise(res => {
       this.arr = [];
       let userId = localStorage.getItem('userid');
@@ -143,7 +143,7 @@ export class MyForumSQL extends BaseSql {
 
   getRusConference(where: string = '') {
     console.log('getRusParticipantMyForum()');
-    console.log('where=' + where);
+    console.log(' where=' + where);
     //  let whereStr = where;
     return new Promise(res => {
       this.arr = [];
@@ -185,7 +185,7 @@ export class MyForumSQL extends BaseSql {
    */
   getRusConferenceReturn(where: string = '') {
     console.log('getRusConference()');
-    console.log('where=' + where);
+    console.log(' where=' + where);
 
     this.arr = [];
     let userId = localStorage.getItem('userid');

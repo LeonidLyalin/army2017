@@ -72,7 +72,7 @@ export class MapSql extends BaseSql {
       thematic = [];
       thematic = list.split(',');
       console.log('an array=', thematic);
-      let whereStr: string = 'where ';
+      let whereStr: string = ' where ';
       for (let i = 0; i < thematic.length; i++) {
         if (i > 0) whereStr += ' or ';
         whereStr += 'number=' + thematic[i];
@@ -104,7 +104,7 @@ export class MapSql extends BaseSql {
         'a.desc_eng, a.logo, a.address_rus, a.address_eng, a.phone, a.email, ' +
         'a.www, b.id as my_forum_id, c.name_rus as place_name ' +
         'from participant a left join myforum b on a.id=b.my_id left join place c on a.place=c.id ' +
-        'where a.thematic like "' + thematic + ',%" or a.thematic like "%,' + thematic + ',%" or a.thematic like "%,' + thematic + '" or a.thematic="' + thematic + '"';
+        ' where a.thematic like "' + thematic + ',%" or a.thematic like "%,' + thematic + ',%" or a.thematic like "%,' + thematic + '" or a.thematic="' + thematic + '"';
       console.log(query);
       this.db.executeSql(query, [], rs => {
         this.arr = [];

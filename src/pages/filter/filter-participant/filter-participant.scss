@@ -1,3 +1,12 @@
 page-filter-participant {
+  ion-navbar {
+    .toolbar-background {
+      background-color: white;
+      color: map_get($colors,"army-red");
+    }
+   ion-button{
+      color: red;
+    }
+  }
 
 }

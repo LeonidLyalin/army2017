@@ -203,6 +203,84 @@ export class BaseSql {
 
   }
 
+  selectWhere(whereStr?, fieldSort?: string) {
+    return new Promise(res => {
+      let orderStr = 'order by ';
+      this.arr = [];
+      let query = "SELECT * FROM " + this.tableName;
+      if (whereStr != '') query += ' where ' + whereStr;
+      if (fieldSort) {
+        if ((fieldSort != '') && (fieldSort.includes(','))) {
+          console.log(" select(fieldSort?: string) fieldSort=", fieldSort);
+
+          let fieldStr = fieldSort.split(',');
+          for (let field of fieldStr) {
+            if (orderStr.length > 'order by '.length) orderStr += ', ';
+            orderStr += field;
+          }
+        }
+        else orderStr += fieldSort;
+      }
+      console.log("query=", query);
+      this.db.executeSql(query, [], rs => {
+
+        if (rs.rows.length > 0) {
+          this.arr = [];
+          console.log("keys=", rs.rows.item(0).keys)
+          for (var i = 0; i < rs.rows.length; i++) {
+            this.arr.push(<any>rs.rows.item(i));
+          }
+          res(this.arr);
+        }
+        else res(false);
+      }, (e) => {
+        res(false);
+        console.log('Sql Query Error', e);
+      });
+    })
+
+  }
+
+
+  selectDistinct(distinctField, whereStr?, fieldSort?: string) {
+    return new Promise(res => {
+      let orderStr = 'order by ';
+      this.arr = [];
+      let query = "SELECT distinct("+distinctField+") FROM " + this.tableName;
+      if (whereStr){
+      if (whereStr != '') query += ' where ' + whereStr;}
+      if (fieldSort) {
+        if ((fieldSort != '') && (fieldSort.includes(','))) {
+          console.log(" select(fieldSort?: string) fieldSort=", fieldSort);
+
+          let fieldStr = fieldSort.split(',');
+          for (let field of fieldStr) {
+            if (orderStr.length > ' order by '.length) orderStr += ', ';
+            orderStr += field;
+          }
+        }
+        else orderStr += fieldSort;
+      }
+      console.log("query=", query);
+      this.db.executeSql(query, [], rs => {
+
+        if (rs.rows.length > 0) {
+          this.arr = [];
+          console.log("keys=", rs.rows.item(0).keys)
+          for (var i = 0; i < rs.rows.length; i++) {
+            this.arr.push(<any>rs.rows.item(i));
+          }
+          res(this.arr);
+        }
+        else res(false);
+      }, (e) => {
+        res(false);
+        console.log('Sql Query Error', e);
+      });
+    })
+
+  }
+
   delAll() {
     console.log('try to delete all ' + this.tableName);
     return new Promise(resolve => {
@@ -261,7 +339,7 @@ export class BaseSql {
       thematic = [];
       thematic = list.split(',');
       console.log('an array=', thematic);
-      let whereStr: string = 'where ';
+      let whereStr: string = ' where ';
       for (let i = 0; i < thematic.length; i++) {
         if (i > 0) whereStr += ' or ';
         whereStr += fieldName + '=' + thematic[i];
@@ -399,7 +477,7 @@ export class BaseSql {
       tableList = [];
       tableList = list.split(',');
       console.log('an array=', tableList);
-      let whereStr: string = 'where ';
+      let whereStr: string = ' where ';
       for (let i = 0; i < tableList.length; i++) {
         if (i > 0) whereStr += ' or ';
         whereStr += 'id=' + tableList[i];
