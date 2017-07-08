@@ -316,7 +316,7 @@ export class ConferenceSql extends BaseSql{
 /*
   getMyForumForConference(id){
     return new Promise(res => {
-        let userId=localStorage.getItem('userId');
+        let userId=localStorage.getItem('userid');
         if (!userId) return (res(false))
         let query ="select id from myforum where my_iblock_id=14 and my_id="+id+' and user='+userId;
         console.log(query);

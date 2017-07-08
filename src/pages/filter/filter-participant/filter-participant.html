@@ -6,58 +6,70 @@
 -->
 
 <ion-navbar>
+  <ion-toolbar no-border-top>
+    <ion-row>
+      <ion-searchbar
+        [(ngModel)]="filterProvider.partOfName"
+        (ionInput)="selectParticipantSearch()"
+        (ionCancel)="cancelFilterName()"
+        placeholder="{{filterProvider.findName}}"
+      </ion-searchbar>
+
+    </ion-row>
+  </ion-toolbar>
   <ion-label>
-    {{thematicTitle}}
+    {{filterProvider.thematicTitle}}
   </ion-label>
   <ion-row>
-    <ion-label text-wrap>{{thematicField}}</ion-label>
+    <ion-label text-wrap>{{filterProvider.thematicField}}</ion-label>
+    <button ion-button (click)="cancelFilterThematic()" item-right color="army-red">
+      <ion-icon name="close"></ion-icon>
+    </button>
     <button ion-button (click)="filterThematic()" item-right color="army-red">
-      <ion-icon name="list" ></ion-icon>
+      <ion-icon name="list"></ion-icon>
     </button>
   </ion-row>
 
 
   <ion-label>
-    {{mapTitle}}
+    {{filterProvider.mapTitle}}
   </ion-label>
   <ion-row>
-    <ion-label text-wrap>{{mapField}}</ion-label>
+    <ion-label text-wrap>{{filterProvider.mapField}}</ion-label>
+    <button ion-button (click)="cancelFilterMap()" item-right color="army-red">
+      <ion-icon name="close"></ion-icon>
+    </button>
     <button ion-button (click)="filterMap()" item-right color="army-red">
-      <ion-icon name="list" ></ion-icon>
+      <ion-icon name="list"></ion-icon>
     </button>
   </ion-row>
 
   <ion-label>
-    {{placeTitle}}
+    {{filterProvider.placeTitle}}
   </ion-label>
   <ion-row>
-    <ion-label text-wrap>{{placeField}}</ion-label>
+
+    <ion-label text-wrap>{{filterProvider.placeField}}</ion-label>
+    <button ion-button (click)="cancelFilterPlace()" item-right color="army-red">
+      <ion-icon name="close"></ion-icon>
+    </button>
     <button ion-button (click)="filterPlace()" item-right color="army-red">
-      <ion-icon name="list" ></ion-icon>
+      <ion-icon name="list"></ion-icon>
     </button>
   </ion-row>
 
   <ion-label>
-    {{countryTitle}}
+    {{filterProvider.countryTitle}}
   </ion-label>
   <ion-row>
-    <ion-label text-wrap>{{countryField}}</ion-label>
+    <ion-label text-wrap>{{filterProvider.countryField}}</ion-label>
+    <button ion-button (click)="cancelFilterCountry()" item-right color="army-red">
+      <ion-icon name="close"></ion-icon>
+    </button>
     <button ion-button (click)="filterCountry()" item-right color="army-red">
       <ion-icon name="list"></ion-icon>
     </button>
   </ion-row>
 
-  <ion-row>
-    <ion-buttons align-items-center>
-      <button ion-button (click)="setFilter()" color="army-red">
-        <ion-icon name="checkmark"></ion-icon>
-        {{setFilterStr}}
-      </button>
 
-      <button ion-button (click)="cancelFilter()" color="army-red">
-        <ion-icon name="close-circle"></ion-icon>
-        {{cancelFilterStr}}
-      </button>
-    </ion-buttons>
-  </ion-row>
 </ion-navbar>

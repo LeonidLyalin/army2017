@@ -77,7 +77,7 @@ export class MyForumPage {
       console.log(err);
       this.userId = 0;
     }
-    console.log('userId=', this.userId);
+    console.log('userid=', this.userId);
 
     this.refreshMyForum();
 

@@ -256,7 +256,7 @@ export class ParticipantSql extends BaseSql{
 
 /*  getMyForumForId(id) {
     return new Promise(res => {
-        let userId = localStorage.getItem('userId');
+        let userId = localStorage.getItem('userid');
         if (!userId) return (res(false))
         let query = "select id from myforum where my_id=" + id + ' and user=' + userId;
         console.log(query);

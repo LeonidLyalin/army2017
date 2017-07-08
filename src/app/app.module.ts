@@ -69,6 +69,7 @@ import { MapBaseProvider } from '../providers/map-base/map-base';
 import {LeafletMapPage} from "../pages/maps/leaflet-map/leaflet-map";
 import {FilterPage} from "../pages/filter/filter";
 import {FilterParticipantPage} from "../pages/filter/filter-participant/filter-participant";
+import { FilterProvider } from '../providers/filter-provider/filter-provider';
 
 
 
@@ -203,7 +204,8 @@ import {FilterParticipantPage} from "../pages/filter/filter-participant/filter-p
     MapApi,
     BaseApi,
     MapBaseProvider,
-    FilterParticipantPage
+    FilterParticipantPage,
+    FilterProvider
 
 
 

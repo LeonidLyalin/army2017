@@ -115,6 +115,8 @@ export class MyApp {
               public storage: Storage) {
 
     console.log("hi!");
+    this.lang='ru';
+    localStorage.setItem('lang','ru');
 
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -249,12 +251,14 @@ export class MyApp {
       this.language='English';
       localStorage.setItem('lang','en');
       console.log('set language=','en');
+      this.events.publish('language:change');
     }
     else   {
       this.lang='ru';
       this.language='Русский';
       localStorage.setItem('lang','ru');
       console.log('set language=','ru');
+      this.events.publish('language:change');
     }
 
   }

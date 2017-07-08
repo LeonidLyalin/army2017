@@ -28,7 +28,7 @@ export class UserApi {
         console.log(res);
         this.userId=res.result.ID;
         console.log(this.userId);
-        localStorage.setItem('userId', this.userId);
+        localStorage.setItem('userid', this.userId);
         return res;
       })
 

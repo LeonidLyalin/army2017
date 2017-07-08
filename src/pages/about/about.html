@@ -6,13 +6,46 @@
     <ion-title>
       О Форуме
     </ion-title>
+    <button ion-button icon="'search" (click)="menuToggle1()"></button>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content class="cards-bg">
+<ion-label>
+  {{filterStr}}
+</ion-label>
 
-  <page-filter-participant></page-filter-participant>
+  <ion-toolbar no-border-top>
+    <page-filter-participant></page-filter-participant>
+    <ion-buttons >
+      <button ion-button  color="danger" (click)="setFilterStrAbout()">
+        <ion-icon name="checkmark" ></ion-icon>
+
+      </button>
+
+      <button ion-button color="danger">
+        <ion-icon name="close-circle"></ion-icon>
+
+      </button>
+    </ion-buttons>
+    <ion-item>
+      {{filterStr}}
+    </ion-item>
+    <ion-row>
+      <ion-buttons >
+        <button ion-button  color="army-red" (click)="setFilterStrAbout()">
+          <ion-icon name="checkmark"></ion-icon>
+
+        </button>
+
+        <button ion-button color="army-red">
+          <ion-icon name="close-circle"></ion-icon>
+
+        </button>
+      </ion-buttons>
+    </ion-row>
+  </ion-toolbar>
 
   <ion-card>
 
