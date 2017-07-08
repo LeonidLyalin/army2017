@@ -4,7 +4,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Участники</ion-title>
+    <ion-title>{{title}}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only on (click)="deleteParticipantAll()">
         <ion-icon name="close-circle"></ion-icon>
@@ -13,7 +13,7 @@
         <ion-icon name="cloud-download"></ion-icon>
       </button>
       <button ion-button icon-only (click)="showHideFilter()">
-        <ion-icon name="options"></ion-icon>
+        <ion-icon name="search"></ion-icon>
       </button>
       <button ion-button icon-only (click)="addItemParticipant()">
         <ion-icon name="refresh"></ion-icon>
@@ -25,80 +25,83 @@
     </ion-buttons>
 
   </ion-navbar>
-  <ion-toolbar no-border-top>
-    <ion-searchbar
-      [(ngModel)]="partOfName"
-      (ionInput)="selectParticipantSearch()"
-      placeholder="Search">
-    </ion-searchbar>
 
-  </ion-toolbar>
-    <page-filter-participant *ngIf="showFilter">
+  <ion-toolbar no-border-top *ngIf="showFilter" style="colo">
+    <page-filter-participant>
     </page-filter-participant>
-    <ion-item>
-      [filterStr]='filterStr';
-    </ion-item>
-
-<!--  <ion-toolbar *ngIf="showFilter">
-
-    <ion-item text-wrap>
-      <ion-header>
-        <ion-label>
-          Тематика
-        </ion-label>
-      </ion-header>
-      <ion-select class="mySelect" [(ngModel)]="thematicSearch" (ionChange)="onThematicChange()" text-wrap>
-        <ion-option class="myOption" item-left="true" *ngFor="let thematic of thematicList" value="{{thematic.number}}"
-                    text-wrap>
-          <ion-item text-wrap>{{thematic.name_rus}}</ion-item>
-        </ion-option>
-        <div *ngIf="thematicSearch!=''">
-          <ion-label> {{thematicSearch}}</ion-label>
-          <button (click)='removeSelectionThematic()'>
-            <ion-icon name='close'></ion-icon>
-          </button>
-        </div>
-      </ion-select>
-    </ion-item>
+    <ion-row>
+      <ion-buttons align-items-center>
+        <button ion-button (click)="setFilterStrParticipant()" color="primary">
+          <ion-icon name="checkmark"></ion-icon>
+          {{setFilterStr}}
+        </button>
+        <button ion-button (click)="cancelFilter()" color="primary">
+          <ion-icon name="close-circle"></ion-icon>
+          {{cancelFilterStr}}
+        </button>
+      </ion-buttons>
+    </ion-row>
   </ion-toolbar>
-  <ion-toolbar *ngIf="showFilter">
-    <ion-item text-wrap>
-      <ion-header>
-        <ion-label>
-          Страна
-        </ion-label>
-      </ion-header>
-      <ion-select class="mySelect" [(ngModel)]="countrySearch" (ionChange)="onCountryChange()" text-wrap>
-        <ion-option class="myOption" item-left="true" *ngFor="let country of countryList"
-                    value="{{country.country_rus}}" text-wrap>
-          {{country.country_rus}}
-        </ion-option>
-        <div *ngIf="countrySearch!=''">
-          <ion-label> {{countrySearch}}</ion-label>
-          <button (click)='removeSelectionCountry()'>
-            <ion-icon name='close'></ion-icon>
-          </button>
-        </div>
-      </ion-select>
-    </ion-item>
-  </ion-toolbar>
-  <ion-toolbar *ngIf="showFilter">
-    <ion-item text-wrap>
+  <!--  <ion-toolbar *ngIf="showFilter">
 
-      <ion-select class="mySelect" [(ngModel)]="mapSearch" (ionChange)="onMapChange()" text-wrap>
-        <ion-option class="myOption" item-left="true" *ngFor="let map of mapList" value="{{map.name_map}}" text-wrap>
-          {{map.name_rus}}
-        </ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item text-wrap>
-      <ion-select class="mySelect" [(ngModel)]="placeSearch" (ionChange)="onPlaceChange()">
-        <ion-option iclass="myOption" tem-left="true" *ngFor="let place of placeList" value="{{place.id}}" text-wrap>
-          {{place.name_rus}}
-        </ion-option>
-      </ion-select>
-    </ion-item>
-  </ion-toolbar>-->
+      <ion-item text-wrap>
+        <ion-header>
+          <ion-label>
+            Тематика
+          </ion-label>
+        </ion-header>
+        <ion-select class="mySelect" [(ngModel)]="thematicSearch" (ionChange)="onThematicChange()" text-wrap>
+          <ion-option class="myOption" item-left="true" *ngFor="let thematic of thematicList" value="{{thematic.number}}"
+                      text-wrap>
+            <ion-item text-wrap>{{thematic.name_rus}}</ion-item>
+          </ion-option>
+          <div *ngIf="thematicSearch!=''">
+            <ion-label> {{thematicSearch}}</ion-label>
+            <button (click)='removeSelectionThematic()'>
+              <ion-icon name='close'></ion-icon>
+            </button>
+          </div>
+        </ion-select>
+      </ion-item>
+    </ion-toolbar>
+    <ion-toolbar *ngIf="showFilter">
+      <ion-item text-wrap>
+        <ion-header>
+          <ion-label>
+            Страна
+          </ion-label>
+        </ion-header>
+        <ion-select class="mySelect" [(ngModel)]="countrySearch" (ionChange)="onCountryChange()" text-wrap>
+          <ion-option class="myOption" item-left="true" *ngFor="let country of countryList"
+                      value="{{country.country_rus}}" text-wrap>
+            {{country.country_rus}}
+          </ion-option>
+          <div *ngIf="countrySearch!=''">
+            <ion-label> {{countrySearch}}</ion-label>
+            <button (click)='removeSelectionCountry()'>
+              <ion-icon name='close'></ion-icon>
+            </button>
+          </div>
+        </ion-select>
+      </ion-item>
+    </ion-toolbar>
+    <ion-toolbar *ngIf="showFilter">
+      <ion-item text-wrap>
+
+        <ion-select class="mySelect" [(ngModel)]="mapSearch" (ionChange)="onMapChange()" text-wrap>
+          <ion-option class="myOption" item-left="true" *ngFor="let map of mapList" value="{{map.name_map}}" text-wrap>
+            {{map.name_rus}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item text-wrap>
+        <ion-select class="mySelect" [(ngModel)]="placeSearch" (ionChange)="onPlaceChange()">
+          <ion-option iclass="myOption" tem-left="true" *ngFor="let place of placeList" value="{{place.id}}" text-wrap>
+            {{place.name_rus}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-toolbar>-->
 
 </ion-header>
 <ion-content>
