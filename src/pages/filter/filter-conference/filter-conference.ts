@@ -3,7 +3,8 @@ import {ModalController, NavController, NavParams, Events} from 'ionic-angular';
 import {FilterPage} from "../filter";
 import {BaseSql} from "../../../providers/base-sql";
 import {Http} from "@angular/http";
-import {FilterParticipantProvider} from "../../../providers/filter-provider/filter-participant-provider";
+
+import {FilterConferenceProvider} from "../../../providers/filter-provider/filter-conference-provider";
 /**
  * Generated class for the FilterParticipantPage page.
  *
@@ -12,46 +13,22 @@ import {FilterParticipantProvider} from "../../../providers/filter-provider/filt
  */
 @Injectable()
 @Component({
-  selector: 'page-filter-participant',
-  templateUrl: 'filter-participant.html',
+  selector: 'page-filter-conference',
+  templateUrl: 'filter-conference.html',
 })
-export class FilterParticipantPage {
-  /*
-   public thematicField: string;
-   public filterProvider.thematicTitle: string;
-   public thematicValue: string;
+export class FilterConferencePage {
 
-   public mapField: string;
-   public mapTitle: string;
-   public mapValue: string;
-
-   public placeField: string;
-   public placeTitle: string;
-   public placeValue: string;
-
-   public countryField: string;
-   public countryTitle: string;
-   public countryValue: string;
-
-   public partOfName: string;*/
 
   userId: string;
   lang: string;
 
-  //interface strings
-  /* setFilterStr: string;
-   cancelFilterStr: string;
-   findName: string;*/
 
-
-  /* @Input()
-   filterStr: string;*/
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public modalCtrl: ModalController,
               public http: Http,
-              public filterProvider: FilterParticipantProvider,
+              public filterProvider: FilterConferenceProvider,
               public events: Events) {
     this.lang = localStorage.getItem('lang');
     if (this.lang == 'ru') {
@@ -78,10 +55,10 @@ export class FilterParticipantPage {
 
   setRussianStrings() {
     console.log('this.setRussianStrings()');
-    this.filterProvider.thematicTitle = 'Тематика';
+    this.filterProvider.thematicConferenceTitle = 'Тематика';
     this.filterProvider.mapTitle = 'Павильоны';
     this.filterProvider.placeTitle = 'Стенды';
-    this.filterProvider.countryTitle = 'Страны';
+    this.filterProvider.dateTitle = 'Дата';
 
     //interface strings
     this.filterProvider.setStr = 'Установить';
@@ -92,10 +69,10 @@ export class FilterParticipantPage {
 
   setEnglishStrings() {
     console.log('this.setEnglishStrings()');
-    this.filterProvider.thematicTitle = 'Thema';
+    this.filterProvider.thematicConferenceTitle = 'Thema';
     this.filterProvider.mapTitle = 'Hall';
     this.filterProvider.placeTitle = 'Stand';
-    this.filterProvider.countryTitle = 'Country';
+    this.filterProvider.dateTitle = 'Country';
 
     //interface strings
     this.filterProvider.setStr = 'Set';
@@ -112,12 +89,12 @@ export class FilterParticipantPage {
 
   filterThematic() {
     let parameters = {
-      table: 'thematic', field: 'name_rus',
+      table: 'thematic_conference', field: 'name_rus',
       value: 'number', title: 'Тематика'
     }
     if (this.lang == 'en') {
       parameters = {
-        table: 'thematic', field: 'name_eng',
+        table: 'thematic_conference', field: 'name_eng',
         value: 'number', title: 'Thema'
       }
     }
@@ -125,8 +102,8 @@ export class FilterParticipantPage {
     filterModal.onDidDismiss(
       data => {
         console.log(data);
-        this.filterProvider.thematicField = data["field"];
-        this.filterProvider.thematicValue = data["value"];
+        this.filterProvider.thematicConferenceField = data["field"];
+        this.filterProvider.thematicConferenceValue = data["value"];
         /* this.filterProvider.filterStr=this.filterCreateWhereStr();*/
         this.filterProvider.setFilterStr(this.filterCreateWhereStr());
       });
@@ -182,24 +159,24 @@ export class FilterParticipantPage {
     }
   }
 
-  filterCountry() {
+  filterDate() {
     let parameters = {
-      table: 'participant', field: 'country_rus',
-      value: 'country_rus', distinct: 'country_rus', title: 'Страна'
+      table: 'conference', field: 'date_event',
+      value: 'date_event', distinct: 'date_event', title: 'Дата'
     };
     if (this.lang == 'en') {
       parameters =
         {
-          table: 'participant', field: 'country_eng',
-          value: 'country_eng', distinct: 'country_eng', title: 'Country'
+          table: 'conference', field: 'date_event',
+          value: 'date_event', distinct: 'date_event', title: 'Date'
         }
     }
     let filterModal = this.modalCtrl.create(FilterPage, parameters);
     filterModal.onDidDismiss(
       data => {
         console.log(data);
-        this.filterProvider.countryField = data["field"];
-        this.filterProvider.countryValue = data["value"];
+        this.filterProvider.dateField = data["field"];
+        this.filterProvider.dateValue = data["value"];
         //this.filterStr=this.filterCreateWhereStr();
         this.filterProvider.setFilterStr(this.filterCreateWhereStr());
       }
@@ -209,8 +186,8 @@ export class FilterParticipantPage {
   }
 
   filterCreateWhereStr() {
-    console.log("this.thematicValue", this.filterProvider.thematicValue);
-    console.log("this.countryValue", this.filterProvider.countryValue);
+    console.log("this.thematicValue", this.filterProvider.thematicConferenceValue);
+    console.log("this.dateValue", this.filterProvider.dateValue);
     console.log("this.mapValue=", this.filterProvider.mapValue);
     console.log("(this.placeValue=", this.filterProvider.placeValue);
     let whereStr = '';
@@ -225,13 +202,10 @@ export class FilterParticipantPage {
 
     }
 
-    if ((this.filterProvider.countryValue) && (this.filterProvider.countryValue != '')) {
-      if (this.lang == 'ru') {
-        whereStr += ((whereStr != '') ? ' and ' : '') + 'a.country_rus="' + this.filterProvider.countryValue + '"';
-      }
-      else {
-        whereStr += ((whereStr != '') ? ' and ' : '') + 'a.country_eng="' + this.filterProvider.countryValue + '"';
-      }
+    if ((this.filterProvider.dateValue) && (this.filterProvider.dateValue != '')) {
+
+        whereStr += ((whereStr != '') ? ' and ' : '') + 'a.date_event="' + this.filterProvider.dateValue + '"';
+
     }
     if ((this.filterProvider.mapValue) && ((this.filterProvider.placeValue == '') && (this.filterProvider.mapValue != ''))) {
       let places = new BaseSql(this.http, 'place');
@@ -248,10 +222,12 @@ export class FilterParticipantPage {
       console.log("((this.placeValue=='') && (this.mapValue!=''))", whereStr);
     }
 
-    if (this.filterProvider.thematicValue) {
+    if (this.filterProvider.thematicConferenceValue) {
 
-      whereStr += ((whereStr != '') ? ' and ' : '') + '(a.thematic="' + this.filterProvider.thematicValue + '" or a.thematic like "' + this.filterProvider.thematicValue +
-        ',%"' + ' or a.thematic like "%,' + this.filterProvider.thematicValue + '" or  a.thematic like "%,' + this.filterProvider.thematicValue + ',%")';
+      whereStr += ((whereStr != '') ? ' and ' : '') + '(a.thematic_conference="' + this.filterProvider.thematicConferenceValue
+        + '" or a.thematic_conference like "' + this.filterProvider.thematicConferenceValue +
+        ',%"' + ' or a.thematic_conference like "%,' + this.filterProvider.thematicConferenceValue
+        + '" or  a.thematic_conference like "%,' + this.filterProvider.thematicConferenceValue + ',%")';
     }
     console.log("(whereStr after thematic=", whereStr);
 
@@ -276,22 +252,9 @@ export class FilterParticipantPage {
     this.filterProvider.setFilterStr(this.filterCreateWhereStr());
   }
 
-  /*  cancelFilter() {
-   this.filterProvider.thematicField = '';
-   this.filterProvider.thematicValue = '';
-   this.filterProvider.mapField = '';
-   this.filterProvider.mapValue = '';
-   this.filterProvider.placeField = '';
-   this.filterProvider.placeValue = '';
-   this.filterProvider.countryField = '';
-   this.filterProvider.countryValue = '';
-   this.filterProvider.findName='';
-
-   }*/
-
-  cancelFilterCountry() {
-    this.filterProvider.countryField = '';
-    this.filterProvider.countryValue = '';
+  cancelFilterDate() {
+    this.filterProvider.dateField = '';
+    this.filterProvider.dateValue = '';
 
   }
 
@@ -308,8 +271,8 @@ export class FilterParticipantPage {
   }
 
   cancelFilterThematic() {
-    this.filterProvider.thematicField = '';
-    this.filterProvider.thematicValue = '';
+    this.filterProvider.thematicConferenceField = '';
+    this.filterProvider.thematicConferenceValue = '';
 
   }
 

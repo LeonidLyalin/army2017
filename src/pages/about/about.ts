@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 
 import {NavController} from 'ionic-angular';
-import {FilterProvider} from "../../providers/filter-provider/filter-provider";
+import {FilterParticipantProvider} from "../../providers/filter-provider/filter-participant-provider";
 
 
 @Component({
@@ -11,7 +11,7 @@ import {FilterProvider} from "../../providers/filter-provider/filter-provider";
 export class AboutPage {
   filterStr: string;
 
-  constructor(public navCtrl: NavController, public filterProvider: FilterProvider) {
+  constructor(public navCtrl: NavController, public filterProvider: FilterParticipantProvider) {
     console.log("about ts");
   }
  setFilterStrAbout(){

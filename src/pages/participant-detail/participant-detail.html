@@ -8,11 +8,11 @@
   <ion-card>
    <!-- <img src="assets/img/logo/{{participant.logo}}"/>-->
     <ion-card-header text-wrap>
-      <p>{{participant.name_rus}}</p>
+      <p>{{participant.name}}</p>
     </ion-card-header>
     <ion-card-content>
       <p text-wrap>
-        {{participant.desc_rus}}
+        {{participant.desc}}
       </p>
       <p>Место: {{participant.place}}</p>
       <p>Тел: {{participant.phone}}</p>
@@ -26,8 +26,8 @@
       </ion-list-header>
       <ion-item *ngFor="let thematicItem of thematic" text-wrap>
         <ion-icon name="information-circle" item-left></ion-icon>
-        <h4>{{thematicItem.name_rus}}</h4>
-
+        <h4 *ngIf="lang=='ru'">{{thematicItem.name_rus}}</h4>
+        <h4 *ngIf="lang=='en'">{{thematicItem.name_eng}}</h4>
       </ion-item>
     </ion-list>
     <ion-row no-padding>

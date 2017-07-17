@@ -28,8 +28,8 @@ import {HallDMapPage} from "../hall-d-map/hall-d-map";
 })
 export class PatriotExpoMapPage {
   @ViewChild('drawingCanvas') drawingCanvas;
-  width_map:number=2048;
-  height_map:number=1497;
+  width_map:number=2835;//2048;
+  height_map:number=1594;//1497;
   widthMinus: number = -this.width_map;
   hdc: any;
   imageMap = new Image;

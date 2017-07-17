@@ -26,7 +26,12 @@ import {HomePage} from "../pages/home/home";
 import {MapYandexPage} from "../pages/map-yandex/map-yandex";
 import {ParkPatriotPage} from "../pages/park-patriot-all/park-patriot/park-patriot";
 import {WarTacticPage} from "../pages/park-patriot-all/war-tactic-page/war-tactic-page";
-
+import {ConferenceSql} from "../providers/conference-sql/conference-sql";
+import {PlaceSql} from "../pages/providers/place-sql";
+import {MyForumSQL} from "../providers/my-forum-sql";
+import {MapSql} from "../providers/map-sql/map-sql";
+import {ParticipantSql} from "../providers/participant-sql";
+import {Http} from "@angular/http";
 
 
 export interface PageInterface {
@@ -50,9 +55,9 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   rootPage: any;
 
-  lang:string;
-  language:string;
-  langVal:boolean;
+  lang: string;
+  language: string;
+  langVal: boolean;
 
   pages: PageInterface[] = [
 
@@ -104,7 +109,6 @@ export class MyApp {
 
 
 
-
   constructor(public platform: Platform,
               public splashScreen: SplashScreen,
               public statusBar: StatusBar,
@@ -112,11 +116,13 @@ export class MyApp {
               public events: Events,
               public userData: UserData,
               public confData: ConferenceData,
-              public storage: Storage) {
+              public storage: Storage,
+              public http: Http
+              ) {
 
     console.log("hi!");
-    this.lang='ru';
-    localStorage.setItem('lang','ru');
+    this.lang = 'ru';
+    localStorage.setItem('lang', 'ru');
 
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -128,13 +134,13 @@ export class MyApp {
 
 
     this.storage.get('hasSeenTutorial').then((hasSeenTutorial) => {
-        if (hasSeenTutorial) {
-          this.rootPage = TabsPage;
-        } else {
-          this.rootPage = TutorialPage;
-        }
-        //   this.platformReady()
-      });
+      if (hasSeenTutorial) {
+        this.rootPage = TabsPage;
+      } else {
+        this.rootPage = TutorialPage;
+      }
+      //   this.platformReady()
+    });
     confData.load();
 
     // decide which menu items should be hidden by current login status stored in local storage
@@ -144,7 +150,23 @@ export class MyApp {
     this.enableMenu(true);
 
     this.listenToLoginEvents();
+   /* if (!this.platform.is('core')) {
+      //it's in the browser
 
+      console.log('run in simulator');
+      //this.conferenceSql = new ConferenceSql(http);
+      console.log('new ConferenceSql(http)');
+      this.conferenceSql.countTable().then(res => {
+        console.log(" this.conferenceSql=", res);
+        if (<any>res == 0) {
+          this.conferenceSql.addFromApi();
+        }
+      });
+      let placeSql = new PlaceSql(http);
+      let myForumSql = new MyForumSQL(http);
+      let mapSql = new MapSql(http);
+      let participantSql = new ParticipantSql(http);
+    }*/
   }
 
   /* openPage(page) {
@@ -153,10 +175,13 @@ export class MyApp {
    console.log(page.title);
    this.nav.setRoot(page.component);
    }
+   */
+  initializeApp() {
+    /**
+     * create all tables
+     */
 
-   initializeApp() {
-
-   }*/
+  }
 
 
   openPage(page: PageInterface) {
@@ -175,8 +200,8 @@ export class MyApp {
     // don't setRoot again, this maintains the history stack of the
     // tabs even if changing them from the menu
     if (this.nav.getActiveChildNav() && page.index != undefined) {
-     // this.nav.setRoot(page.component);///this.rootPage=page.component;
-         this.nav.getActiveChildNav().select(page.index);
+      // this.nav.setRoot(page.component);///this.rootPage=page.component;
+      this.nav.getActiveChildNav().select(page.index);
       // Set the root of the nav with params if it's a tab index
     } else {
       this.nav.setRoot(page.component, params).catch((err: any) => {
@@ -213,7 +238,7 @@ export class MyApp {
   }
 
   enableMenu(loggedIn: boolean) {
-    console.log("from enable menu loggedIn=",loggedIn );
+    console.log("from enable menu loggedIn=", loggedIn);
     this.menu.enable(loggedIn, 'loggedInMenu');
     this.menu.enable(!loggedIn, 'loggedOutMenu');
   }
@@ -230,34 +255,34 @@ export class MyApp {
 
     // Tabs are a special case because they have their own navigation
     if (childNav) {
-    //  console.log("childNav",page.name );
+      //  console.log("childNav",page.name );
       if (childNav.getSelected() && childNav.getSelected().root === page.tabName) {
-        console.log("page.tabName="+page.tabName );
+        console.log("page.tabName=" + page.tabName);
         return 'primary';
       }
       return;
     }
 
     if (this.nav.getActive() && this.nav.getActive().name === page.name) {
-      console.log("this.nav.getActive() return primary" );
+      console.log("this.nav.getActive() return primary");
       return 'primary';
     }
     return;
   }
 
-  setLangRuEn(){
-    if (this.lang=='ru')  {
-      this.lang='en';
-      this.language='English';
-      localStorage.setItem('lang','en');
-      console.log('set language=','en');
+  setLangRuEn() {
+    if (this.lang == 'ru') {
+      this.lang = 'en';
+      this.language = 'English';
+      localStorage.setItem('lang', 'en');
+      console.log('set language=', 'en');
       this.events.publish('language:change');
     }
-    else   {
-      this.lang='ru';
-      this.language='Русский';
-      localStorage.setItem('lang','ru');
-      console.log('set language=','ru');
+    else {
+      this.lang = 'ru';
+      this.language = 'Русский';
+      localStorage.setItem('lang', 'ru');
+      console.log('set language=', 'ru');
       this.events.publish('language:change');
     }
 

@@ -8,6 +8,7 @@ import {ParkPatriotPage} from "../park-patriot-all/park-patriot/park-patriot";
 import {ConferencePageJson} from "../conference-json/conference-json";
 import {ParticipantPage} from "../participant/participant";
 import {ConferencePage} from "../conference/conference";
+import {DemoProgramPage} from "../demo-propgram/demo-program";
 
 @Component({
   selector: 'page-home',
@@ -44,15 +45,6 @@ export class HomePage {
     this.menu.enable(true);
   }
 
-/*  ionViewDidEnter() {
-    // the root left menu should be disabled on the tutorial page
-    this.menu.enable(false);
-  }
-
-  ionViewDidLeave() {
-    // enable the root left menu when leaving the tutorial page
-    this.menu.enable(true);
-  }*/
 
   aboutPage(){
     this.navCtrl.push(AboutPage);
@@ -71,7 +63,7 @@ export class HomePage {
   }
 
   conferencePageJson(){
-    this.navCtrl.push(ConferencePageJson);
+    this.navCtrl.push(DemoProgramPage,{select:'all'});
   }
   participantPage(){
     this.navCtrl.push(ParticipantPage,{select:'all'});

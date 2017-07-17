@@ -22,7 +22,7 @@ import {country} from "../../providers/country-sql/country-sql";
 
 
 
-import {FilterProvider} from "../../providers/filter-provider/filter-provider";
+import {FilterParticipantProvider} from "../../providers/filter-provider/filter-participant-provider";
 
 
 @Component({
@@ -74,7 +74,7 @@ export class ParticipantPage {
               public thematicApi: ThematicApi,*/
               /*public mapApi: MapApi,*/
               public modalCtrl: ModalController,
-              public filterProvider: FilterProvider,
+              public filterProvider: FilterParticipantProvider,
               public events: Events) {
 //подгружаем список участников выставки
     this.lang = localStorage.getItem('lang');
@@ -114,8 +114,8 @@ export class ParticipantPage {
       console.log("navParams.data", navParams.data.data);
       this.participants = navParams.data.data;
     }
-  }
 
+  }
   setRussianStrings() {
     console.log('this.setRussianStrings()');
 
@@ -186,7 +186,10 @@ export class ParticipantPage {
       this.sqlMyForum.addItem({id: data, user: this.userId, my_iblock_id: this.iblockId, my_id: id}).then(res => {
         console.log('added', id);
         console.log(res);
-        this.selectParticipantRus()
+        if (this.lang == 'ru') {
+        this.selectParticipantRus()}
+        else {
+          this.selectParticipantEng()}
       });
     });
   }
@@ -286,12 +289,7 @@ export class ParticipantPage {
   }
 
 
-  /**
-   * open the current database
-   */
-  /*  openDataBase() {
-   this.participantSql.openDb();
-   }*/
+
 
   /**
    * check whether the record with id = "id" parameter is in "participant" table
@@ -315,6 +313,15 @@ export class ParticipantPage {
 
   }
 
+
+  selectParticipantEng() {
+    this.sqlMyForum.getEngParticipant().then(res => {
+      console.log('our select');
+      console.log(res);
+      this.participants = res;
+    })
+
+  }
 
   addOneItemParticipant(participant) {
 
@@ -363,6 +370,7 @@ export class ParticipantPage {
   }
 
   selectParticipantAll() {
+    if (this.lang == 'ru') {
     this.sqlMyForum.getRusParticipant().then(res => {
       console.log('this.sqlMyForum.getRusParticipant().then( res=', res);
       console.log('(<participant[]>res).length=', (<participant[]>res).length);
@@ -371,12 +379,12 @@ export class ParticipantPage {
         console.log(res);
         this.participants = res;
 
-        this.sqlMyForum.getRusParticipant().then(res => {
+     /*   this.sqlMyForum.getRusParticipant().then(res => {
 
-          console.log('our select in refresh participant');
-          console.log(res);
-          this.participants = res;
-        });
+         console.log('our select in refresh participant');
+         console.log(res);
+         this.participants = res;
+         });*/
       /*  this.thematicSql.select('name_rus').then(res => {
           console.log("after thematic select");
           console.log(res);
@@ -394,8 +402,8 @@ export class ParticipantPage {
         });*/
 
         //create country list
-        this.participantSql.getTableFieldDistinctList(this.countryList, 'country_rus')
-        console.log("selectParticipantAll() step2");
+     /*   this.participantSql.getTableFieldDistinctList(this.countryList, 'country_rus')
+        console.log("selectParticipantAll() step2");*/
 
 
        /* this.mapSql.select('name_rus').then(res => {
@@ -423,7 +431,70 @@ export class ParticipantPage {
         console.log(' this.getPlaceApiInsertBase()');
         this.getParticipantApiInsertBase();
       }
-    })
+    })}
+      else {
+      this.sqlMyForum.getEngParticipant().then(res => {
+        console.log('this.sqlMyForum.getEngParticipant().then( res=', res);
+        console.log('(<participant[]>res).length=', (<participant[]>res).length);
+        if ((<participant[]>res).length) {
+          console.log('our select');
+          console.log(res);
+          this.participants = res;
+
+          /*   this.sqlMyForum.getRusParticipant().then(res => {
+
+           console.log('our select in refresh participant');
+           console.log(res);
+           this.participants = res;
+           });*/
+          /*  this.thematicSql.select('name_rus').then(res => {
+           console.log("after thematic select");
+           console.log(res);
+           if (res) {
+           this.thematicList = <any>res;
+           console.log("this.thematicList=", this.thematicList);
+           }
+           else {
+           this.thematicApi.getThematic().subscribe(res => {
+           this.thematicList = <any>res;
+           this.thematicSql.addItemList(this.thematicList);
+           });
+
+           }
+           });*/
+
+          //create country list
+          /*   this.participantSql.getTableFieldDistinctList(this.countryList, 'country_rus')
+           console.log("selectParticipantAll() step2");*/
+
+
+          /* this.mapSql.select('name_rus').then(res => {
+           console.log("this.mapSql.select().then");
+           console.log("res=", res);
+           if (res) {
+           this.mapList = <any>res;
+           console.log("this.mapList=", this.mapList);
+           }
+           else {
+           this.mapApi.getMap().subscribe(res => {
+           this.mapList = <any>res;
+           this.mapSql.addItemList(this.mapList);
+           });
+
+           }
+           });*/
+        }
+        else {
+          let toast = this.toastCtrl.create({
+            message: 'API запрос и запись в базу',
+            duration: 5000
+          });
+          toast.present();
+          console.log(' this.getPlaceApiInsertBase()');
+          this.getParticipantApiInsertBase();
+        }
+      })
+    }
   }
 
 /*  selectParticipantSearch() {
@@ -445,12 +516,12 @@ export class ParticipantPage {
   /**
    * delete All records from the table "participant"
    */
-  deleteAll() {
+  /*deleteAll() {
     this.participantSql.delAll().then(res => {
       console.log('our select');
       console.log(res);
     })
-  }
+  }*/
 
   /**
    * delete ONE record (with id = "id" from the table "participant"

@@ -13,6 +13,10 @@ export interface thematic {
   number: string
 }
 
+export interface baseField{
+  name:string;
+  type:string;
+}
 declare var window: any;
 @Injectable()
 export class BaseSql {
@@ -24,18 +28,18 @@ export class BaseSql {
   tableName: string;//'thematic';
 
   constructor(public http: Http,
-              //  public thematicApi: ThematicConferenceApi,
+             // public thematicApi: ThematicConferenceApi,
               tableName: string,
               fields?, constrains?) {
-    console.log('Hello BaseSql Provider');
+    console.log('Hello BaseSql Provider for ',tableName);
 
     this.tableName = tableName;
     if (fields) {
       this.fields = fields;
-      let fieldsStr = this.createFieldStr(fields);
-      console.log(constrains);
-      if (constrains) {
+      let fieldsStr = this.createFieldStr();
 
+      if (constrains) {
+        console.log(constrains);
         fieldsStr += ',' + constrains;
 
       }
@@ -48,13 +52,13 @@ export class BaseSql {
 
   /**
    * create strind (delimiter - comma) from an array of fields
-   * @param fields
+   *
    * @returns {string}
    */
 
-  private createFieldStr(fields) {
+  private createFieldStr() {
     let fieldStr = '';
-    for (let field of fields) {
+    for (let field of this.fields) {
       if (fieldStr != '') fieldStr += ', '
       fieldStr += field.name + ' ' + field.type;
 
@@ -65,12 +69,12 @@ export class BaseSql {
 
   /**
    * create string for insert SQL-query (from field containing fields' names)
-   * @param fields
+   *
    * @returns {string}
    */
-  private createFieldInsertStr(fields) {
+  private createFieldInsertStr() {
     let fieldStr = '';
-    for (let field of fields) {
+    for (let field of this.fields) {
       if (fieldStr != '') fieldStr += ', '
       fieldStr += field.name;
 
@@ -80,14 +84,14 @@ export class BaseSql {
   }
 
   /**
-   * create string containing question marks (f.i. '?,?,') for insert SQL-query
-   * @param fields
+   * create string containing question marks (e.i. '?,?,') for insert SQL-query
+   *
    * @returns {string}
    */
-  private createQuestionMarkStr(fields) {
+  private createQuestionMarkStr() {
     let fieldStr = '';
-    for (let i = 0; i < fields.length; i++) {
-      if (fieldStr != '') fieldStr += ', '
+    for (let i = 0; i < this.fields.length; i++) {
+      if (fieldStr != '') fieldStr += ', ';
       fieldStr += '?';
     }
     console.log("createQuestionMarkStr=", fieldStr);
@@ -100,6 +104,7 @@ export class BaseSql {
    */
   openDb(fieldStr = '') {
     this.db = window.sqlitePlugin.openDatabase({name: 'todo.db', location: 'default'});
+
     this.db.transaction((tx) => {
         if (fieldStr != '') {
           tx.executeSql('CREATE TABLE IF NOT EXISTS ' + this.tableName + ' (' + fieldStr + ')');
@@ -134,10 +139,10 @@ export class BaseSql {
   addItem(item) {
     console.log("base addItem item=", item);
     return new Promise(resolve => {
-      var insertQuery = 'insert or replace into ' + this.tableName + '(' +
-        this.createFieldInsertStr(this.fields) +
-        ') values (' + this.createQuestionMarkStr(this.fields) + ')';
-      console.log('insert query=', insertQuery)
+      let insertQuery = 'insert or replace into ' + this.tableName + '(' +
+        this.createFieldInsertStr() +
+        ') values (' + this.createQuestionMarkStr() + ')';
+      console.log('insert query=', insertQuery);
       //  console.log('insert values=',  this.createInsValues(item));
       this.db.executeSql(insertQuery, this.createInsValues(item), (r) => {
         console.log('Inserted... Success..', r);

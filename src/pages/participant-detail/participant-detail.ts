@@ -9,7 +9,6 @@ import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
 import {map, MapSql} from "../../providers/map-sql/map-sql";
 
 
-
 @Component({
   selector: 'page-participant-detail',
   templateUrl: 'participant-detail.html'
@@ -20,16 +19,17 @@ export class ParticipantDetailPage {
   myForum: any;
   userId: any;
   iblockId: any = 1;
-
+  lang: string;
 //@todo add icons insteed of words in html
 
   constructor(public navParams: NavParams,
-              public navCtrl:NavController,
+              public navCtrl: NavController,
               public thematicSql: ThematicSql,
               public participantSql: ParticipantSql,
               public sqlMyForum: MyForumSQL,
               public placeSql: PlaceSql,
-  public mapSql:MapSql) {
+              public mapSql: MapSql) {
+    this.lang = localStorage.getItem('lang');
     console.log("now in Participant detail");
     console.log(navParams);
     this.thematic = [];
@@ -41,7 +41,7 @@ export class ParticipantDetailPage {
       res => {
         console.log("res in thematic page=", res)
         this.thematic = res;
-        this.participantSql.getFieldFromTable(this.participant.id,'id','myforum').then(//getMyForumForId(this.participant.id).then(
+        this.participantSql.getFieldFromTable(this.participant.id, 'id', 'myforum').then(//getMyForumForId(this.participant.id).then(
           res => {
             console.log("res in participant myForumParticipant", res);
             this.myForum = res;
@@ -55,6 +55,7 @@ export class ParticipantDetailPage {
 
   ionViewDidLoad() {
     this.userId = localStorage.getItem('userid');
+    this.lang = localStorage.getItem('lang');
   }
 
   deleteFromMyForum(id) {
@@ -69,12 +70,17 @@ export class ParticipantDetailPage {
     console.log("participant=", participant);
 
 
-    this.placeSql.selectPlace(participant.place).then(res=>{
-      let place:place[]=(<place[]>res);
-      this.mapSql.getRecordForFieldValue('name_map',"'"+place[0].name_map+"'").then(res=> {
+    this.placeSql.selectPlace(participant.place).then(res => {
+      let place: place[] = (<place[]>res);
+      this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
         console.log("res=", res);
-        let map=<map[]>res;
-        this.navCtrl.push(LeafletMapPage, {typeOfMap: 'participantDetail', popupElement: participant, place: place, map: map});
+        let map = <map[]>res;
+        this.navCtrl.push(LeafletMapPage, {
+          typeOfMap: 'participantDetail',
+          popupElement: participant,
+          place: place,
+          map: map
+        });
       });
     });
   }

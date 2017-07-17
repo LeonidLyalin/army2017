@@ -16,7 +16,7 @@ export class MyForumApi {
   private myForum: any = {};
 
 
-  constructor(public http: Http, public userData:UserData) {
+  constructor(public http: Http) {
     console.log('Hello MyForumApi Provider');
 
   }

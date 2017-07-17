@@ -18,10 +18,10 @@
     </ion-row>
   </ion-toolbar>
   <ion-label>
-    {{filterProvider.thematicTitle}}
+    {{filterProvider.thematicConferenceTitle}}
   </ion-label>
   <ion-row>
-    <ion-label text-wrap>{{filterProvider.thematicField}}</ion-label>
+    <ion-label text-wrap>{{filterProvider.thematicConferenceField}}</ion-label>
     <button ion-button (click)="cancelFilterThematic()" item-right color="army-red">
       <ion-icon name="close"></ion-icon>
     </button>
@@ -59,14 +59,14 @@
   </ion-row>
 
   <ion-label>
-    {{filterProvider.countryTitle}}
+    {{filterProvider.dateTitle}}
   </ion-label>
   <ion-row>
-    <ion-label text-wrap>{{filterProvider.countryField}}</ion-label>
-    <button ion-button (click)="cancelFilterCountry()" item-right color="army-red">
+    <ion-label text-wrap>{{filterProvider.dateField}}</ion-label>
+    <button ion-button (click)="cancelFilterDate()" item-right color="army-red">
       <ion-icon name="close"></ion-icon>
     </button>
-    <button ion-button (click)="filterCountry()" item-right color="army-red">
+    <button ion-button (click)="filterDate()" item-right color="army-red">
       <ion-icon name="list"></ion-icon>
     </button>
   </ion-row>

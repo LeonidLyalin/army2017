@@ -57,7 +57,7 @@ import {DrawFunctionProvider} from '../providers/draw-function/draw-function';
 import {ConferenceSql} from '../providers/conference-sql/conference-sql';
 import {ThematicConferenceSql} from '../providers/thematic-conference-sql/thematic-conference-sql';
 import {ConferencePage} from "../pages/conference/conference";
-import {ConferenceApi} from "../pages/shared/conference/conference-api-service";
+import {ConferenceApi} from "../providers/conference-sql/conference-api-service";
 import {ThematicConferenceApi} from "../pages/shared/tehematic-conference/thematic-conference-api-service";
 import {MapSql} from "../providers/map-sql/map-sql";
 import {MapApi} from "../pages/shared/map/map-api-service";
@@ -69,7 +69,11 @@ import { MapBaseProvider } from '../providers/map-base/map-base';
 import {LeafletMapPage} from "../pages/maps/leaflet-map/leaflet-map";
 import {FilterPage} from "../pages/filter/filter";
 import {FilterParticipantPage} from "../pages/filter/filter-participant/filter-participant";
-import { FilterProvider } from '../providers/filter-provider/filter-provider';
+import { FilterParticipantProvider } from '../providers/filter-provider/filter-participant-provider';
+import { LanguageProvider } from '../providers/language/language';
+import {FilterConferenceProvider} from "../providers/filter-provider/filter-conference-provider";
+import {FilterConferencePage} from "../pages/filter/filter-conference/filter-conference";
+import {DemoProgramPage} from "../pages/demo-propgram/demo-program";
 
 
 
@@ -116,8 +120,9 @@ import { FilterProvider } from '../providers/filter-provider/filter-provider';
     HallDMapPage,
     LeafletMapPage,
     FilterPage,
-    FilterParticipantPage
-
+    FilterParticipantPage,
+    FilterConferencePage,
+    DemoProgramPage
 
 
 
@@ -172,6 +177,7 @@ import { FilterProvider } from '../providers/filter-provider/filter-provider';
     HallDMapPage,
     LeafletMapPage,
     FilterPage,
+    DemoProgramPage
 
 
 
@@ -205,7 +211,10 @@ import { FilterProvider } from '../providers/filter-provider/filter-provider';
     BaseApi,
     MapBaseProvider,
     FilterParticipantPage,
-    FilterProvider
+    FilterConferencePage,
+    FilterParticipantProvider,
+    LanguageProvider,
+    FilterConferenceProvider
 
 
 

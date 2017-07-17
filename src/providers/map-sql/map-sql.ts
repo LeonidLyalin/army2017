@@ -24,9 +24,9 @@ export interface map {
 @Injectable()
 export class MapSql extends BaseSql {
 
-
+  public mapApi: MapApi;
   constructor(public http: Http,
-              public mapApi: MapApi) {
+              ) {
     super(http, 'map', [
       {name: 'id', type: 'text PRIMARY KEY'},
       {name: 'map', type: 'text'},
@@ -37,10 +37,12 @@ export class MapSql extends BaseSql {
       {name: "width", type: 'text'},
       {name: "height", type: 'text'}]);
     console.log('Hello MapConferenceSql Provider');
+    this.mapApi= new MapApi(http);
     this.mapApi.getMap().subscribe(res => {
       console.log('res in MapSql constructor=', res);
       this.addItemList(<any>res);
     });
+
 
   }
 

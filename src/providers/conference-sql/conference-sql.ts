@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {BaseSql} from "../base-sql";
+import {ConferenceApi} from "./conference-api-service";
 
 /*
  Generated class for the ConferenceSql provider.
@@ -34,7 +35,7 @@ import {BaseSql} from "../base-sql";
 export interface conferenceRus {
   id: string;
   name_rus: string;
-
+  name_rus_upper: string;
   place_name: string;
 
   place: string;
@@ -79,12 +80,15 @@ export interface conferenceRusMyForum extends conferenceRus{
 }
 
 
+
 declare var window: any;
 @Injectable()
 export class ConferenceSql extends BaseSql{
   public text: string = "";
   public db = null;
   public arr = [];
+
+  public api:ConferenceApi;
 
   constructor(public http: Http) {
     super(http,'conference',[
@@ -103,7 +107,8 @@ export class ConferenceSql extends BaseSql{
       {name:"organizer_eng", type:"text"},
       {name:"date_event", type:"text"},
       {name:"time_beg", type:"text"},
-      {name:"time_end", type:"text"}
+      {name:"time_end", type:"text"},
+      {name:"name_rus_upper", type:"text"},
     ]);
 /*    this.openDb();*/
   }
@@ -204,7 +209,15 @@ export class ConferenceSql extends BaseSql{
   }
 */
 
-
+addFromApi(){
+  this.api=new ConferenceApi(this.http);
+  this.api.getConference().subscribe(res=>{
+    let listApi=<conference[]>res;
+    for (let i=0;i<listApi.length;i++){
+      this.addItemConference(listApi[i]);
+    }
+  });
+}
   addItemConference(conferenceSingle: conference) {
     return new Promise(resolve => {
 
@@ -224,8 +237,9 @@ export class ConferenceSql extends BaseSql{
         'organizer_eng, ' +
         'date_event, ' +
         'time_beg, ' +
-        'time_end' +
-        ') values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ? )';
+        'time_end,' +
+        'name_rus_upper'+
+        ') values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ? )';
       this.db.executeSql(InsertQuery, [
         conferenceSingle.id,
         conferenceSingle.name_rus,
@@ -243,6 +257,7 @@ export class ConferenceSql extends BaseSql{
         conferenceSingle.date_event,
         conferenceSingle.time_beg,
         conferenceSingle.time_end,
+        conferenceSingle.name_rus.toUpperCase()
 
       ], (r) => {
         console.log('Inserted... Sucess..', parseInt(conferenceSingle.id));

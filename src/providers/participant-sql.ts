@@ -50,7 +50,7 @@ export class ParticipantSql extends BaseSql{
       {name:"www text", type:"text"},
       {name:"place text", type:"text"},
       {name:"'thematic text",type:"text"},
-
+      {name:"name_rus_upper", type:"text"},
       ]
     )
     console.log('Hello ThematicConferenceSql Provider');
