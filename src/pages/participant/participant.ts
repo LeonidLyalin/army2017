@@ -38,17 +38,13 @@ export class ParticipantPage {
   lang: any;
   iblockId: any = 1;
 
-  countrySearch = '';
+
   countryList: country[] = [];
 
-  mapList: map[] = [];
-  mapSearch: string = '';
+
 
   placeList: place[] = [];
-  placeSearch: string = '';
 
-  thematicList: map[] = [];
-  thematicSearch: string = '';
 
   showFilter: boolean = false;
 
@@ -69,10 +65,7 @@ export class ParticipantPage {
               public navParams: NavParams,
               public toastCtrl: ToastController,
               public placeSql: PlaceSql,
-             /* public mapSql: MapSql,*/
-              /*public thematicSql: ThematicSql,
-              public thematicApi: ThematicApi,*/
-              /*public mapApi: MapApi,*/
+
               public modalCtrl: ModalController,
               public filterProvider: FilterParticipantProvider,
               public events: Events) {
@@ -247,42 +240,13 @@ export class ParticipantPage {
         console.log(res);
         this.participants = res;
       });
-     /* this.thematicSql.select('name_rus').then(res => {
-        console.log("after thematic select");
-        console.log(res);
-        if (res) {
-          this.thematicList = <any>res;
-          console.log("this.thematicList=", this.thematicList);
-        }
-        else {
-          this.thematicApi.getThematic().subscribe(res => {
-            this.thematicList = <any>res;
-            this.thematicSql.addItemList(this.thematicList);
-          });
 
-        }
-      });*/
 
       //create country list
       this.participantSql.getTableFieldDistinctList(this.countryList, 'country_rus')
       console.log("step2");
 
-/*
-      this.mapSql.select('name_rus').then(res => {
-        console.log("this.mapSql.select().then");
-        console.log("res=", res);
-        if (res) {
-          this.mapList = <any>res;
-          console.log("this.mapList=", this.mapList);
-        }
-        else {
-          this.mapApi.getMap().subscribe(res => {
-            this.mapList = <any>res;
-            this.mapSql.addItemList(this.mapList);
-          });
 
-        }
-      });*/
     });
 
 
@@ -379,48 +343,7 @@ export class ParticipantPage {
         console.log(res);
         this.participants = res;
 
-     /*   this.sqlMyForum.getRusParticipant().then(res => {
 
-         console.log('our select in refresh participant');
-         console.log(res);
-         this.participants = res;
-         });*/
-      /*  this.thematicSql.select('name_rus').then(res => {
-          console.log("after thematic select");
-          console.log(res);
-          if (res) {
-            this.thematicList = <any>res;
-            console.log("this.thematicList=", this.thematicList);
-          }
-          else {
-            this.thematicApi.getThematic().subscribe(res => {
-              this.thematicList = <any>res;
-              this.thematicSql.addItemList(this.thematicList);
-            });
-
-          }
-        });*/
-
-        //create country list
-     /*   this.participantSql.getTableFieldDistinctList(this.countryList, 'country_rus')
-        console.log("selectParticipantAll() step2");*/
-
-
-       /* this.mapSql.select('name_rus').then(res => {
-          console.log("this.mapSql.select().then");
-          console.log("res=", res);
-          if (res) {
-            this.mapList = <any>res;
-            console.log("this.mapList=", this.mapList);
-          }
-          else {
-            this.mapApi.getMap().subscribe(res => {
-              this.mapList = <any>res;
-              this.mapSql.addItemList(this.mapList);
-            });
-
-          }
-        });*/
       }
       else {
         let toast = this.toastCtrl.create({
@@ -441,48 +364,10 @@ export class ParticipantPage {
           console.log(res);
           this.participants = res;
 
-          /*   this.sqlMyForum.getRusParticipant().then(res => {
-
-           console.log('our select in refresh participant');
-           console.log(res);
-           this.participants = res;
-           });*/
-          /*  this.thematicSql.select('name_rus').then(res => {
-           console.log("after thematic select");
-           console.log(res);
-           if (res) {
-           this.thematicList = <any>res;
-           console.log("this.thematicList=", this.thematicList);
-           }
-           else {
-           this.thematicApi.getThematic().subscribe(res => {
-           this.thematicList = <any>res;
-           this.thematicSql.addItemList(this.thematicList);
-           });
-
-           }
-           });*/
-
-          //create country list
-          /*   this.participantSql.getTableFieldDistinctList(this.countryList, 'country_rus')
-           console.log("selectParticipantAll() step2");*/
 
 
-          /* this.mapSql.select('name_rus').then(res => {
-           console.log("this.mapSql.select().then");
-           console.log("res=", res);
-           if (res) {
-           this.mapList = <any>res;
-           console.log("this.mapList=", this.mapList);
-           }
-           else {
-           this.mapApi.getMap().subscribe(res => {
-           this.mapList = <any>res;
-           this.mapSql.addItemList(this.mapList);
-           });
 
-           }
-           });*/
+
         }
         else {
           let toast = this.toastCtrl.create({
@@ -497,31 +382,7 @@ export class ParticipantPage {
     }
   }
 
-/*  selectParticipantSearch() {
-    this.sqlMyForum.getRusParticipant(' where a.name_rus_upper like' + '"%' + this.partOfName.toUpperCase() + '%"').then(res => {
-      console.log('our select');
-      console.log(res);
-      this.participants = res;
-    })
-  }*/
 
-  /*
-   selectRus() {
-   this.participantSql.selectRusParticipant().then(res => {
-   console.log('our select');
-   console.log(res);
-   })
-   }*/
-
-  /**
-   * delete All records from the table "participant"
-   */
-  /*deleteAll() {
-    this.participantSql.delAll().then(res => {
-      console.log('our select');
-      console.log(res);
-    })
-  }*/
 
   /**
    * delete ONE record (with id = "id" from the table "participant"
@@ -566,103 +427,12 @@ export class ParticipantPage {
     );
   }
 
-/*
-  showMapParticipant() {
-    this.placeSql.selectPlace().then(res => {
-      let place: place[] = (<place[]>res);
-      this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
-        console.log("res=", res);
-        let map = <map[]>res;
-        this.navCtrl.push(LeafletMapPage, {
-          typeOfMap: 'participant',
-          popupElement: this.participants,
-          place: place,
-          map: map
-        });
-      });
-    });
-  }
-*/
 
-/*  onMapChange() {
-//form new placeList
-    this.placeSql.selectPlaceMap(this.mapSearch).then(res => {
-      console.log("<place[]>res=", <place[]>res)
-      this.placeList = <place[]>res;
-    })
-  }*/
-
-  /*onPlaceChange() {
-    console.log("placeSearch=", this.placeSearch);
-    this.sqlMyForum.getRusParticipant(this.formWhereStr());
-  }*/
-
-  /*formWhereStr() {
-    console.log("this.thematicSearch", this.thematicSearch);
-    console.log("this.countrySearch", this.countrySearch);
-    console.log("this.partOfName=", this.partOfName);
-    console.log("(this.placeSearch=", this.placeSearch);
-    let whereStr = '';
-
-    if (this.countrySearch != '') whereStr += ((whereStr != '') ? ' and ' : '') + 'a.country_rus="' + this.countrySearch + '"';
-    /!*  if (this.thematicSearch != '') {
-     this.thematicSql.getThematicList(this.thematicSearch).then(res => {
-     let thematicStr = <any>res;
-     for (let i = 0; i < thematicStr.length(); i++) {
-
-     }
-
-     });
-
-
-
-     }*!/
-    whereStr += ((whereStr != '') ? ' and ' : '') + '(a.thematic="' + this.thematicSearch + '" or a.thematic like "' + this.thematicSearch +
-      ',%"' + ' or a.thematic like "%,' + this.thematicSearch + '" or  a.thematic like "%,' + this.thematicSearch + ',%")';
-    console.log("(whereStr after thematic=", whereStr);
-    if (this.partOfName != '') whereStr += ((whereStr != '') ? ' and ' : '') + ' a.name_rus like ' + '"%' + this.partOfName + '%"';
-    if (this.placeSearch != '') whereStr += ((whereStr != '') ? ' and ' : '') + '  a.place="' + this.placeSearch + '"';
-    if (whereStr != '') whereStr = ' where ' + whereStr;
-    return whereStr;
-  }*/
-
-/*  onCountryChange() {
-    console.log("countrySearch=", this.countrySearch);
-
-    this.sqlMyForum.getRusParticipant(this.formWhereStr());
-  }*/
-/*
-  removeSelectionThematic() {
-    this.thematicSearch = '';
-  }
-
-  removeSelectionCountry() {
-    this.countrySearch = '';
-  }*/
 
   showHideFilter() {
     if (this.showFilter) this.showFilter = false;
     else this.showFilter = true;
   }
-
-/*
-  onThematicChange() {
-    console.log("thematicSearch=", this.thematicSearch);
-
-    this.sqlMyForum.getRusParticipant(this.formWhereStr());
-  }
-*/
-
-/*  showModalFilter() {
-    let filterModal = this.modalCtrl.create(FilterPage, {table: 'thematic', field: 'name_rus', value: 'number'});
-    filterModal.onDidDismiss(
-      data => {
-        console.log(data);
-      });
-
-    filterModal.present();
-  }*/
-
 
 
 

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
-import {MapApi} from "../../pages/shared/map/map-api-service";
 import {BaseSql} from "../base-sql";
+import {BaseApi} from "../../pages/shared/base-api-service";
 
 /*
  Generated class for the MapConferenceSql provider.
@@ -24,7 +24,7 @@ export interface map {
 @Injectable()
 export class MapSql extends BaseSql {
 
-  public mapApi: MapApi;
+  public mapApi: BaseApi;
   constructor(public http: Http,
               ) {
     super(http, 'map', [
@@ -37,8 +37,8 @@ export class MapSql extends BaseSql {
       {name: "width", type: 'text'},
       {name: "height", type: 'text'}]);
     console.log('Hello MapConferenceSql Provider');
-    this.mapApi= new MapApi(http);
-    this.mapApi.getMap().subscribe(res => {
+    this.mapApi= new BaseApi(http);
+    this.mapApi.getApi(`http://army2017.ru/api/map_list.php`).subscribe(res => {
       console.log('res in MapSql constructor=', res);
       this.addItemList(<any>res);
     });

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
+import {BaseApi} from "../pages/shared/base-api-service";
 
 
 /*
@@ -13,11 +14,13 @@ export interface thematic {
   number: string
 }
 
-export interface baseField{
-  name:string;
-  type:string;
+export interface baseField {
+  name: string;
+  type: string;
 }
+
 declare var window: any;
+
 @Injectable()
 export class BaseSql {
   //public text: string = "";
@@ -28,22 +31,24 @@ export class BaseSql {
   tableName: string;//'thematic';
 
   constructor(public http: Http,
-             // public thematicApi: ThematicConferenceApi,
+              // public thematicApi: ThematicConferenceApi,
               tableName: string,
-              fields?, constrains?) {
-    console.log('Hello BaseSql Provider for ',tableName);
+              fields?, constrains?, status?) {
+    console.log('Hello BaseSql Provider for ', tableName);
 
     this.tableName = tableName;
     if (fields) {
       this.fields = fields;
       let fieldsStr = this.createFieldStr();
 
-      if (constrains) {
+      if ((constrains) && (constrains != '')) {
         console.log(constrains);
         fieldsStr += ',' + constrains;
 
       }
-      this.openDb(fieldsStr);
+      if (status)
+        this.openDb(fieldsStr, status);
+      else this.openDb(fieldsStr);
     }
     else this.openDb();
 
@@ -101,13 +106,22 @@ export class BaseSql {
   /**
    * open of createand then open the database
    * @param fieldStr - fields in the created database
+   * @param status - what to do?
    */
-  openDb(fieldStr = '') {
+  openDb(fieldStr?, status?) {
     this.db = window.sqlitePlugin.openDatabase({name: 'todo.db', location: 'default'});
-
-    this.db.transaction((tx) => {
+    if (status) {
+      if (status == 'recreate') {
+        this.dropTable();
+      }
+    }
+    this.db.transaction(
+      (tx) => {
         if (fieldStr != '') {
-          tx.executeSql('CREATE TABLE IF NOT EXISTS ' + this.tableName + ' (' + fieldStr + ')');
+          tx.executeSql('CREATE TABLE IF NOT EXISTS '
+            + this.tableName
+            + ' (' + fieldStr + ')'
+          );
         }
       }
       ,
@@ -123,7 +137,9 @@ export class BaseSql {
    * @param item
    * @returns {Array}
    */
-  private createInsValues(item) {
+
+
+  createInsValues(item) {
     console.log("createInsValues(item)=", this.fields);
     console.log("item=", item);
     let insValues = [];
@@ -171,7 +187,7 @@ export class BaseSql {
    * @param fieldSort - field or fields (separated by comma) which define(s) order of sorting
    * @returns {Promise<T>}
    */
-  select(fieldSort?: string) {
+  select(fieldSort ?: string) {
     return new Promise(res => {
       let orderStr = 'order by ';
       this.arr = [];
@@ -208,7 +224,7 @@ export class BaseSql {
 
   }
 
-  selectWhere(whereStr?, fieldSort?: string) {
+  selectWhere(whereStr ?, fieldSort ?: string) {
     return new Promise(res => {
       let orderStr = 'order by ';
       this.arr = [];
@@ -247,13 +263,14 @@ export class BaseSql {
   }
 
 
-  selectDistinct(distinctField, whereStr?, fieldSort?: string) {
+  selectDistinct(distinctField, whereStr ?, fieldSort ?: string) {
     return new Promise(res => {
       let orderStr = 'order by ';
       this.arr = [];
-      let query = "SELECT distinct("+distinctField+") FROM " + this.tableName;
-      if (whereStr){
-      if (whereStr != '') query += ' where ' + whereStr;}
+      let query = "SELECT distinct(" + distinctField + ") FROM " + this.tableName;
+      if (whereStr) {
+        if (whereStr != '') query += ' where ' + whereStr;
+      }
       if (fieldSort) {
         if ((fieldSort != '') && (fieldSort.includes(','))) {
           console.log(" select(fieldSort?: string) fieldSort=", fieldSort);
@@ -295,6 +312,21 @@ export class BaseSql {
 
       }, (err) => {
         console.log('Deleting Error', err);
+      });
+    })
+
+  }
+
+
+  dropTable() {
+    console.log('try to drop table ' + this.tableName);
+    return new Promise(resolve => {
+      var query = "drop table " + this.tableName;
+      this.db.executeSql(query, [], (s) => {
+        console.log('Drop table Success...', s);
+
+      }, (err) => {
+        console.log('Dropping table Error', err);
       });
     })
 
@@ -506,4 +538,17 @@ export class BaseSql {
     })
   }
 
+  loadApi(path){
+    let api=new BaseApi(this.http);
+    api.getApi(path).subscribe(data=>{
+      for (let i=0; i<data.length;i++){
+        console.log("try to insert data[i]=",data[i])
+        this.addItem(data[i]).then(res=>{
+          console.log('after insert res=',res);
+        });
+      }
+      }
+
+    )
+  }
 }

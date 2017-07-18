@@ -11,11 +11,12 @@ import {
   thematicConference,
   ThematicConferenceSql
 } from "../../providers/thematic-conference-sql/thematic-conference-sql";
-import {MapApi} from "../shared/map/map-api-service";
+
 
 import {ThematicConferenceApi} from "../shared/tehematic-conference/thematic-conference-api-service";
 import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
 import {FilterConferenceProvider} from "../../providers/filter-provider/filter-conference-provider";
+import {BaseApi} from "../shared/base-api-service";
 
 
 /**
@@ -72,7 +73,7 @@ export class ConferencePage {
               public thematicConferenceSql: ThematicConferenceSql,
               public mapSql: MapSql,
               public placeSql: PlaceSql,
-              public mapApi: MapApi,
+              public mapApi: BaseApi,
               public thematicApi: ThematicConferenceApi,
               public filterProvider: FilterConferenceProvider,
               public events: Events) {
@@ -172,7 +173,7 @@ export class ConferencePage {
         console.log("this.mapList=", this.mapList);
       }
       else {
-        this.mapApi.getMap().subscribe(res => {
+        this.mapApi.getApi(`http://army2017.ru/api/map_list.php`).subscribe(res => {
           this.mapList = <any>res;
           this.mapSql.addItemList(this.mapList);
         });

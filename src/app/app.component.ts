@@ -26,11 +26,6 @@ import {HomePage} from "../pages/home/home";
 import {MapYandexPage} from "../pages/map-yandex/map-yandex";
 import {ParkPatriotPage} from "../pages/park-patriot-all/park-patriot/park-patriot";
 import {WarTacticPage} from "../pages/park-patriot-all/war-tactic-page/war-tactic-page";
-import {ConferenceSql} from "../providers/conference-sql/conference-sql";
-import {PlaceSql} from "../pages/providers/place-sql";
-import {MyForumSQL} from "../providers/my-forum-sql";
-import {MapSql} from "../providers/map-sql/map-sql";
-import {ParticipantSql} from "../providers/participant-sql";
 import {Http} from "@angular/http";
 
 
@@ -133,6 +128,7 @@ export class MyApp {
     // used for an example of ngFor and navigation
 
 
+    localStorage.setItem('viewcount', '0');
     this.storage.get('hasSeenTutorial').then((hasSeenTutorial) => {
       if (hasSeenTutorial) {
         this.rootPage = TabsPage;

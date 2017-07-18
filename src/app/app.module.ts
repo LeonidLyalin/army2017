@@ -60,7 +60,7 @@ import {ConferencePage} from "../pages/conference/conference";
 import {ConferenceApi} from "../providers/conference-sql/conference-api-service";
 import {ThematicConferenceApi} from "../pages/shared/tehematic-conference/thematic-conference-api-service";
 import {MapSql} from "../providers/map-sql/map-sql";
-import {MapApi} from "../pages/shared/map/map-api-service";
+
 import {ConferenceDetailPage} from "../pages/conference-detail/conference-detail";
 import {BaseApi} from "../pages/shared/base-api-service";
 import {HallCMapPage} from "../pages/maps/hall-c-map/hall-c-map";
@@ -207,7 +207,7 @@ import {DemoProgramPage} from "../pages/demo-propgram/demo-program";
     ThematicConferenceApi,
     ConferenceApi,
     MapSql,
-    MapApi,
+
     BaseApi,
     MapBaseProvider,
     FilterParticipantPage,

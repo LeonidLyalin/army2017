@@ -9,13 +9,7 @@ import {UserData} from "../providers/user-data";
 import {ConferenceDetailPage} from "../conference-detail/conference-detail";
 import {map, MapSql} from "../../providers/map-sql/map-sql";
 import {place, PlaceSql} from "../providers/place-sql";
-import {
-  thematicConference,
-  ThematicConferenceSql
-} from "../../providers/thematic-conference-sql/thematic-conference-sql";
-import {MapApi} from "../shared/map/map-api-service";
 
-import {ThematicConferenceApi} from "../shared/tehematic-conference/thematic-conference-api-service";
 import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
 import {FilterConferenceProvider} from "../../providers/filter-provider/filter-conference-provider";
 import {BaseApi} from "../shared/base-api-service";
@@ -70,14 +64,13 @@ export class DemoProgramPage {
 
               public conferenceSql: ConferenceSql,
               public sqlMyForum: MyForumSQL,
-              /*   public userData: UserData,*/
+
               public navParams: NavParams,
               public toastCtrl: ToastController,
-              /*public thematicConferenceSql: ThematicConferenceSql,*/
+
               public mapSql: MapSql,
               public placeSql: PlaceSql,
-            /*  public mapApi: MapApi,*/
-             /* public thematicApi: ThematicConferenceApi,*/
+
               public filterProvider: FilterConferenceProvider,
               public events: Events) {
 
@@ -148,38 +141,9 @@ export class DemoProgramPage {
     toast.present();
     this.selectConferenceAll();
     console.log("step 1");
-    /*this.thematicConferenceSql.select('name_rus').then(res => {
-      console.log("after thematic select");
-      console.log(res);
-      if (res) {
-        this.thematicList = <any>res;
-        console.log("this.thematicList=", this.thematicList);
-      }
-      else {
-        this.thematicApi.getThematic().subscribe(res => {
-          this.thematicList = <any>res;
-          this.thematicConferenceSql.addItemList(this.thematicList);
-        });
 
-      }
-    })*/
-   /* console.log("step2");*/
 
-    /*this.mapSql.select('name_rus').then(res => {
-      console.log("this.mapSql.select().then");
-      console.log("res=", res);
-      if (res) {
-        this.mapList = <any>res;
-        console.log("this.mapList=", this.mapList);
-      }
-      else {
-        this.mapApi.getMap().subscribe(res => {
-          this.mapList = <any>res;
-          this.mapSql.addItemList(this.mapList);
-        });
 
-      }
-    })*/
 
 
   }
