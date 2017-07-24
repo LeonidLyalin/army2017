@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
-import {baseField, BaseSql} from "../base-sql";
-import {ConferenceApi} from "../conference-sql/conference-api-service";
 import {BaseApi} from "../../pages/shared/base-api-service";
+import {BaseSql} from "../base-sql";
 
 /*
  Generated class for the ConferenceSql provider.

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
 
-    <ion-title>Ghофиль</ion-title>
+    <ion-title>{{profileStr}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -11,11 +11,14 @@
     <h2>{{username}}</h2>
     <h2>{{lastname}}</h2>
     <ion-list inset>
-      <button ion-item (click)="updatePicture()">Update Picture</button>
-      <button ion-item (click)="changeUsername()">Change Username</button>
-      <button ion-item (click)="changePassword()">Change Password</button>
-      <button ion-item (click)="support()">Support</button>
-      <button ion-item (click)="logout()">Logout</button>
+      <button ion-item (click)="updatePicture()">{{updatePictureStr}}</button>
+      <button ion-item (click)="changeUsername()">{{changeUserNameStr}}</button>
+      <button ion-item (click)="changePassword()">{{changePasswordStr}}</button>
+      <button ion-item (click)="support()">{{supportStr}}</button>
+      <button ion-item (click)="logout()">{{logOutStr}}</button>
     </ion-list>
   </div>
+  <ion-buttons align-items-center>
+    <button ion-button (click)="exitProfile()">{{exitStr}}</button>
+  </ion-buttons>
 </ion-content>

@@ -3,14 +3,14 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Мой форум</ion-title>
+    <ion-title>{{titleStr}}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only on (click)="getApi()">
+      <!--<button ion-button icon-only on (click)="getApi()">
         <ion-icon name="cloud-download"></ion-icon>
       </button>
       <button ion-button icon-only (click)="refreshMyForum()">
         <ion-icon name="refresh"></ion-icon>
-      </button>
+      </button>-->
       <button ion-button icon-only (click)="showMapMyForum()">
         <ion-icon name="map"></ion-icon>
       </button>
@@ -20,10 +20,10 @@
   <ion-toolbar no-border-top>
     <ion-segment [(ngModel)]="forumSegment">
       <ion-segment-button value="participantItems" (ionchange)="changeForumSegment('participantItems')">
-        Участники
+        {{exhibitorsStr}}
       </ion-segment-button>
       <ion-segment-button value="conferenceItems" (ionchange)="changeForumSegment('conferenceItems')">
-        Конференция
+        {{conferenceStr}}
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -41,16 +41,16 @@
         <button ion-item (click)="goToParticipantDetail(participant)">
           <ion-icon item-left *ngIf="participant.my_forum_id" name="star" color="danger"></ion-icon>
           <ion-icon item-left *ngIf="!participant.my_forum_id" name="star-outline"></ion-icon>
-          <p>{{participant.name_rus}}</p>
+          <p>{{participant.name}}</p>
           <p><ion-icon name="pin" color="danger"></ion-icon>{{participant.place_name}}<p>
         </button>
         <ion-item-options>
           <button ion-button color="danger" *ngIf="!participant.my_forum_id" (click)="addToMyForumSite(participant.id)">
-            В "Мой форум"
+            {{addMyForumStr}}
           </button>
           <button ion-button color="favorite" *ngIf="participant.my_forum_id"
                   (click)="delFromMyForum(participant.my_forum_id)">
-            Удалить из "Мой форум"
+            {{delMyForumStr}}
           </button>
         </ion-item-options>
 
@@ -72,20 +72,20 @@
             <ion-icon name="timer" color="danger"></ion-icon>
             <b color="primary">{{conferenceSingle.time_beg}} : {{conferenceSingle.time_end}}</b>
           </p>
-          <p>{{conferenceSingle.name_rus}}</p>
+          <p>{{conferenceSingle.name}}</p>
           <p>
             <ion-icon name="pin" color="danger"></ion-icon>
-            <b>{{conferenceSingle.place_name}}</b>
+            <b>{{conferenceSingle.place_name_place}}</b>
           <p>
         </button>
         <ion-item-options>
           <button ion-button color="danger" *ngIf="!conferenceSingle.my_forum_id"
                   (click)="addToMyForumSite(conferenceSingle.id)">
-            В "Мой форум"
+            {{addMyForumStr}}
           </button>
           <button ion-button color="favorite" *ngIf="conferenceSingle.my_forum_id"
                   (click)="delFromMyForum(conferenceSingle.my_forum_id)">
-            Удалить из "Мой форум"
+            {{delMyForumStr}}
           </button>
         </ion-item-options>
       </ion-item-sliding>

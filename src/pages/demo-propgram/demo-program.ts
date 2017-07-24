@@ -2,14 +2,10 @@ import {Component} from '@angular/core';
 import {Events, NavController, NavParams, ToastController} from 'ionic-angular';
 import {MyForumSQL} from "../../providers/my-forum-sql";
 import {conferenceRusMyForum, ConferenceSql} from "../../providers/conference-sql/conference-sql";
-import {ConferenceApi} from "../../providers/conference-sql/conference-api-service";
 import {Http} from "@angular/http";
-import {MyForumApi} from "../shared/my-forum/my-forum-api";
-import {UserData} from "../providers/user-data";
 import {ConferenceDetailPage} from "../conference-detail/conference-detail";
 import {map, MapSql} from "../../providers/map-sql/map-sql";
-import {place, PlaceSql} from "../providers/place-sql";
-
+import {place, PlaceSql} from "../../providers/place-sql/place-sql";
 import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
 import {FilterConferenceProvider} from "../../providers/filter-provider/filter-conference-provider";
 import {BaseApi} from "../shared/base-api-service";
@@ -367,7 +363,7 @@ export class DemoProgramPage {
 
 
   showMapConference() {
-    this.placeSql.selectPlace().then(res => {
+    this.placeSql.select().then(res => {
       let place: place[] = (<place[]>res);
       this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
         console.log("res=", res);

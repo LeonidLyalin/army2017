@@ -10,10 +10,10 @@ import 'rxjs/add/operator/map';
  */
 @Injectable()
 export class FilterParticipantProvider {
-  filterStr: string;
-
-
   public thematicField: string;
+
+
+  filterStr: string;
   public thematicTitle: string;
   public thematicValue: string;
 

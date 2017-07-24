@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {AlertController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {PlaceApi} from "../../shared/place/place-api-service";
-import {place, PlaceSql} from "../../providers/place-sql";
+import {place, PlaceSql} from "../../../providers/place-sql/place-sql";
 import {ParticipantDetailPage} from "../../participant-detail/participant-detail";
 import {DrawFunctionProvider} from "../../../providers/draw-function/draw-function";
 import {MapBaseProvider} from "../../../providers/map-base/map-base";

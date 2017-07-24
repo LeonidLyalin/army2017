@@ -7,7 +7,7 @@ import {GroundClusterMapPage} from "../ground-cluster-map/ground-cluster-map";
 import {AirClusterMapPage} from "../air-cluster-map/air-cluster-map";
 import {ParkPatriotMapPage} from "../park-patriot-map/park-patriot-map";
 import {PlaceApi} from "../../shared/place/place-api-service";
-import {place} from "../../providers/place-sql";
+import {place} from "../../../providers/place-sql/place-sql";
 import {PatriotExpoMapPage} from "../patriot-expo-map/patriot-expo-map";
 import {DrawFunctionProvider} from "../../../providers/draw-function/draw-function";
 import * as L from 'leaflet';

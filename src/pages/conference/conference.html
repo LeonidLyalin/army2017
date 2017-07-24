@@ -10,7 +10,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Конференция</ion-title>
+    <ion-title>{{title}}</ion-title>
     <ion-buttons end>
       <!--<button ion-button icon-only on (click)="deleteConferenceAll()">
         <ion-icon name="close-circle"></ion-icon>
@@ -21,9 +21,9 @@
       <button ion-button icon-only (click)="addItemConference()">
         <ion-icon name="refresh"></ion-icon>
       </button>-->
-      <button ion-button icon-only (click)="selectConferenceAll()">
+   <!--   <button ion-button icon-only (click)="selectConferenceAll()">
         <ion-icon name="timer"></ion-icon>
-      </button>
+      </button>-->
       <button ion-button icon-only (click)="showHideFilter()">
         <ion-icon name="search"></ion-icon>
       </button>
@@ -38,68 +38,18 @@
     </page-filter-conference>
     <ion-row>
       <ion-buttons align-items-center>
-        <button ion-button (click)="setFilterStrConference()" color="primary">
+        <button ion-button (click)="setFilterStrConference()" color="white">
           <ion-icon name="checkmark"></ion-icon>
           {{setFilterStr}}
         </button>
-        <button ion-button (click)="filterProvider.cancelFilter()" color="primary">
+        <button ion-button (click)="filterProvider.cancelFilter()" color="white">
           <ion-icon name="close-circle"></ion-icon>
           {{cancelFilterStr}}
         </button>
       </ion-buttons>
     </ion-row>
   </ion-toolbar>
-<!--  <ion-toolbar no-border-top>
-    <ion-searchbar
-      [(ngModel)]="partOfName"
-      (ionInput)="selectConferenceSearch()"
-      placeholder="Название">
-    </ion-searchbar>
 
-  </ion-toolbar>-->
-  <!--<ion-toolbar no-border-top>-->
-    <!--<ion-segment [(ngModel)]="dateSegment">-->
-      <!--<ion-segment-button *ngFor="let date of dates" value="{{date}}" (click)="changeDateSegment(date)">-->
-        <!--{{date}}-->
-      <!--</ion-segment-button>-->
-
-    <!--</ion-segment>-->
-  <!--</ion-toolbar>-->
-<!--  <ion-toolbar *ngIf="showFilter">
-    <ion-item text-wrap>
-      <ion-header>
-        <ion-label>
-          Тематика
-        </ion-label>
-      </ion-header>
-      <ion-select class="mySelect" [(ngModel)]="thematicSearch" (ionChange)="onThematicChange()" text-wrap>
-        <ion-option class="myOption" item-left="true" *ngFor="let thematic of thematicList" value="{{thematic.id}}" text-wrap>
-          {{thematic.name_rus}}
-        </ion-option>
-        <div *ngIf="thematicSearch!=''">
-          <ion-label> {{thematicSearch}} </ion-label>
-          <button  (click)='removeSelection()'>
-            <ion-icon name='close'></ion-icon>
-          </button>
-        </div>
-      </ion-select>
-    </ion-item>
-  </ion-toolbar>
-  <ion-toolbar *ngIf="showFilter">
-    <ion-item text-wrap>
-
-      <ion-select class="mySelect" [(ngModel)]="mapSearch" (ionChange)="onMapChange()" text-wrap>
-        <ion-option class="myOption" item-left="true" *ngFor="let map of mapList" value="{{map.name_map}}" text-wrap>{{map.name_rus}}
-        </ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item text-wrap>
-      <ion-select  class="mySelect" [(ngModel)]="placeSearch" (ionChange)="onPlaceChange()">
-        <ion-option iclass="myOption" tem-left="true" *ngFor="let place of placeList" value="{{place.id}}" text-wrap>{{place.name_rus}}
-        </ion-option>
-      </ion-select>
-    </ion-item>
-  </ion-toolbar>-->
 </ion-header>
 
 
@@ -121,62 +71,26 @@
                 <ion-icon name="timer" color="danger"></ion-icon>
                 <b color="primary">{{conferenceSingle.time_beg}} : {{conferenceSingle.time_end}}</b>
               </p>
-              <p>{{conferenceSingle.name_rus}}</p>
-              <p>
-                <ion-icon name="pin" color="danger"></ion-icon>
-                <b>{{conferenceSingle.place_name}}</b>
-              <p>
+              <p>{{conferenceSingle.name}}</p>
+              <p *ngIf="!conferenceSingle.place_name_place"><ion-icon name="pin" color="danger"></ion-icon>
+                {{conferenceSingle.place_name}}</p>
+              <p *ngIf="conferenceSingle.place_name_place"><ion-icon name="pin" color="danger"></ion-icon>
+                {{conferenceSingle.place_name_place}}</p>
             </button>
             <ion-item-options>
               <button ion-button color="danger" *ngIf="!conferenceSingle.my_forum_id"
                       (click)="addToMyForumSite(conferenceSingle.id)">
-                В "Мой форум"
+                {{addMyForumStr}}
               </button>
               <button ion-button color="favorite" *ngIf="conferenceSingle.my_forum_id"
                       (click)="deleteFromMyForum(conferenceSingle.my_forum_id)">
-                Удалить из "Мой форум"
+                {{delMyForumStr}}
               </button>
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
   </div>
 
- <!-- <div *ngFor="let conferenceSingle of conferenceList">
-
-    <div [ngSwitch]="dateSegment">
-      <div *ngFor="let date1 of dates">
-        <ion-list *ngSwitchCase="date1">
-
-          <ion-item-sliding text-wrap="true" #slidingItem *ngIf="conferenceSingle.date_event==date1" no-padding="true"
-                            no-margin="true">
-            <button ion-item (click)="goToConferenceDetail(conferenceSingle)">
-              <ion-icon item-left *ngIf="conferenceSingle.my_forum_id" name="star" color="danger"></ion-icon>
-              <ion-icon item-left *ngIf="!conferenceSingle.my_forum_id" name="star-outline"></ion-icon>
-              <p>
-                <ion-icon name="timer" color="danger"></ion-icon>
-                <b color="primary">{{conferenceSingle.time_beg}} : {{conferenceSingle.time_end}}</b>
-              </p>
-              <p>{{conferenceSingle.name_rus}}</p>
-              <p>
-                <ion-icon name="pin" color="danger"></ion-icon>
-                <b>{{conferenceSingle.place_name}}</b>
-              <p>
-            </button>
-            <ion-item-options>
-              <button ion-button color="danger" *ngIf="!conferenceSingle.my_forum_id"
-                      (click)="addToMyForumSite(conferenceSingle.id)">
-                В "Мой форум"
-              </button>
-              <button ion-button color="favorite" *ngIf="conferenceSingle.my_forum_id"
-                      (click)="deleteFromMyForum(conferenceSingle.my_forum_id)">
-                Удалить из "Мой форум"
-              </button>
-            </ion-item-options>
-          </ion-item-sliding>
-        </ion-list>
-      </div>
-    </div>
-  </div>-->
 
 
 </ion-content>

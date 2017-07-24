@@ -3,7 +3,7 @@ import {NavController, NavParams, ViewController} from 'ionic-angular';
 
 import {BaseSql} from "../../providers/base-sql";
 import {Http} from "@angular/http";
-import {thematic} from "../../providers/thematic-sql";
+
 
 /**
  * Generated class for the FilterPage page.
@@ -28,6 +28,7 @@ export class FilterPage {
   filterWhere: string;
   filterTitle: string;
   filterDistinct: string;
+  filterOrder:string;
   userId: string;
   lang: string;
 
@@ -40,6 +41,7 @@ export class FilterPage {
     this.filterWhere = navParams.get('where');
     this.filterTitle = navParams.get('title');
     this.filterDistinct = navParams.get('distinct');
+    this.filterOrder = navParams.get('order');
 
 
     console.log("this.filterTable=", this.filterTable);
@@ -47,6 +49,7 @@ export class FilterPage {
     console.log("this.filterValue=", this.filterValue);
     console.log("this.filterWhere=", this.filterWhere);
     console.log("this.filteTitle=", this.filterTitle);
+    console.log("this.filteOrder=", this.filterOrder);
 
     this.filterSql = new BaseSql(http, this.filterTable);
     this.filterSql.tableName = this.filterTable;
@@ -58,7 +61,7 @@ export class FilterPage {
     console.log('ionViewDidLoad FilterPage');
     this.filterList = [];
     if (this.filterDistinct) {
-      this.filterSql.selectDistinct(this.filterDistinct).then(res => {
+      this.filterSql.selectDistinct(this.filterDistinct,this.filterWhere,this.filterOrder).then(res => {
         console.log(" distinct res=", res);
         for (let i = 0; i < res.length; i++) {
           let tmpFilter: filter = {field: '', value: ''};
@@ -74,7 +77,7 @@ export class FilterPage {
     else {
       if (this.filterWhere) {
 
-        this.filterSql.selectWhere(this.filterWhere).then(res => {
+        this.filterSql.selectWhere(this.filterWhere,this.filterOrder).then(res => {
           console.log("res=", res);
           for (let i = 0; i < res.length; i++) {
             let tmpFilter: filter = {field: '', value: ''};
@@ -88,7 +91,7 @@ export class FilterPage {
         })
       }
       else {
-        this.filterSql.select().then(res => {
+        this.filterSql.select(this.filterOrder).then(res => {
           console.log("res=", res);
           for (let i = 0; i < res.length; i++) {
             let tmpFilter: filter = {field: '', value: ''};

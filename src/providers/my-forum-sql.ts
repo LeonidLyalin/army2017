@@ -35,13 +35,50 @@ export class MyForumSQL extends BaseSql {
    * get only records which are in MyForum also
    * @returns {Promise<T>}
    */
+  getEngParticipantMyForum(userId: string = '') {
+    //@TODO add option - if userId='' then exit from the function
+    console.log('getRusParticipantMyForum()');
+    return new Promise(res => {
+      this.arr = [];
+      let query = 'select a.id, a.name_eng as name, a.desc_eng as desc, a.country_eng as country, ' +
+        'a.address_eng as address, a.phone, a.email, a.www, a.logo, a.place, b.id as my_forum_id,' +
+        ' c.name_eng as place_name, c.name_eng as place_name_place, c.coords, c.name_map from participant a, myforum b ' +
+        'left join place c on a.place=c.id where a.id=b.my_id';
+      if (userId != '') {
+        query = query + ' and  b.user=' + userId;
+      }
+      console.log(query);
+      this.db.executeSql(query, [], rs => {
+        console.log("right after executeSql");
+        console.log(rs);
+        console.log(rs.rows.item(0).id);
+        if (rs.rows.length > 0) {
+          this.arr = [];
+          for (var i = 0; i < rs.rows.length; i++) {
+            this.arr.push(<any>rs.rows.item(i));
+
+          }
+        }
+        res(this.arr);
+      }, (e) => {
+        console.log('Sql Query Error', e);
+      });
+    })
+
+  }
+
+
+  /**
+   * get only records which are in MyForum also
+   * @returns {Promise<T>}
+   */
   getRusParticipantMyForum(userId: string = '') {
     //@TODO add option - if userId='' then exit from the function
     console.log('getRusParticipantMyForum()');
     return new Promise(res => {
       this.arr = [];
-      let query = 'select a.id, a.name_rus, a.desc_rus, a.country_rus, ' +
-        'a.address_rus, a.phone, a.email, a.www, a.logo, a.place, b.id as my_forum_id,' +
+      let query = 'select a.id, a.name_rus as name, a.desc_rus as desc, a.country_rus, ' +
+        'a.address_rus as address, a.phone, a.email, a.www, a.logo, a.place, b.id as my_forum_id,' +
         ' c.name_rus as place_name, c.name_rus as place_name_place, c.coords, c.name_map from participant a, myforum b ' +
         'left join place c on a.place=c.id where a.id=b.my_id';
       if (userId != '') {
@@ -72,9 +109,43 @@ export class MyForumSQL extends BaseSql {
     console.log('getRusParticipantMyForum()');
     return new Promise(res => {
       this.arr = [];
-      let query = 'select a.id, a.name_rus, a.place_name, a.place, a.format, a.contact, ' +
+      let query = 'select a.id, a.name_rus as name, a.place_name, a.place, a.format, a.contact, ' +
         'a.thematic_conference, a.organizer, a.date_event,  a.time_beg, a.time_end,' +
         'b.id as my_forum_id, c.name_rus as place_name_place,c.coords, c.name_map ' +
+        'from conference a, myforum b  left join place c on a.place=c.id where a.id=b.my_id'
+
+      if (userId != '') {
+        query += ' and  b.user=' + userId;
+      }
+      query += ' order by a.date_event, a.time_beg, a.time_end, a.id';
+      console.log(query);
+      this.db.executeSql(query, [], rs => {
+        console.log("right after executeSql");
+        console.log(rs);
+        console.log(rs.rows.item(0).id);
+        if (rs.rows.length > 0) {
+          this.arr = [];
+          for (var i = 0; i < rs.rows.length; i++) {
+            this.arr.push(<any>rs.rows.item(i));
+          }
+        }
+        res(this.arr);
+      }, (e) => {
+        console.log('Sql Query Error', e);
+      });
+    })
+
+  }
+
+
+  getEngConferenceMyForum(userId: string = '') {
+    //@TODO add option - if userId='' then exit from the function
+    console.log('getRusParticipantMyForum()');
+    return new Promise(res => {
+      this.arr = [];
+      let query = 'select a.id, a.name_eng as name, a.place_name, a.place, a.format_eng as format, a.contact_eng as contact, ' +
+        'a.thematic_conference, a.organizer_eng as organizer, a.date_event,  a.time_beg, a.time_end,' +
+        'b.id as my_forum_id, c.name_eng as place_name, c.name_eng as place_name_place,c.coords, c.name_map ' +
         'from conference a, myforum b  left join place c on a.place=c.id where a.id=b.my_id'
 
       if (userId != '') {
@@ -113,7 +184,7 @@ export class MyForumSQL extends BaseSql {
       let query = 'select a.id, a.name_rus as name, a.desc_rus as desc, a.country_rus as country, ' +
         'a.address_rus as address, a.phone, a.email, a.www, a.logo, a.place,' +
         'b.id as my_forum_id, c.name_rus as place_name, c.name_rus as place_name_place, c.name_map, c.coords ' +
-        'from participant a left join myforum b on a.id=b.my_id'
+        'from participant a left join myforum b on a.id=b.my_id';
       if (userId) query += ' and b.user=' + userId;
 
       query += ' left join place c on a.place=c.id';
@@ -152,9 +223,9 @@ export class MyForumSQL extends BaseSql {
       this.arr = [];
       let userId = localStorage.getItem('userid');
       let query = 'select a.id, a.name_eng as name, a.desc_eng as desc, a.country_eng as country, ' +
-        'a.address_eng adress, a.phone, a.email, a.www, a.logo, a.place,' +
+        'a.address_eng as address, a.phone, a.email, a.www, a.logo, a.place,' +
         'b.id as my_forum_id, c.name_eng as place_name, c.name_eng as place_name_place, c.name_map, c.coords ' +
-        'from participant a left join myforum b on a.id=b.my_id'
+        'from participant a left join myforum b on a.id=b.my_id';
       if (userId) query += ' and b.user=' + userId;
 
       query += ' left join place c on a.place=c.id';
@@ -181,6 +252,53 @@ export class MyForumSQL extends BaseSql {
 
   }
 
+  /**
+   * return list of 'conference' records when language is English
+   * @param {string} where
+   * @returns {Promise<any>}
+   */
+  getEngConference(where: string = '') {
+    console.log('getRusParticipantMyForum()');
+    console.log(' where=' + where);
+    //  let whereStr = where;
+    return new Promise(res => {
+      this.arr = [];
+      let userId = localStorage.getItem('userid');
+      let query = 'select a.id, a.name_eng as name, a.place_name, a.place, a.format_eng as format, a.contact_eng as contact, ' +
+        'a.thematic_conference, a.organizer_eng as organizer, a.date_event,  a.time_beg, a.time_end,' +
+        'b.id as my_forum_id, c.name_eng as place_name_place, c.name_map, c.coords ' +
+        'from conference a left join myforum b on a.id=b.my_id ';
+      if (userId != '') query += ' and b.user=' + userId;
+      query += ' left join place c on a.place=c.id';
+      if (where != '') query += where;
+
+
+      query += ' order by a.date_event, a.time_beg, a.time_end, a.id';
+      console.log(query);
+      this.db.executeSql(query, [], rs => {
+        console.log("right after executeSql in getRusConference");
+        console.log(rs);
+        this.arr = [];
+        if (rs.rows.length) {
+          for (var i = 0; i < rs.rows.length; i++) {
+            this.arr.push(<any>rs.rows.item(i));
+
+          }
+        }
+        console.log("this.arr=", this.arr);
+        res(this.arr);
+      }, (e) => {
+        console.log('Sql Query Error', e);
+      });
+    })
+
+  }
+
+  /**
+   * return list of 'conference' records when language is Russian
+   * @param {string} where
+   * @returns {Promise<any>}
+   */
   getRusConference(where: string = '') {
     console.log('getRusParticipantMyForum()');
     console.log(' where=' + where);
@@ -188,10 +306,10 @@ export class MyForumSQL extends BaseSql {
     return new Promise(res => {
       this.arr = [];
       let userId = localStorage.getItem('userid');
-      let query = 'select a.id, a.name_rus, a.place_name, a.place, a.format, a.contact, ' +
+      let query = 'select a.id, a.name_rus as name, a.place_name, a.place, a.format, a.contact, ' +
         'a.thematic_conference, a.organizer, a.date_event,  a.time_beg, a.time_end,' +
         'b.id as my_forum_id, c.name_rus as place_name_place, c.name_map, c.coords ' +
-        'from conference a left join myforum b on a.id=b.my_id '
+        'from conference a left join myforum b on a.id=b.my_id ';
       if (userId != '') query += ' and b.user=' + userId;
       query += ' left join place c on a.place=c.id';
       if (where != '') query += where;
@@ -229,7 +347,7 @@ export class MyForumSQL extends BaseSql {
 
     this.arr = [];
     let userId = localStorage.getItem('userid');
-    let query = 'select a.id, a.name_rus, a.place_name, a.place, a.format, a.contact, ' +
+    let query = 'select a.id, a.name_rus as name, a.name_rus_upper, a.place_name, a.place, a.format_eng as format, a.contact, ' +
       'a.thematic_conference, a.organizer, a.date_event,  a.time_beg, a.time_end,' +
       'b.id as my_forum_id, c.name_rus as place_name_place ' +
       'from conference a left join myforum b on a.id=b.my_id '

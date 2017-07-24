@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AlertController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {PlaceApi} from "../../shared/place/place-api-service";
-import {PlaceSql} from "../../providers/place-sql";
+import {PlaceSql} from "../../../providers/place-sql/place-sql";
 import {DrawFunctionProvider} from "../../../providers/draw-function/draw-function";
 import {MapBaseProvider} from "../../../providers/map-base/map-base";
 

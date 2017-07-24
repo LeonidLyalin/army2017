@@ -33,7 +33,7 @@ import {MapPage} from "../pages/map/map";
 import {SpeakerListPage} from "../pages/speaker-list/speaker-list";
 import {TutorialPage} from "../pages/tutorial/tutorial";
 import {UserApi} from "../pages/shared/user/user-api.service";
-import {MapYandexPage} from "../pages/map-yandex/map-yandex";
+
 import {ParkPatriotPage} from "../pages/park-patriot-all/park-patriot/park-patriot";
 import {WarTacticPage} from "../pages/park-patriot-all/war-tactic-page/war-tactic-page";
 import {ForumMapPage} from "../pages/maps/forum-map/forum-map";
@@ -44,7 +44,7 @@ import {WaterClusterMapPage} from "../pages/maps/water-cluster-map/water-cluster
 import {GroundClusterMapPage} from "../pages/maps/ground-cluster-map/ground-cluster-map";
 import {AirClusterMapPage} from "../pages/maps/air-cluster-map/air-cluster-map";
 import {ParkPatriotMapPage} from "../pages/maps/park-patriot-map/park-patriot-map";
-import {PlaceSql} from '../pages/providers/place-sql';
+import {PlaceSql} from '../providers/place-sql/place-sql';
 import {ThematicSql} from '../providers/thematic-sql';
 import {ThematicPage} from "../pages/thematic/thematic";
 import {ThematicApi} from "../pages/shared/thematic/thematic-api-service";
@@ -75,6 +75,8 @@ import {FilterConferenceProvider} from "../providers/filter-provider/filter-conf
 import {FilterConferencePage} from "../pages/filter/filter-conference/filter-conference";
 import {DemoProgramPage} from "../pages/demo-propgram/demo-program";
 
+import {TableActionSql} from "../providers/table-action-sql/thematic-action-sql";
+
 
 
 
@@ -98,7 +100,7 @@ import {DemoProgramPage} from "../pages/demo-propgram/demo-program";
     SpeakerListPage,
     TutorialPage,
     MapPage,
-    MapYandexPage,
+
     ParkPatriotPage,
     WarTacticPage,
     ForumMapPage,
@@ -131,8 +133,19 @@ import {DemoProgramPage} from "../pages/demo-propgram/demo-program";
     BrowserModule,
     IonicStorageModule.forRoot(),
     HttpModule,
-    IonicModule.forRoot(MyApp),
-
+    IonicModule.forRoot(MyApp,{}, {
+      links: [
+        { component: TabsPage, name: 'TabsPage', segment: 'tabs-page' },
+        { component: SchedulePage, name: 'Schedule', segment: 'schedule' },
+        { component: MapPage, name: 'Map', segment: 'map' },
+        { component: AboutPage, name: 'About', segment: 'about' },
+        { component: TutorialPage, name: 'Tutorial', segment: 'tutorial' },
+        { component: SupportPage, name: 'SupportPage', segment: 'support' },
+        { component: LoginPage, name: 'LoginPage', segment: 'login' },
+        { component: AccountPage, name: 'AccountPage', segment: 'account' },
+        { component: SignupPage, name: 'SignupPage', segment: 'signup' }
+      ]
+    }),
 
   ],
   bootstrap: [IonicApp],
@@ -155,7 +168,7 @@ import {DemoProgramPage} from "../pages/demo-propgram/demo-program";
     SpeakerListPage,
     TutorialPage,
     MapPage,
-    MapYandexPage,
+
     ParkPatriotPage,
     WarTacticPage,
     ForumMapPage,
@@ -214,7 +227,8 @@ import {DemoProgramPage} from "../pages/demo-propgram/demo-program";
     FilterConferencePage,
     FilterParticipantProvider,
     LanguageProvider,
-    FilterConferenceProvider
+    FilterConferenceProvider,
+    TableActionSql
 
 
 

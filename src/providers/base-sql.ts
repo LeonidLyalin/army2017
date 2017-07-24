@@ -161,7 +161,7 @@ export class BaseSql {
       console.log('insert query=', insertQuery);
       //  console.log('insert values=',  this.createInsValues(item));
       this.db.executeSql(insertQuery, this.createInsValues(item), (r) => {
-        console.log('Inserted... Success..', r);
+        console.log('base sql addItem(item) Inserted... Success..', r);
       }, e => {
         console.log('Inserted Error', e);
         resolve(false);
@@ -193,16 +193,7 @@ export class BaseSql {
       this.arr = [];
       let query = "SELECT * FROM " + this.tableName;
       if (fieldSort) {
-        if ((fieldSort != '') && (fieldSort.includes(','))) {
-          console.log(" select(fieldSort?: string) fieldSort=", fieldSort);
-
-          let fieldStr = fieldSort.split(',');
-          for (let field of fieldStr) {
-            if (orderStr.length > 'order by '.length) orderStr += ', ';
-            orderStr += field;
-          }
-        }
-        else orderStr += fieldSort;
+        if (fieldSort != '') query+= 'order by '+fieldSort;
       }
       console.log("query=", query);
       this.db.executeSql(query, [], rs => {
@@ -231,16 +222,7 @@ export class BaseSql {
       let query = "SELECT * FROM " + this.tableName;
       if (whereStr != '') query += ' where ' + whereStr;
       if (fieldSort) {
-        if ((fieldSort != '') && (fieldSort.includes(','))) {
-          console.log(" select(fieldSort?: string) fieldSort=", fieldSort);
-
-          let fieldStr = fieldSort.split(',');
-          for (let field of fieldStr) {
-            if (orderStr.length > 'order by '.length) orderStr += ', ';
-            orderStr += field;
-          }
-        }
-        else orderStr += fieldSort;
+        if (fieldSort != '')  query +=' order by '+ fieldSort;
       }
       console.log("query=", query);
       this.db.executeSql(query, [], rs => {
@@ -263,7 +245,7 @@ export class BaseSql {
   }
 
 
-  selectDistinct(distinctField, whereStr ?, fieldSort ?: string) {
+  selectDistinct(distinctField, whereStr?, fieldSort?: string) {
     return new Promise(res => {
       let orderStr = 'order by ';
       this.arr = [];
@@ -272,20 +254,13 @@ export class BaseSql {
         if (whereStr != '') query += ' where ' + whereStr;
       }
       if (fieldSort) {
-        if ((fieldSort != '') && (fieldSort.includes(','))) {
-          console.log(" select(fieldSort?: string) fieldSort=", fieldSort);
-
-          let fieldStr = fieldSort.split(',');
-          for (let field of fieldStr) {
-            if (orderStr.length > ' order by '.length) orderStr += ', ';
-            orderStr += field;
-          }
+        if (fieldSort!='') {
+          query +=' order by '+ fieldSort;
         }
-        else orderStr += fieldSort;
       }
-      console.log("query=", query);
+      console.log("selectDistinct query=", query);
       this.db.executeSql(query, [], rs => {
-
+        console.log("rs=", rs);
         if (rs.rows.length > 0) {
           this.arr = [];
           console.log("keys=", rs.rows.item(0).keys)
@@ -303,12 +278,21 @@ export class BaseSql {
 
   }
 
-  delAll() {
+  /**
+   * delete all records from the table tableName according to possible whereStr clause
+   * @param whereStr
+   * @returns {Promise<any>}
+   */
+  delAll(whereStr?) {
     console.log('try to delete all ' + this.tableName);
     return new Promise(resolve => {
       var query = "DELETE FROM " + this.tableName;
+      if (whereStr) {
+        query += ' where ' + whereStr;
+      }
+      console.log('Delete All query', query);
       this.db.executeSql(query, [], (s) => {
-        console.log('Delete All Success...', s);
+        console.log('DeleteAll  Success...', s, whereStr);
 
       }, (err) => {
         console.log('Deleting Error', err);
@@ -317,6 +301,10 @@ export class BaseSql {
 
   }
 
+  /**
+   * drop and anihilate the table tableName
+   * @returns {Promise<any>}
+   */
 
   dropTable() {
     console.log('try to drop table ' + this.tableName);
@@ -538,17 +526,16 @@ export class BaseSql {
     })
   }
 
-  loadApi(path){
-    let api=new BaseApi(this.http);
-    api.getApi(path).subscribe(data=>{
-      for (let i=0; i<data.length;i++){
-        console.log("try to insert data[i]=",data[i])
-        this.addItem(data[i]).then(res=>{
-          console.log('after insert res=',res);
-        });
+  loadApi(path) {
+    let api = new BaseApi(this.http);
+    api.getApi(path).subscribe(data => {
+        for (let i = 0; i < data.length; i++) {
+          console.log("try to insert data[i]=", data[i])
+          this.addItem(data[i]).then(res => {
+            console.log('after insert res=', res);
+          });
+        }
       }
-      }
-
     )
   }
 }

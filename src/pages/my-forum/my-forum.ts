@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {Events, NavController} from 'ionic-angular';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -8,9 +8,10 @@ import {MyForumSQL} from "../../providers/my-forum-sql";
 import {UserData} from "../providers/user-data";
 import {ParticipantDetailPage} from "../participant-detail/participant-detail";
 import {ConferenceDetailPage} from "../conference-detail/conference-detail";
-import {PlaceSql, place} from "../providers/place-sql";
+import {PlaceSql, place} from "../../providers/place-sql/place-sql";
 import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
 import {map, MapSql} from "../../providers/map-sql/map-sql";
+
 /**
  * Generated class for the MyForumPage page.
  *
@@ -31,22 +32,63 @@ export class MyForumPage {
 
   public forumSegment: string = 'conferenceItems';
 
+  lang: string;
+
+  titleStr: string;
+  exhibitorsStr: string;
+  conferenceStr: string;
+  addMyForumStr: string;
+  delMyForumStr: string;
+
 
   constructor(public navCtrl: NavController,
               public http: Http,
               public sqlMyForum: MyForumSQL,
               public userData: UserData,
               public placeSql: PlaceSql,
-              public mapSql:MapSql) {
+              public mapSql: MapSql,
+              public events: Events) {
 
 
-    /* this.myForumApi.getMyForum(this.myUser).subscribe(data => {
-     console.log("here are the results");
-     console.log(data);
-     this.myForumParticipant = data
-     });*/
+    this.lang = localStorage.getItem('lang');
+    if (this.lang == 'ru') {
+      this.setRussianStrings();
+    }
+    else {
+      this.setEnglishStrings();
+    }
+
+    this.events.subscribe('language:change', () => {
+
+
+      this.lang = localStorage.getItem('lang');
+      if (this.lang == 'ru') {
+        console.log('this.events.subscribe(language:change)', this.lang);
+        this.setRussianStrings();
+      }
+      else {
+        this.setEnglishStrings();
+      }
+    });
   }
 
+  setRussianStrings() {
+    this.titleStr = 'Мой форум';
+    this.exhibitorsStr = 'Участники';
+    this.conferenceStr = 'Конференция';
+    this.addMyForumStr = 'В "Мой форум"';
+    this.delMyForumStr = 'Удалить из "Мой форум"';
+
+  }
+
+  setEnglishStrings() {
+    this.titleStr = 'My Forum';
+    this.exhibitorsStr = 'Exhibitors';
+    this.conferenceStr = 'Conference';
+    this.addMyForumStr = 'Add in "My Forum"';
+    this.delMyForumStr = 'Del from "My Forum"';
+
+  }
 
   getApi() {
     //get My Forum for the User
@@ -59,8 +101,16 @@ export class MyForumPage {
       this.sqlMyForum.delAll();
       console.log('insert new elements for myforum');
       this.sqlMyForum.addItemList(this.myForumApi);
-      this.selectParticipantRus();
-      this.selectConferenceRus();
+      if (this.lang == 'ru') {
+        this.selectParticipantRus();
+        this.selectConferenceRus();
+      }
+      else {
+        this.selectParticipantEng();
+        this.selectConferenceEng();
+      }
+
+
     });
 
   }
@@ -84,10 +134,10 @@ export class MyForumPage {
   }
 
   ionViewWillEnter() {
-    this.refreshMyForum();
+  //  this.refreshMyForum();
   }
 
-  refreshMyForum() {
+ refreshMyForum() {
     console.log("refreshMyForum");
     this.getApi();
 //this.selectParticipantRus();
@@ -106,9 +156,31 @@ export class MyForumPage {
   }
 
 
+  selectParticipantEng() {
+    console.log('selectParticipantEng');
+    this.sqlMyForum.getEngParticipantMyForum(this.userId).then(res => {
+      console.log('our select');
+      console.log(res);
+      this.myForumParticipant = res;
+    })
+
+  }
+
+
   selectConferenceRus() {
     console.log('selectConferenceRus');
     this.sqlMyForum.getRusConferenceMyForum(this.userId).then(res => {
+      console.log('our select');
+      console.log(res);
+      this.myForumConference = res;
+    })
+
+  }
+
+
+  selectConferenceEng() {
+    console.log('selectConferenceEng');
+    this.sqlMyForum.getEngConferenceMyForum(this.userId).then(res => {
       console.log('our select');
       console.log(res);
       this.myForumConference = res;
@@ -143,11 +215,11 @@ export class MyForumPage {
     });
   }
 
-  delFromMyForum(id) {
+/*  delFromMyForum(id) {
     this.sqlMyForum.delFromMyForum(id).then(res => {
       if (res) this.refreshMyForum();
     });
-  }
+  }*/
 
 
   goToConferenceDetail(conferenceSingle) {
@@ -163,23 +235,33 @@ export class MyForumPage {
   showMapMyForum() {
     if (this.forumSegment == 'conferenceItems') {
 
-      this.placeSql.selectPlace().then(res => {
+      this.placeSql.select().then(res => {
         let place: place[] = (<place[]>res);
         this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
           console.log("res=", res);
           let map = <map[]>res;
-          this.navCtrl.push(LeafletMapPage, {typeOfMap:'conference', popupElement: this.myForumConference, place: place, map: map});
+          this.navCtrl.push(LeafletMapPage, {
+            typeOfMap: 'conference',
+            popupElement: this.myForumConference,
+            place: place,
+            map: map
+          });
         });
       });
     }
     if (this.forumSegment == 'participantItems') {
 
-      this.placeSql.selectPlace().then(res => {
+      this.placeSql.select().then(res => {
         let place: place[] = (<place[]>res);
         this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
           console.log("res=", res);
           let map = <map[]>res;
-          this.navCtrl.push(LeafletMapPage, {typeOfMap:'participant', popupElement: this.myForumParticipant, place: place, map: map});
+          this.navCtrl.push(LeafletMapPage, {
+            typeOfMap: 'participant',
+            popupElement: this.myForumParticipant,
+            place: place,
+            map: map
+          });
         });
       });
     }

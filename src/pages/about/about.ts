@@ -14,12 +14,7 @@ export class AboutPage {
   constructor(public navCtrl: NavController, public filterProvider: FilterParticipantProvider) {
     console.log("about ts");
   }
- setFilterStrAbout(){
-    console.log("this.filterProvider.filterStr=",this.filterProvider.filterStr);
-    this.filterStr=this.filterProvider.filterStr;
- }
 
- menuToggle1(){
 
- }
+
 }

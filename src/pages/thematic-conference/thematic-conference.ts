@@ -68,11 +68,11 @@ export class ThematicConferencePage {
     this.thematicConferenceSql.delAll();
   }
 
-  goToParticipantThematicList(thematic: string) {
+/*  goToParticipantThematicList(thematic: string) {
     this.thematicConferenceSql.getParticipantForThematic(thematic).then(res => {
       console.log(res);
       this.navCtrl.push(ParticipantPage, {data: res, select: 'thematicConference'});
     })
 
-  }
+  }*/
 }

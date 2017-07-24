@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Участник</ion-title>
+    <ion-title>{{title}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -8,7 +8,7 @@
   <ion-card>
 
     <ion-card-header text-wrap>
-      <p>{{conferenceSingle.name_rus}}</p>
+      <p>{{conferenceSingle.name}}</p>
     </ion-card-header>
     <ion-card-content>
       <p><ion-icon name="calendar" color="danger"></ion-icon>
@@ -17,8 +17,10 @@
       <p><ion-icon name="timer" color="danger"></ion-icon>
         <b color="primary">{{conferenceSingle.time_beg}} : {{conferenceSingle.time_end}}</b>
       </p>
-      <p><ion-icon name="pin" color="danger"></ion-icon>
+      <p *ngIf="!conferenceSingle.place_name_place"><ion-icon name="pin" color="danger"></ion-icon>
         {{conferenceSingle.place_name}}</p>
+      <p *ngIf="conferenceSingle.place_name_place"><ion-icon name="pin" color="danger"></ion-icon>
+        {{conferenceSingle.place_name_place}}</p>
       <p><ion-icon name="microphone" color="danger"></ion-icon>
         {{conferenceSingle.format}}</p>
 
@@ -28,26 +30,26 @@
 
     <ion-list>
       <ion-list-header color="danger">
-        Тематика:
+        {{thematicStr}}
       </ion-list-header>
       <ion-item *ngFor="let thematicItem of thematic" text-wrap>
         <ion-icon name="information-circle" item-left></ion-icon>
-        <h4>{{thematicItem.name_rus}}</h4>
-
+        <h4 *ngIf="lang=='ru'">{{thematicItem.name_rus}}</h4>
+        <h4 *ngIf="lang=='en'">{{thematicItem.name_eng}}</h4>
       </ion-item>
     </ion-list>
     <ion-row no-padding>
       <ion-col>
         <button ion-button clear small color="danger" icon-left>
           <ion-icon name='map'></ion-icon>
-          На карте
+          {{onMapStr}}
         </button>
       </ion-col>
       <ion-col>
         <button ion-button clear small color="danger" icon-left>
           <ion-icon item-left *ngIf="myForum" name="star" color="danger" (click)="deleteFromMyForum(myForum)"></ion-icon>
           <ion-icon item-left *ngIf="!myForum" name="star-outline" (click)="addToMyForumSite(conferenceSingle.id)"></ion-icon>
-          Мой форум
+          {{myForumStr}}
         </button>
       </ion-col>
     </ion-row>

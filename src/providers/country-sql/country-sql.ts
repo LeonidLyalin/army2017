@@ -97,8 +97,8 @@ export class CountrySql extends BaseSql{
     console.log("getParticipantForThematic");
     console.log("country=", country);
     return new Promise(res => {
-      let query = 'select a.id, a.name_rus, a.name_eng, a.desc_rus, ' +
-        'a.desc_eng, a.logo, a.address_rus, a.address_eng, a.phone, a.email, ' +
+      let query = 'select a.id, a.name_rus, a.name_eng, a.desc_rus as desc, ' +
+        'a.desc_eng as desc, a.logo, a.address_rus, a.address_eng, a.phone, a.email, ' +
         'a.www, b.id as my_forum_id, c.name_rus as country_name ' +
         'from participant a left join myforum b on a.id=b.my_id left join country c on a.place=c.id ' +
         ' where a.name_rus like "' + country + ',%" or a.country like "%,' + country + ',%" or a.country like "%,' + country + '" or a.country="' + country + '"';
@@ -107,7 +107,8 @@ export class CountrySql extends BaseSql{
         this.arr = [];
         if (rs.rows.length > 0) {
           for (var i = 0; i < rs.rows.length; i++) {
-            this.arr.push({
+            this.arr.push(<any> rs.rows.item(i));
+              /*{
               id: rs.rows.item(i).id,
               name_rus: rs.rows.item(i).name_rus,
               name_eng: rs.rows.item(i).name_eng,
@@ -121,7 +122,7 @@ export class CountrySql extends BaseSql{
               logo: rs.rows.item(i).logo,
               place_name: rs.rows.item(i).place_name,
               my_forum_id: rs.rows.item(i).my_forum_id,
-            });
+            });*/
           }
         }
         res(this.arr);

@@ -11,10 +11,36 @@ export class UserData {
   HAS_LOGGED_IN = 'hasLoggedIn';
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
 
+
+  authSuccessStr:string;
+  wrongLogStr:string;
+  lang:string;
+
   constructor(public events: Events,
               public storage: Storage,
               public userApi: UserApi,
               public toastCtrl: ToastController) {
+    this.events.subscribe('language:change', () => {
+
+
+      this.lang = localStorage.getItem('lang');
+      if (this.lang == 'ru') {
+        console.log('this.events.subscribe(language:change)', this.lang);
+        this.setRussianStrings();
+      }
+      else {
+        this.setEnglishStrings();
+      }
+    });
+  }
+
+  setRussianStrings(){
+    this.authSuccessStr='Вы успешно авторизовались';
+    this.wrongLogStr='Неправильный логин или пароль';
+  }
+  setEnglishStrings(){
+    this.authSuccessStr='Successful login';
+    this.wrongLogStr='Login or password is wrong';
   }
 
   hasFavorite(sessionName: string): boolean {
@@ -56,14 +82,14 @@ export class UserData {
           this.setUserId(res.result.ID);
           this.events.publish('user:login');
           let toast = this.toastCtrl.create({
-            message: 'Вы успешно авторизовались',
+            message: this.authSuccessStr,
             duration: 3000
           });
           toast.present();
         }
         else{
           let toast = this.toastCtrl.create({
-            message: 'Неправильный логин или пароль',
+            message: this.wrongLogStr,
             duration: 3000
           });
           toast.present();

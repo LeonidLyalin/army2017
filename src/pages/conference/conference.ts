@@ -1,22 +1,16 @@
 import {Component} from '@angular/core';
 import {Events, NavController, NavParams, ToastController} from 'ionic-angular';
 import {MyForumSQL} from "../../providers/my-forum-sql";
-import {conferenceRusMyForum, ConferenceSql} from "../../providers/conference-sql/conference-sql";
+import {ConferenceSql} from "../../providers/conference-sql/conference-sql";
 import {ConferenceApi} from "../../providers/conference-sql/conference-api-service";
 import {Http} from "@angular/http";
 import {ConferenceDetailPage} from "../conference-detail/conference-detail";
 import {map, MapSql} from "../../providers/map-sql/map-sql";
-import {place, PlaceSql} from "../providers/place-sql";
-import {
-  thematicConference,
-  ThematicConferenceSql
-} from "../../providers/thematic-conference-sql/thematic-conference-sql";
+import {place, PlaceSql} from "../../providers/place-sql/place-sql";
 
 
-import {ThematicConferenceApi} from "../shared/tehematic-conference/thematic-conference-api-service";
 import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
 import {FilterConferenceProvider} from "../../providers/filter-provider/filter-conference-provider";
-import {BaseApi} from "../shared/base-api-service";
 
 
 /**
@@ -37,19 +31,9 @@ export class ConferencePage {
   userId: any;
   iblockId: any = 14;
   thematicSearch = '';
-  thematicList: thematicConference[] = [];
 
 
-  lang:string;
-  mapList: map[] = [];
-  mapSearch: string = '';
-
-  placeList: place[] = [];
-  placeSearch: string = '';
-
- /* dates: string[] = ["23.08.2017", "24.08.2017", "25.08.2017", "26.08.2017"];
-
-  dateSegment: string = "23.08.2017";*/
+  lang: string;
 
   showFilter: boolean = false;
 
@@ -58,23 +42,20 @@ export class ConferencePage {
   setFilterStr: string;
   cancelFilterStr: string;
   title: string;
-
+  addMyForumStr: string;
+  delMyForumStr: string;
+  loadStr: string;
   filterStr: string;
 
   constructor(public navCtrl: NavController,
               public http: Http,
               public conferencetApi: ConferenceApi,
-              /*  public myForumApi: MyForumApi,*/
               public conferenceSql: ConferenceSql,
               public sqlMyForum: MyForumSQL,
-              /*   public userData: UserData,*/
               public navParams: NavParams,
               public toastCtrl: ToastController,
-              public thematicConferenceSql: ThematicConferenceSql,
               public mapSql: MapSql,
               public placeSql: PlaceSql,
-              public mapApi: BaseApi,
-              public thematicApi: ThematicConferenceApi,
               public filterProvider: FilterConferenceProvider,
               public events: Events) {
 
@@ -110,9 +91,9 @@ export class ConferencePage {
 
   }
 
- /* changeDateSegment(dateNew) {
-    this.dateSegment = dateNew;
-  }*/
+  /* changeDateSegment(dateNew) {
+     this.dateSegment = dateNew;
+   }*/
 
   showHideFilter() {
     if (this.showFilter) this.showFilter = false;
@@ -120,10 +101,12 @@ export class ConferencePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ConferencePageJson');
+    console.log('ionViewDidLoad ConferencePage');
 
     this.userId = localStorage.getItem('userid');
-
+    this.lang = localStorage.getItem('lang');
+    if (this.lang == 'ru') this.setRussianStrings();
+    else this.setEnglishStrings();
     console.log("this.navParams=", this.navParams);
     console.log("this.navParams.data=", this.navParams.data);
     console.log("navParams==null", this.navParams == null);
@@ -142,78 +125,15 @@ export class ConferencePage {
   conferenceRefresh() {
     console.log("this.selectConferenceAll()");
     let toast = this.toastCtrl.create({
-      message: 'Загрузка из базы ',
+      message: this.loadStr,
       duration: 5000
     });
     toast.present();
     this.selectConferenceAll();
-    console.log("step 1");
-    this.thematicConferenceSql.select('name_rus').then(res => {
-      console.log("after thematic select");
-      console.log(res);
-      if (res) {
-        this.thematicList = <any>res;
-        console.log("this.thematicList=", this.thematicList);
-      }
-      else {
-        this.thematicApi.getThematic().subscribe(res => {
-          this.thematicList = <any>res;
-          this.thematicConferenceSql.addItemList(this.thematicList);
-        });
-
-      }
-    })
-    console.log("step2");
-
-    this.mapSql.select('name_rus').then(res => {
-      console.log("this.mapSql.select().then");
-      console.log("res=", res);
-      if (res) {
-        this.mapList = <any>res;
-        console.log("this.mapList=", this.mapList);
-      }
-      else {
-        this.mapApi.getApi(`http://army2017.ru/api/map_list.php`).subscribe(res => {
-          this.mapList = <any>res;
-          this.mapSql.addItemList(this.mapList);
-        });
-
-      }
-    })
 
 
   }
-/*
-  formWhereStr() {
-    console.log("this.thematicSearch", this.thematicSearch);
-    console.log("this.partOfName=", this.partOfName);
-    console.log("(this.placeSearch=", this.placeSearch);
-    let whereStr = '';
-    if (this.thematicSearch != '') whereStr += ((whereStr != '') ? ' and ' : '') + 'a.thematic_conference="' + this.thematicSearch + '"';
-    if (this.partOfName != '') whereStr += ((whereStr != '') ? ' and ' : '') + ' a.name_rus like ' + '"%' + this.partOfName + '%"';
-    if (this.placeSearch != '') whereStr += ((whereStr != '') ? ' and ' : '') + '  a.place="' + this.placeSearch + '"';
-    if (whereStr != '') whereStr = ' where ' + whereStr;
-    return whereStr;
-  }
 
-  onThematicChange() {
-    console.log("thematicSearch=", this.thematicSearch);
-
-    this.selectConferenceAll(this.formWhereStr());
-  }*/
-
-/*  onMapChange() {
-//form new placeList
-    this.placeSql.selectPlaceMap(this.mapSearch).then(res => {
-      console.log("<place[]>res=", <place[]>res)
-      this.placeList = <place[]>res;
-    })
-  }
-
-  onPlaceChange() {
-    console.log("placeSearch=", this.placeSearch);
-    this.selectConferenceAll(this.formWhereStr());
-  }*/
 
   getConferenceApi() {
     console.log('run promise. run!');
@@ -225,21 +145,6 @@ export class ConferencePage {
     });
 
   }
-
-
-  /*console.log('add', id);
-   this.myForumApi.addToMyForumSite(this.iblockId, id).subscribe(data => {
-   console.log("here are the results of adding through api");
-   console.log(data);
-   //@TODO make an api and prepare all parameters for insert
-   //  this.sqlMyForum.addItemAndSelect(data, this.userId, this.iblockId, id).then(res => {
-   this.sqlMyForum.addItem( {id:data, user:this.userId, my_idblock_id:this.iblockId,my_id:id}).then(res => {
-   //  {id:data, user:this.userId, my_iblock_id:this.iblockId,my_id:id}
-   console.log('added', id);
-   console.log(res);
-   this.selectConferenceRus()
-   });
-   });*/
 
 
   /**
@@ -260,7 +165,7 @@ export class ConferencePage {
   /**
    * get records from conferenceList infoblock on site and change records in the table "conferenceList"
    */
-  refreshCoference() {
+  /*refreshCoference() {
     //let tmpParticipant: any = [];
     console.log('run refresh run!');
     this.conferencetApi.getConference().subscribe(data => {
@@ -299,29 +204,8 @@ export class ConferencePage {
       console.log(res);
       this.conferenceList = res;
     });
-  }
+  }*/
 
-  /**
-   * check whether the record with id = "id" parameter is in "conferenceList" table
-   * @param id
-   */
-  /* checkParticipantForId(id) {
-   this.conferenceSql.checkForId(id).then(res => {
-   console.log("check for conferenceList")
-   console.log(res)
-   return res;
-   }
-   );
-   }*/
-
-  selectConferenceRus() {
-    this.sqlMyForum.getRusConference().then(res => {
-      console.log('our select');
-      console.log(res);
-      this.conferenceList = res;
-    })
-
-  }
 
   addOneItemConference(conferenceSingle) {
 
@@ -363,77 +247,68 @@ export class ConferencePage {
     }
   }
 
-  /*
-   selectParticipant() {
-   this.conferenceSql.select().then(res => {
-   console.log('our select');
-   console.log(res);
-   this.conferenceList = res;
-   })
-   }*/
 
   selectConferenceAll(whereStr = '') {
     console.log("selectConferenceAll() where=", whereStr);
-    this.sqlMyForum.getRusConference(whereStr).then(res => {
-      console.log('this.sqlMyForum.getRusConference().then( res=', res);
-      console.log('(<conferenceRusMyForum[]>res).length=', (<conferenceRusMyForum[]>res).length);
-      if ((<conferenceRusMyForum[]>res).length) {
-        console.log('selectConferenceAll() after  select res');
-        console.log(res);
-        this.conferenceList = <conferenceRusMyForum[]>res;
-        console.log("this.conferenceList");
-        console.log(this.conferenceList);
-      }
-      else {
-        let toast = this.toastCtrl.create({
-          message: 'API запрос и запись в базу',
-          duration: 5000
-        });
-        toast.present();
-        console.log(' this.getPlaceApiInsertBase()');
-        this.getConferenceApiInsertBase();
-      }
-    })
-    /*    this.sqlMyForum.getRusConferenceReturn().subscribe(data => {
-     console.log("here are the results of getRusConferenceReturn()");
-     console.log(data);
-     this.conferenceList = data
-
-
-     });*/
+    console.log("selectConferenceAll() lang", this.lang);
+    if (this.lang == 'ru') {
+      this.sqlMyForum.getRusConference(whereStr).then(res => {
+        console.log('this.sqlMyForum.getRusConference().then( res=', res);
+        console.log('(<conferenceRusMyForum[]>res).length=', (<any[]>res).length);
+        if ((<any[]>res).length) {
+          console.log('selectConferenceAll() after  select res');
+          console.log(res);
+          this.conferenceList = <any[]>res;
+          console.log("this.conferenceList");
+          console.log(this.conferenceList);
+        }
+        else {
+          let toast = this.toastCtrl.create({
+            message: 'API запрос и запись в базу',
+            duration: 5000
+          });
+          toast.present();
+          console.log(' this.getPlaceApiInsertBase()');
+          this.getConferenceApiInsertBase();
+        }
+      })
+    }
+    else {
+      this.sqlMyForum.getEngConference(whereStr).then(res => {
+        console.log('this.sqlMyForum.getEngConference().then( res=', res);
+        console.log('(<any[]>res).length=', (<any[]>res).length);
+        if ((<any[]>res).length) {
+          console.log('selectConferenceAll() after  select res');
+          console.log(res);
+          this.conferenceList = <any[]>res;
+          console.log("this.conferenceList");
+          console.log(this.conferenceList);
+        }
+        else {
+          let toast = this.toastCtrl.create({
+            message: 'API запрос и запись в базу',
+            duration: 5000
+          });
+          toast.present();
+          console.log(' this.getPlaceApiInsertBase()');
+          this.getConferenceApiInsertBase();
+        }
+      })
+    }
   }
 
+
+/*  deleteConferenceAll() {
+    this.conferenceSql.delAll();
+  }*/
 
 /*
-  selectConferenceSearch() {
-    this.sqlMyForum.getRusConference(this.formWhereStr()).then(res => {
-      console.log('our select');
-      console.log(res);
-      this.conferenceList = res;
-    })
-  }
-*/
-
-
-  /**
-   * delete All records from the table "conferenceList"
-   */
-  /*deleteAll() {
-   this.conferenceSql.delAllConference().then(res => {
-   console.log('our select');
-   console.log(res);
-   })
-   }*/
-
-  deleteConferenceAll() {
-    this.conferenceSql.delAll();
-  }
-
   deleteConferenceOne(id) {
     this.conferenceSql.delId(id).then(
 
     );
   }
+*/
 
 
   getConferenceApiInsertBase() {
@@ -462,19 +337,10 @@ export class ConferencePage {
 
         console.log("and refresh now");
         console.log("res=", res);
-        /* if (res) {
-         for (let conference of this.conferenceList) {
-         if (conference.id == id) conference.my_forum_id = res;
-         console.log("conferenceList after inserting=", this.conferenceList);
 
-         }
-         }*/
-        // this.conferenceRefresh();
       }
     );
 
-    // console.log("and refresh now2");
-    // this.conferenceRefresh();
   }
 
   removeSelection() {
@@ -483,7 +349,7 @@ export class ConferencePage {
 
 
   showMapConference() {
-    this.placeSql.selectPlace().then(res => {
+    this.placeSql.select().then(res => {
       let place: place[] = (<place[]>res);
       this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
         console.log("res=", res);
@@ -500,31 +366,42 @@ export class ConferencePage {
 
   setRussianStrings() {
     console.log('this.setRussianStrings()');
-
-
     this.setFilterStr = 'Установить';
     this.cancelFilterStr = 'Отменить';
     this.title = 'Конференция';
+    this.addMyForumStr = 'В "Мой форум"';
+    this.delMyForumStr = 'Удалить из "Мой форум"';
+    this.loadStr='Загрузка...';
   }
 
   setEnglishStrings() {
     console.log('this.setEnglishStrings()');
-
-
     this.setFilterStr = 'Set';
     this.cancelFilterStr = 'Cancel';
     this.title = 'Conference';
+    this.addMyForumStr = 'Add in "My Forum"';
+    this.delMyForumStr = 'Del from "My Forum"';
+    this.loadStr='Loading...';
   }
 
   setFilterStrConference() {
     this.filterStr = this.filterProvider.filterStr;
     console.log("this.filterStr", this.filterStr);
-    this.sqlMyForum.getRusConference(this.filterStr).then(res => {
-      console.log('our select');
-      console.log(res);
-      this.conferenceList = res;
-      this.showHideFilter();
-    });
+    if (this.lang == 'ru') {
+      this.sqlMyForum.getRusConference(this.filterStr).then(res => {
+        console.log('our select');
+        console.log(res);
+        this.conferenceList = res;
+        this.showHideFilter();
+      });
+    } else {
+      this.sqlMyForum.getEngConference(this.filterStr).then(res => {
+        console.log('our select');
+        console.log(res);
+        this.conferenceList = res;
+        this.showHideFilter();
+      });
+    }
   }
 
   cancelFilterStrConference() {

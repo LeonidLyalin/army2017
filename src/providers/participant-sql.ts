@@ -57,71 +57,6 @@ export class ParticipantSql extends BaseSql{
    /* this.openDb();*/
   }
 
-  /**
-   *
-   * Open The Datebase
-   */
-/*
-  openDb() {
-    this.db = window
-      .sqlitePlugin
-      .openDatabase({name: 'todo.db', location: 'default'});
-    this.db.transaction((tx) => {
-      tx.executeSql('CREATE TABLE IF NOT EXISTS participant (' +
-        'id text PRIMARY KEY, ' +
-        'name_rus text,' +
-        'name_eng text,' +
-        'desc_rus text,' +
-        'desc_eng text,' +
-        'logo text,' +
-        'country_rus text,' +
-        'country_eng text,' +
-        'address_rus text,' +
-        'address_eng text,' +
-        'phone text,' +
-        'email text,' +
-        'www text,' +
-        'place text,' +
-        'thematic text,' +
-        'name_rus_upper text)');
-    }, (e) => {
-      console.log('Transaction participant  Error', e);
-    }, () => {
-      console.log('Created participant OK..');
-    })
-  }
-*/
-
-
-/*  //to delete any Item
-  delParticipant(id) {
-    return new Promise(resolve => {
-      var query = "DELETE FROM participant WHERE id=?";
-      this.db.executeSql(query, [id], (s) => {
-        console.log('Delete Success...', s);
-
-        resolve(true);
-
-      }, (err) => {
-        console.log('Deleting Error', err);
-      });
-    })
-
-  }*/
-
-/*  checkParticipantForId(id) {
-    return new Promise(res => {
-      let query = 'SELECT * FROM participant WHERE id=' + id;
-      this.db.executeSql(query, [], rs => {
-        console.log("checkParticipantForId(id)!!! id=", id, query);
-        console.log(rs);
-        console.log(rs.rows.length);
-        if (rs.rows.length > 0) return res(true)
-        else return res(false);
-
-      });
-    });
-  }*/
 
 
   /**
@@ -174,69 +109,10 @@ export class ParticipantSql extends BaseSql{
     })
   }
 
-  //Refresh everytime
-
-/*  selectParticipant() {
-    return new Promise(res => {
-      this.arr = [];
-      let query = "SELECT * FROM participant";
-      this.db.executeSql(query, [], rs => {
-        if (rs.rows.length > 0) {
-          this.arr = [];
-          for (var i = 0; i < rs.rows.length; i++) {
-
-            this.arr.push(<participant>rs.rows.item(i));
-
-          }
-        }
-        res(this.arr);
-      }, (e) => {
-        console.log('Sql Query Error', e);
-      });
-    })
-
-  }*/
 
 
-  selectRusParticipant() {
-    return new Promise(res => {
-      this.arr = [];
-      let query = 'SELECT id, name_rus, desc_rus, country_rus, address_rus, phone, email, www, logo, place, thematic  FROM participant';
-      this.db.executeSql(query, [], rs => {
-        console.log("right after executeSql");
-        console.log(rs);
-        console.log(rs.rows.item(0).id);
-        if (rs.rows.length > 0) {
-          this.arr = [];
-          for (var i = 0; i < rs.rows.length; i++) {
-            var item = rs.rows.item(i);
-            this.arr.push(item);
-          }
-        }
-        res(true);
-      }, (e) => {
-        console.log('Sql Query Error', e);
-      });
-    })
 
-  }
 
-/*
-  delAllParticipant() {
-    console.log('try to delete all');
-    return new Promise(resolve => {
-      let query = "DELETE FROM participant";
-      this.db.executeSql(query, [], (s) => {
-        console.log('Delete All Success...', s);
-        this.select().then(s => {
-          resolve(true);
-        });
-      }, (err) => {
-        console.log('Deleting Error', err);
-      });
-    })
-
-  }*/
 
   //to Update any Item
   update(id, txt) {
@@ -254,20 +130,6 @@ export class ParticipantSql extends BaseSql{
 
   }
 
-/*  getMyForumForId(id) {
-    return new Promise(res => {
-        let userId = localStorage.getItem('userid');
-        if (!userId) return (res(false))
-        let query = "select id from myforum where my_id=" + id + ' and user=' + userId;
-        console.log(query);
-        this.db.executeSql(query, [], rs => {
-          if (rs) {
-            res(rs.rows.item(0).id);
-          }
-          else res(false);
-        });
-      }
-    );
-  }*/
+
 
 }

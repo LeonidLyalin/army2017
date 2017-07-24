@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-import {place} from "../../pages/providers/place-sql";
+import {place} from "../place-sql/place-sql";
 
 /*
   Generated class for the DrawFunctionProvider provider.

@@ -7,7 +7,7 @@ import {
   from
     'ionic-angular';
 import {PlaceApi} from "../../shared/place/place-api-service";
-import {place, PlaceSql} from "../../providers/place-sql";
+import {place, PlaceSql} from "../../../providers/place-sql/place-sql";
 import {HallAMapPage} from "../hall-a-map/hall-a-map";
 import {HallBMapPage} from "../hall-b-map/hall-b-map";
 import {DrawFunctionProvider} from "../../../providers/draw-function/draw-function";
@@ -67,7 +67,7 @@ export class PatriotExpoMapPage {
 
       }
       toast.present();
-      this.placeSql.selectPlaceMap(this.name_map).then(
+      this.placeSql.selectWhere('map='+'"'+this.name_map+'"').then(
         res => {
           console.log("res=", res);
           let length = (<place[]>res).length;
@@ -140,7 +140,7 @@ export class PatriotExpoMapPage {
 
   deletePlaceAll() {
 
-      this.placeSql.delAllPlace(this.name_map);
+      this.placeSql.delAll('name_map="'+this.name_map+'"');
   }
 
 

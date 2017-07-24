@@ -1,7 +1,7 @@
 import {Injectable, ViewChild} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
-import {place, PlaceSql} from "../../pages/providers/place-sql";
+import {place, PlaceSql} from "../place-sql/place-sql";
 import {AlertController, NavController, NavParams, ToastController} from "ionic-angular";
 import {PlaceApi} from "../../pages/shared/place/place-api-service";
 import {DrawFunctionProvider} from "../draw-function/draw-function";
@@ -66,7 +66,7 @@ export class MapBaseProvider {
 
       }
       toast.present();
-      this.placeSql.selectPlaceMap(this.name_map).then(
+      this.placeSql.selectWhere('map='+'"'+this.name_map+'"').then(
         res => {
           console.log("res=", res);
           let length = (<place[]>res).length;
@@ -110,7 +110,7 @@ export class MapBaseProvider {
   }
 
   deletePlaceAll() {
-    this.placeSql.delAllPlace(this.name_map);
+    this.placeSql.delAll('name_map="'+this.name_map+'"');
   }
 
 

@@ -1,6 +1,6 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>Login</ion-title>
+		<ion-title>{{loginStr}}</ion-title>
 	</ion-navbar>
 </ion-header>
 
@@ -12,31 +12,31 @@
 	<form #loginForm="ngForm" novalidate>
 		<ion-list no-lines>
 			<ion-item>
-				<ion-label stacked color="danger">Логин</ion-label>
+				<ion-label stacked color="danger">{{userNameStr}}</ion-label>
 				<ion-input [(ngModel)]="login.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off"
 					required>
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
-				Требуется имя пользователя
+				{{needUserNameStr}}
 			</p>
 
 			<ion-item>
-				<ion-label stacked color="danger">Пароль</ion-label>
+				<ion-label stacked color="danger">{{passwordStr}}</ion-label>
 				<ion-input [(ngModel)]="login.password" name="password" type="password" #password="ngModel" required>
 				</ion-input>
 			</ion-item>
 			<p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
-				Требуется пароль
+				{{needPasswordStr}}
 			</p>
 		</ion-list>
 
 		<ion-row responsive-sm>
 			<ion-col>
-				<button ion-button (click)="onLogin(loginForm)" type="submit" block color="danger">Войти</button>
+				<button ion-button (click)="onLogin(loginForm)" type="submit" block color="danger">{{loginStr}}</button>
 			</ion-col>
 			<ion-col>
-				<button ion-button (click)="onSignup()" color="light" block>Регистрация</button>
+				<button ion-button (click)="onSignup()" color="light" block>{{signUpStr}}</button>
 			</ion-col>
 		</ion-row>
 	</form>

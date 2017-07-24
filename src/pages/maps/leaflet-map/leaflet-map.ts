@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
-import {Content, NavController, NavParams, Platform, Scroll, ToastController} from 'ionic-angular';
+import {Content, Events, NavController, NavParams, Platform, Scroll, ToastController} from 'ionic-angular';
 import {PlaceApi} from "../../shared/place/place-api-service";
-import {place} from "../../providers/place-sql";
+import {place} from "../../../providers/place-sql/place-sql";
 import {PatriotExpoMapPage} from "../patriot-expo-map/patriot-expo-map";
 import {DrawFunctionProvider} from "../../../providers/draw-function/draw-function";
 import * as L from 'leaflet';
@@ -15,6 +15,7 @@ export interface mapSize {
   x: number;
   y: number;
 }
+
 export interface coord {
   x1: number;
   y1: number;
@@ -22,6 +23,7 @@ export interface coord {
   y2: number;
   page: any;
 }
+
 @Component({
   selector: 'leaflet-map',
   templateUrl: 'leaflet-map.html',
@@ -37,7 +39,7 @@ export class LeafletMapPage {
   height_map: number = 359;
   widthMinus: number = -this.width_map;
 
-  canvasStyle: string = 'border: 1px black solid;position:relative;top:0px;left:-' + this.width_map.toString() + 'px;z-index:-1';
+  //canvasStyle: string = 'border: 1px black solid;position:relative;top:0px;left:-' + this.width_map.toString() + 'px;z-index:-1';
 
   places: place[] = [];
 
@@ -60,14 +62,26 @@ export class LeafletMapPage {
 
   currentMapNumber: number;
 
+
+  mapTitle: string;
   showArrow: number = 0;
 
   popups: any;
+//define show or note arrow buttons
+  showLeftArrow:boolean;
+  showRightArrow:boolean;
+  showUpArrow:boolean;
+  showDownArrow:boolean;
 
   /**
    * @placeList for conference - several event can use the same place in differenct time
    */
   placeList: any;
+  lang: string;
+
+  //interface strings
+
+  titleStr: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -75,7 +89,8 @@ export class LeafletMapPage {
               public placeApi: PlaceApi,
               public toastCtrl: ToastController,
               public drawFunction: DrawFunctionProvider,
-              public mapSql: MapSql
+              public mapSql: MapSql,
+              public events: Events,
               /*public placeSql: PlaceSql*/) {
 
     this.popupElement = navParams.get('popupElement');
@@ -84,13 +99,43 @@ export class LeafletMapPage {
     console.log("popupElement=", this.popupElement);
     console.log("place=", this.place);
     console.log("mapParam=", this.mapParam);
+    this.lang = localStorage.getItem('lang');
+    if (this.lang == 'ru') {
+      this.setRussianStrings();
+    }
+    else {
+      this.setEnglishStrings();
+    }
 
-    // this.nameMap = this.place.name_map;
+    this.events.subscribe('language:change', () => {
+
+
+      this.lang = localStorage.getItem('lang');
+      if (this.lang == 'ru') {
+        console.log('this.events.subscribe(language:change)', this.lang);
+        this.setRussianStrings();
+      }
+      else {
+        this.setEnglishStrings();
+      }
+    });
+
   }
 
 
+  setRussianStrings() {
+    this.titleStr = 'Карта форума';
+  }
+
+  setEnglishStrings() {
+    this.titleStr = 'Forum map';
+  }
+
   // bounds = [(0, 0), (this.height, this.width)];
 
+  /**
+   * create map list for all USING maps
+   */
   private createMapList() {
 
     this.mapList = [];
@@ -143,7 +188,14 @@ export class LeafletMapPage {
       if (this.currentMapName == this.fullMapList[i].name_map) {
         this.width = this.fullMapList[i].width;
         this.height = this.fullMapList[i].height;
+        if (this.lang == 'ru') {
+          this.mapTitle = this.fullMapList[i].name_rus
+        }
+        else {
+          this.mapTitle = this.fullMapList[i].name_eng
+        }
       }
+
     }
   }
 
@@ -155,6 +207,22 @@ export class LeafletMapPage {
     this.map = L.map('map', {
       crs: L.CRS.Simple,
       minZoom: -1
+    });
+    this.bounds = [[0, 0], [this.height, this.width]];//new L.LatLngBounds(this.southWest, this.northEast);
+    L.imageOverlay('assets/img/maps/' + this.currentMapName, this.bounds).addTo(this.map);
+    this.map.fitBounds(this.bounds);
+    /* if (this.lang == 'ru') {
+       this.mapTitle=this.mapList[this.currentMapNumber].name_rus}
+     else {
+       this.mapTitle=this.mapList[this.currentMapNumber].name_eng
+     }
+     */
+  }
+
+  setMap(){
+   // this.map.removeLayer(0);
+    this.map.eachLayer(rs=>{
+      this.map.removeLayer(rs);
     });
     this.bounds = [[0, 0], [this.height, this.width]];//new L.LatLngBounds(this.southWest, this.northEast);
     L.imageOverlay('assets/img/maps/' + this.currentMapName, this.bounds).addTo(this.map);
@@ -210,7 +278,7 @@ export class LeafletMapPage {
               + this.popupElement[i].time_beg + ':' +
               this.popupElement[i].time_end + '<br>';
           }
-          content += this.popupElement[i].name_rus + '<br>';
+          content += this.popupElement[i].name + '<br>';
           console.log("content=", content);
         }
 
@@ -264,11 +332,19 @@ export class LeafletMapPage {
           mCoords.push(Number(mCoordsSingle));
         }
 
+        [{"name":"id","type":"text PRIMARY KEY"},{"name":"map","type":"text"},{"name":"place_previous", "type":"text"},{"name":"name_map","type":"text"},{"name": "name_rus", "type": "text"}, {"name": "name_eng", "type": "text"}, {"name": "width", "type": "text"},{"name": "height", "type": "text"},{"name": "map_left", "type": "text"},{"name": "map_right", "type": "text"},{"name": "map_up", "type": "text"},{"name": "map_down", "type": "text"}]
+
       }
       console.log("mCoords[1]=", mCoords[1]);
       console.log("mCoords[0]=", mCoords[0]);
       popup.setLatLng([this.height - mCoords[1], mCoords[0]]);
-      let content = this.place[0].name_rus + '<br>' + this.popupElement.name_rus;
+      let content: string;
+      if (this.lang == 'ru') {
+        content = this.place[0].name_rus + '<br>' + this.popupElement.name;
+      }
+      else {
+        content = this.place[0].name_eng + '<br>' + this.popupElement.name;
+      }
       popup.setContent(content);
       popup.openOn(this.map);
     }
@@ -283,24 +359,26 @@ export class LeafletMapPage {
         this.getMapFromFullList();
         this.createPlaceList();
         this.initMap();
+        this.setButtonsEnable();
         this.setPopups();
 
       });
     }
 
-      if (this.typeOfMap == 'participant') {
-        this.createMapList();
-        this.currentMapName = this.mapList[0];
-        this.currentMapNumber = 0;
-        this.mapSql.select().then(res => {
-          this.fullMapList = <any>res;
-          console.log('this.fullMapList=', res);
-          this.getMapFromFullList();
-          this.createPlaceList();
-          this.initMap();
-          this.setPopups();
+    if (this.typeOfMap == 'participant') {
+      this.createMapList();
+      this.currentMapName = this.mapList[0];
+      this.currentMapNumber = 0;
+      this.mapSql.select().then(res => {
+        this.fullMapList = <any>res;
+        console.log('this.fullMapList=', res);
+        this.getMapFromFullList();
+        this.createPlaceList();
+        this.initMap();
+        this.setButtonsEnable();
+        this.setPopups();
 
-        });
+      });
     }
 
 
@@ -328,30 +406,152 @@ export class LeafletMapPage {
 
   }
 
-  mapRight() {
+/*  mapRight() {
     console.log("mapRight this.mapList=", this.mapList);
     if (this.currentMapNumber < (this.mapList.length - 1)) {
       this.currentMapNumber++;
       this.currentMapName = this.mapList[this.currentMapNumber];
+      if (this.lang == 'ru') {
+        this.mapTitle = this.mapList[this.currentMapNumber].name_rus
+      }
+      else {
+        this.mapTitle = this.mapList[this.currentMapNumber].name_eng;
+      }
       console.log(" this.currentMapName=", this.currentMapName);
       //flayer L.imageOverlay('assets/img/maps/' + this.currentMapName, this.bounds).remove();
       this.mapBounds();
       this.setPopups();
     }
-  }
+  }*/
 
-
+/*
   mapLeft() {
     console.log("mapLeft this.mapList=", this.mapList);
     if (this.currentMapNumber > 0) {
       this.currentMapNumber--;
       this.currentMapName = this.mapList[this.currentMapNumber];
+      if (this.lang == 'ru') {
+        this.mapTitle = this.mapList[this.currentMapNumber].name_rus
+      }
+      else {
+        this.mapTitle = this.mapList[this.currentMapNumber].name_eng
+      }
 
       this.mapBounds();
       this.setPopups();
     }
+  }*/
+
+
+  setButtonsEnable(){
+
+    console.log("setButtonsEnable() this.currentMapNumber=",this.currentMapNumber);
+    console.log("setButtonsEnable() this.fullMapList[this.currentMapNumber]",this.fullMapList[this.currentMapNumber]);
+    if (this.fullMapList[this.currentMapNumber].map_left)
+      this.showLeftArrow=true;
+    else this.showLeftArrow=false;
+
+    if (this.fullMapList[this.currentMapNumber].map_right)
+      this.showRightArrow=true;
+    else this.showRightArrow=false;
+
+    if (this.fullMapList[this.currentMapNumber].map_up)
+      this.showUpArrow=true;
+    else this.showUpArrow=false;
+    if (this.fullMapList[this.currentMapNumber].map_down)
+      this.showDownArrow=true;
+    else this.showDownArrow=false;
+
+
   }
 
+  mapLeft() {
+    console.log("currentMapNumber=",this.currentMapNumber);
+    console.log("fullMapList[currentMapNumber]=", this.fullMapList[this.currentMapNumber]);
+    console.log("fullMapList[currentMapNumber].map_left=", this.fullMapList[this.currentMapNumber].map_left);
+    if (this.fullMapList[this.currentMapNumber].map_left) {
+      for (var i = 0; i < this.fullMapList.length; i++) {
+        if (this.fullMapList[i].name_map == this.fullMapList[this.currentMapNumber].map_left) {
+          this.currentMapName = this.fullMapList[i].name_map;
+          // setMap();
+          console.log("currentMap=", this.currentMapName);
+          this.currentMapNumber = i;
+          break;
+        }
+      }
+    }
+    this.getMapFromFullList();
+    this.setMap();
+    this.setButtonsEnable();
+    this.setPopups();
+
+  }
+
+  mapRight() {
+    console.log("currentMapNumber=",this.currentMapNumber);
+    console.log("fullMapList[currentMapNumber]=", this.fullMapList[this.currentMapNumber]);
+    console.log("fullMapList[currentMapNumber].map_right=", this.fullMapList[this.currentMapNumber].map_right);
+    if (this.fullMapList[this.currentMapNumber].map_right) {
+      for (var i = 0; i < this.fullMapList.length; i++) {
+        if (this.fullMapList[i].name_map == this.fullMapList[this.currentMapNumber].map_right) {
+          this.currentMapName = this.fullMapList[i].name_map;
+          // setMap();
+          console.log("currentMap=", this.currentMapName);
+          this.currentMapNumber = i;
+          break;
+        }
+      }
+    }
+    this.getMapFromFullList();
+    this.setMap();
+    this.setButtonsEnable();
+    this.setPopups();
+
+  }
+
+  mapUp() {
+    console.log("currentMapNumber=",this.currentMapNumber);
+    console.log("fullMapList[currentMapNumber]=", this.fullMapList[this.currentMapNumber]);
+    console.log("fullMapList[currentMapNumber].map_up=", this.fullMapList[this.currentMapNumber].map_up);
+    if (this.fullMapList[this.currentMapNumber].map_up) {
+      for (var i = 0; i < this.fullMapList.length; i++) {
+        if (this.fullMapList[i].name_map == this.fullMapList[this.currentMapNumber].map_up) {
+          this.currentMapName = this.fullMapList[i].name_map;
+          // setMap();
+          console.log("currentMap=", this.currentMapName);
+          this.currentMapNumber = i;
+          break;
+        }
+      }
+    }
+    this.getMapFromFullList();
+    this.setMap();
+    this.setButtonsEnable();
+    this.setPopups();
+
+  }
+
+  mapDown() {
+    console.log("currentMapNumber=",this.currentMapNumber);
+    console.log("fullMapList[currentMapNumber]=", this.fullMapList[this.currentMapNumber]);
+    console.log("fullMapList[currentMapNumber].map_down=", this.fullMapList[this.currentMapNumber].map_down);
+    if (this.fullMapList[this.currentMapNumber].map_down) {
+      for (var i = 0; i < this.fullMapList.length; i++) {
+        if (this.fullMapList[i].name_map == this.fullMapList[this.currentMapNumber].map_down) {
+          this.currentMapName = this.fullMapList[i].name_map;
+          // setMap();
+          console.log("currentMap=", this.currentMapName);
+          this.currentMapNumber = i;
+          break;
+        }
+      }
+    }
+    this.getMapFromFullList();
+    this.setMap();
+    this.setButtonsEnable();
+    this.setPopups();
+
+  }
 
 }
 

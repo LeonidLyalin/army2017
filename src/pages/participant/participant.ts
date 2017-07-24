@@ -14,7 +14,7 @@ import {MyForumSQL} from "../../providers/my-forum-sql";
 import {ParticipantDetailPage} from "../participant-detail/participant-detail";
 import {MyForumApi} from "../shared/my-forum/my-forum-api";
 
-import {place, PlaceSql} from "../providers/place-sql";
+import {place, PlaceSql} from "../../providers/place-sql/place-sql";
 import {map} from "../../providers/map-sql/map-sql";
 
 import {country} from "../../providers/country-sql/country-sql";
@@ -53,6 +53,10 @@ export class ParticipantPage {
   setFilterStr: string;
   cancelFilterStr: string;
   title:string;
+
+  addMyForumStr: string;
+  delMyForumStr: string;
+  loadStr:string;
 
   filterStr: string;
 
@@ -116,6 +120,9 @@ export class ParticipantPage {
     this.setFilterStr = 'Установить';
     this.cancelFilterStr = 'Отменить';
     this.title='Участники';
+    this.addMyForumStr = 'В "Мой форум"';
+    this.delMyForumStr = 'Удалить из "Мой форум"';
+    this.loadStr='Загрузка';
   }
 
   setEnglishStrings() {
@@ -125,6 +132,9 @@ export class ParticipantPage {
     this.setFilterStr = 'Set';
     this.cancelFilterStr = 'Cancel';
     this.title='Exhibitors';
+    this.addMyForumStr = 'Add in "My Forum"';
+    this.delMyForumStr = 'Del from "My Forum"';
+    this.loadStr='Loading';
   }
 
   getParticipantApi() {
@@ -153,7 +163,7 @@ export class ParticipantPage {
     else {
       console.log("this.selectParticipantAll()");
       let toast = this.toastCtrl.create({
-        message: 'Загрузка из базы ',
+        message: this.loadStr,
         duration: 2000
       });
       toast.present();
@@ -439,12 +449,22 @@ export class ParticipantPage {
   setFilterStrParticipant() {
     this.filterStr = this.filterProvider.filterStr;
     console.log("this.filterStr", this.filterStr);
-    this.sqlMyForum.getRusParticipant(this.filterStr).then(res => {
-      console.log('our select');
-      console.log(res);
-      this.participants = res;
-      this.showHideFilter();
-    });
+    if (this.lang == 'ru') {
+      this.sqlMyForum.getRusParticipant(this.filterStr).then(res => {
+        console.log('our select');
+        console.log(res);
+        this.participants = res;
+        this.showHideFilter();
+      });
+    }
+    else {
+      this.sqlMyForum.getEngParticipant(this.filterStr).then(res => {
+        console.log('our select');
+        console.log(res);
+        this.participants = res;
+        this.showHideFilter();
+      });
+    }
   }
 
   cancelFilterStrParticipant(){

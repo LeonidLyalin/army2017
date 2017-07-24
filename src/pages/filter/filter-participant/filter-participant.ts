@@ -4,48 +4,18 @@ import {FilterPage} from "../filter";
 import {BaseSql} from "../../../providers/base-sql";
 import {Http} from "@angular/http";
 import {FilterParticipantProvider} from "../../../providers/filter-provider/filter-participant-provider";
-/**
- * Generated class for the FilterParticipantPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+
 @Injectable()
 @Component({
   selector: 'page-filter-participant',
   templateUrl: 'filter-participant.html',
 })
 export class FilterParticipantPage {
-  /*
-   public thematicField: string;
-   public filterProvider.thematicTitle: string;
-   public thematicValue: string;
 
-   public mapField: string;
-   public mapTitle: string;
-   public mapValue: string;
-
-   public placeField: string;
-   public placeTitle: string;
-   public placeValue: string;
-
-   public countryField: string;
-   public countryTitle: string;
-   public countryValue: string;
-
-   public partOfName: string;*/
 
   userId: string;
   lang: string;
 
-  //interface strings
-  /* setFilterStr: string;
-   cancelFilterStr: string;
-   findName: string;*/
-
-
-  /* @Input()
-   filterStr: string;*/
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -128,7 +98,17 @@ export class FilterParticipantPage {
         this.filterProvider.thematicField = data["field"];
         this.filterProvider.thematicValue = data["value"];
         /* this.filterProvider.filterStr=this.filterCreateWhereStr();*/
-        this.filterProvider.setFilterStr(this.filterCreateWhereStr());
+        if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
+          this.filterCreateWhereStrMap().then(res => {
+            console.log(' filterMap()1 res=', <any>res);
+            this.filterProvider.setFilterStr(<string>res);
+          });
+        else
+          this.filterCreateWhereStr().then(res => {
+            console.log(' filterMap() res=', <any>res);
+            this.filterProvider.setFilterStr(<string>res);
+          });
+        console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
       });
     filterModal.present();
   }
@@ -151,7 +131,17 @@ export class FilterParticipantPage {
         this.filterProvider.mapField = data["field"];
         this.filterProvider.mapValue = data["value"];
         // this.filterStr=this.filterCreateWhereStr();
-        this.filterProvider.setFilterStr(this.filterCreateWhereStr());
+        if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
+          this.filterCreateWhereStrMap().then(res => {
+            console.log(' filterMap()1 res=', <any>res);
+            this.filterProvider.setFilterStr(<string>res);
+          });
+        else
+          this.filterCreateWhereStr().then(res => {
+            console.log(' filterMap() res=', <any>res);
+            this.filterProvider.setFilterStr(<string>res);
+          });
+        console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
       });
     filterModal.present();
   }
@@ -176,7 +166,17 @@ export class FilterParticipantPage {
           this.filterProvider.placeField = data["field"];
           this.filterProvider.placeValue = data["value"];
           //this.filterProvider.filterStr=
-          this.filterProvider.setFilterStr(this.filterCreateWhereStr());
+          if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
+            this.filterCreateWhereStrMap().then(res => {
+              console.log(' filterMap()1 res=', <any>res);
+              this.filterProvider.setFilterStr(<string>res);
+            });
+          else
+            this.filterCreateWhereStr().then(res => {
+              console.log(' filterMap() res=', <any>res);
+              this.filterProvider.setFilterStr(<string>res);
+            });
+          console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
         });
       filterModal.present();
     }
@@ -201,7 +201,17 @@ export class FilterParticipantPage {
         this.filterProvider.countryField = data["field"];
         this.filterProvider.countryValue = data["value"];
         //this.filterStr=this.filterCreateWhereStr();
-        this.filterProvider.setFilterStr(this.filterCreateWhereStr());
+        if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
+          this.filterCreateWhereStrMap().then(res => {
+            console.log(' filterMap()1 res=', <any>res);
+            this.filterProvider.setFilterStr(<string>res);
+          });
+        else
+          this.filterCreateWhereStr().then(res => {
+            console.log(' filterMap() res=', <any>res);
+            this.filterProvider.setFilterStr(<string>res);
+          });
+        console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
       }
     );
 
@@ -213,55 +223,125 @@ export class FilterParticipantPage {
     console.log("this.countryValue", this.filterProvider.countryValue);
     console.log("this.mapValue=", this.filterProvider.mapValue);
     console.log("(this.placeValue=", this.filterProvider.placeValue);
-    let whereStr = '';
+    return new Promise(res => {
+      let whereStr = '';
 
-    if ((this.filterProvider.partOfName) && (this.filterProvider.partOfName != '')) {
-      if (this.lang == 'ru') {
-        whereStr += ((whereStr != '') ? ' and ' : '') + ' a.name_rus_upper like' + '"%' + this.filterProvider.partOfName.toUpperCase() + '%"';
-      }
-      else {
-        whereStr += ((whereStr != '') ? ' and ' : '') + 'a.name_eng like' + '"%' + this.filterProvider.partOfName.toUpperCase() + '%"'
-      }
-
-    }
-
-    if ((this.filterProvider.countryValue) && (this.filterProvider.countryValue != '')) {
-      if (this.lang == 'ru') {
-        whereStr += ((whereStr != '') ? ' and ' : '') + 'a.country_rus="' + this.filterProvider.countryValue + '"';
-      }
-      else {
-        whereStr += ((whereStr != '') ? ' and ' : '') + 'a.country_eng="' + this.filterProvider.countryValue + '"';
-      }
-    }
-    if ((this.filterProvider.mapValue) && ((this.filterProvider.placeValue == '') && (this.filterProvider.mapValue != ''))) {
-      let places = new BaseSql(this.http, 'place');
-      places.selectDistinct('id', 'name_map="' + this.filterProvider.mapValue + '"').then(res => {
-        let placeList = <any>res;
-        console.log("place", placeList);
-        if (placeList.length() > 0) whereStr += ((whereStr != '') ? ' and (' : ' (');
-        for (let i = 0; i < placeList.length(); i++) {
-          whereStr += ' place=' + placeList[i].id;
-          if (i < placeList.length() - 1) whereStr += ' or ';
+      if ((this.filterProvider.partOfName) && (this.filterProvider.partOfName != '')) {
+        if (this.lang == 'ru') {
+          whereStr += ((whereStr != '') ? ' and ' : '') + ' a.name_rus_upper like' + '"%' + this.filterProvider.partOfName.toUpperCase() + '%"';
         }
-        whereStr += ')';
-      })
-      console.log("((this.placeValue=='') && (this.mapValue!=''))", whereStr);
-    }
+        else {
+          whereStr += ((whereStr != '') ? ' and ' : '') + 'a.name_eng like' + '"%' + this.filterProvider.partOfName.toUpperCase() + '%"'
+        }
 
-    if (this.filterProvider.thematicValue) {
+      }
 
-      whereStr += ((whereStr != '') ? ' and ' : '') + '(a.thematic="' + this.filterProvider.thematicValue + '" or a.thematic like "' + this.filterProvider.thematicValue +
-        ',%"' + ' or a.thematic like "%,' + this.filterProvider.thematicValue + '" or  a.thematic like "%,' + this.filterProvider.thematicValue + ',%")';
-    }
-    console.log("(whereStr after thematic=", whereStr);
+      if ((this.filterProvider.countryValue) && (this.filterProvider.countryValue != '')) {
+        if (this.lang == 'ru') {
+          whereStr += ((whereStr != '') ? ' and ' : '') + 'a.country_rus="' + this.filterProvider.countryValue + '"';
+        }
+        else {
+          whereStr += ((whereStr != '') ? ' and ' : '') + 'a.country_eng="' + this.filterProvider.countryValue + '"';
+        }
+      }
+      if ((this.filterProvider.mapValue) && ((this.filterProvider.placeValue == '') && (this.filterProvider.mapValue != ''))) {
 
-    /*if (this.partOfName != '') whereStr += ((whereStr != '') ? ' and ' : '') + ' a.name_rus like ' + '"%' + this.partOfName + '%"';
-     */
-    if (this.filterProvider.placeValue && (this.filterProvider.placeValue != ''))
-      whereStr += ((whereStr != '') ? ' and ' : '') + '  a.place="' + this.filterProvider.placeValue + '"';
-    if (whereStr != '') whereStr = ' where ' + whereStr;
-    console.log('so whereStr is =', whereStr);
-    return whereStr;
+        let places = new BaseSql(this.http, 'place');
+        places.selectDistinct("id", "name_map='" + this.filterProvider.mapValue + "'").then(rs => {
+          let placeList = <any>rs;
+          console.log("place", placeList);
+          if (placeList.length > 0) whereStr += ((whereStr != '') ? ' and (' : ' (');
+          for (let i = 0; i < placeList.length; i++) {
+            whereStr += ' place=' + placeList[i].id;
+            if (i < placeList.length - 1) whereStr += ' or ';
+          }
+          whereStr += ')';
+          console.log("((this.placeValue=='') && (this.mapValue!=''))", whereStr);
+        })
+
+      }
+
+      if (this.filterProvider.thematicValue) {
+
+        whereStr += ((whereStr != '') ? ' and ' : '') + '(a.thematic="' + this.filterProvider.thematicValue + '" or a.thematic like "' + this.filterProvider.thematicValue +
+          ',%"' + ' or a.thematic like "%,' + this.filterProvider.thematicValue + '" or  a.thematic like "%,' + this.filterProvider.thematicValue + ',%")';
+      }
+      console.log("(whereStr after thematic=", whereStr);
+
+      /*if (this.partOfName != '') whereStr += ((whereStr != '') ? ' and ' : '') + ' a.name_rus like ' + '"%' + this.partOfName + '%"';
+       */
+      if (this.filterProvider.placeValue && (this.filterProvider.placeValue != ''))
+        whereStr += ((whereStr != '') ? ' and ' : '') + '  a.place="' + this.filterProvider.placeValue + '"';
+      if (whereStr != '') whereStr = ' where ' + whereStr;
+
+      console.log('so whereStr is =', whereStr);
+      this.filterProvider.setFilterStr(whereStr);
+      console.log('so whereStr is =', whereStr);
+
+      return res(whereStr)
+    });
+  }
+
+  filterCreateWhereStrMap() {
+    console.log("this.thematicValue", this.filterProvider.thematicValue);
+    console.log("this.countryValue", this.filterProvider.countryValue);
+    console.log("this.mapValue=", this.filterProvider.mapValue);
+    console.log("(this.placeValue=", this.filterProvider.placeValue);
+    return new Promise(res => {
+      let whereStr = '';
+
+
+      if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == ''))) {
+
+        let places = new BaseSql(this.http, 'place');
+        places.selectDistinct("id", "name_map='" + this.filterProvider.mapValue + "'").then(rs => {
+          let placeList = <any>rs;
+          console.log("place", placeList);
+          if (placeList.length > 0) whereStr += ((whereStr != '') ? ' and (' : ' (');
+          for (let i = 0; i < placeList.length; i++) {
+            whereStr += ' place=' + placeList[i].id;
+            if (i < placeList.length - 1) whereStr += ' or ';
+          }
+          whereStr += ')';
+
+          if ((this.filterProvider.countryValue) && (this.filterProvider.countryValue != '')) {
+            if (this.lang == 'ru') {
+              whereStr += ((whereStr != '') ? ' and ' : '') + 'a.country_rus="' + this.filterProvider.countryValue + '"';
+            }
+            else {
+              whereStr += ((whereStr != '') ? ' and ' : '') + 'a.country_eng="' + this.filterProvider.countryValue + '"';
+            }
+          }
+          console.log("((this.placeValue=='') && (this.mapValue!=''))", whereStr);
+          if (this.filterProvider.thematicValue) {
+
+            whereStr += ((whereStr != '') ? ' and ' : '') + '(a.thematic="' + this.filterProvider.thematicValue + '" or a.thematic like "' + this.filterProvider.thematicValue +
+              ',%"' + ' or a.thematic like "%,' + this.filterProvider.thematicValue + '" or  a.thematic like "%,' + this.filterProvider.thematicValue + ',%")';
+          }
+          console.log("(whereStr after thematic=", whereStr);
+          if ((this.filterProvider.partOfName) && (this.filterProvider.partOfName != '')) {
+            if (this.lang == 'ru') {
+              whereStr += ((whereStr != '') ? ' and ' : '') + ' a.name_rus_upper like' + '"%' + this.filterProvider.partOfName.toUpperCase() + '%"';
+            }
+            else {
+              whereStr += ((whereStr != '') ? ' and ' : '') + 'a.name_eng like' + '"%' + this.filterProvider.partOfName.toUpperCase() + '%"'
+            }
+
+          }
+
+          if (whereStr != '') whereStr = ' where ' + whereStr;
+          console.log('so whereStr is =', whereStr);
+          this.filterProvider.setFilterStr(whereStr);
+          console.log('so whereStr is =', whereStr);
+        });
+
+
+      }
+
+      res(whereStr);
+    });
+
+
   }
 
   setFilter() {
@@ -273,48 +353,102 @@ export class FilterParticipantPage {
 
   selectParticipantSearch() {
     //  this.filterStr=this.filterCreateWhereStr();
-    this.filterProvider.setFilterStr(this.filterCreateWhereStr());
+    // this.filterProvider.setFilterStr(this.filterCreateWhereStr());
+    if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
+      this.filterCreateWhereStrMap().then(res => {
+        console.log(' filterMap()1 res=', <any>res);
+        this.filterProvider.setFilterStr(<string>res);
+      });
+    else
+      this.filterCreateWhereStr().then(res => {
+        console.log(' filterMap() res=', <any>res);
+        this.filterProvider.setFilterStr(<string>res);
+      });
+    console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
   }
 
-  /*  cancelFilter() {
-   this.filterProvider.thematicField = '';
-   this.filterProvider.thematicValue = '';
-   this.filterProvider.mapField = '';
-   this.filterProvider.mapValue = '';
-   this.filterProvider.placeField = '';
-   this.filterProvider.placeValue = '';
-   this.filterProvider.countryField = '';
-   this.filterProvider.countryValue = '';
-   this.filterProvider.findName='';
-
-   }*/
 
   cancelFilterCountry() {
     this.filterProvider.countryField = '';
     this.filterProvider.countryValue = '';
+    if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
+      this.filterCreateWhereStrMap().then(res => {
+        console.log(' filterMap()1 res=', <any>res);
+        this.filterProvider.setFilterStr(<string>res);
+      });
+    else
+      this.filterCreateWhereStr().then(res => {
+        console.log(' filterMap() res=', <any>res);
+        this.filterProvider.setFilterStr(<string>res);
+      });
+    console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
 
   }
 
   cancelFilterMap() {
     this.filterProvider.mapField = '';
     this.filterProvider.mapValue = '';
+    if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
+      this.filterCreateWhereStrMap().then(res => {
+        console.log(' filterMap()1 res=', <any>res);
+        this.filterProvider.setFilterStr(<string>res);
+      });
+    else
+      this.filterCreateWhereStr().then(res => {
+        console.log(' filterMap() res=', <any>res);
+        this.filterProvider.setFilterStr(<string>res);
+      });
+    console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
 
   }
 
   cancelFilterPlace() {
     this.filterProvider.placeField = '';
     this.filterProvider.placeValue = '';
+    if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
+      this.filterCreateWhereStrMap().then(res => {
+        console.log(' filterMap()1 res=', <any>res);
+        this.filterProvider.setFilterStr(<string>res);
+      });
+    else
+      this.filterCreateWhereStr().then(res => {
+        console.log(' filterMap() res=', <any>res);
+        this.filterProvider.setFilterStr(<string>res);
+      });
+    console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
 
   }
 
   cancelFilterThematic() {
     this.filterProvider.thematicField = '';
     this.filterProvider.thematicValue = '';
+    if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
+      this.filterCreateWhereStrMap().then(res => {
+        console.log(' filterMap()1 res=', <any>res);
+        this.filterProvider.setFilterStr(<string>res);
+      });
+    else
+      this.filterCreateWhereStr().then(res => {
+        console.log(' filterMap() res=', <any>res);
+        this.filterProvider.setFilterStr(<string>res);
+      });
+    console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
 
   }
 
   cancelFilterName() {
     this.filterProvider.partOfName = '';
+    if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
+      this.filterCreateWhereStrMap().then(res => {
+        console.log(' filterMap()1 res=', <any>res);
+        this.filterProvider.setFilterStr(<string>res);
+      });
+    else
+      this.filterCreateWhereStr().then(res => {
+        console.log(' filterMap() res=', <any>res);
+        this.filterProvider.setFilterStr(<string>res);
+      });
+    console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
 
 
   }

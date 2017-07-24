@@ -11,26 +11,7 @@ import {ConferenceApi} from "./conference-api-service";
  for more info on providers and Angular 2 DI.
  */
 
-/*
- id+
- name_rus+
- PLACE_NAME+
- NAME_ENG,+
- PLACE,+
- FORMAT+
- ,
- THEMATIC_CONFERENCE,+
- ORGANIZER,+
 
-
- DATE_EVENT,+
- TIME_BEG,+
- TIME_END,+
- CONTACT,+
- ORGANIZER_ENG,+
- CONTACT_ENG,+
- PLACE_NAME_ENG,+
- FORMAT_ENG*/
 
 export interface conferenceRus {
   id: string;
@@ -113,101 +94,7 @@ export class ConferenceSql extends BaseSql{
 /*    this.openDb();*/
   }
 
-  /**
-   *
-   * Open The Datebase
-   */
-  /*openDb() {
-    this.db = window
-      .sqlitePlugin
-      .openDatabase({name: 'todo.db', location: 'default'});
-    this.db.transaction((tx) => {
-      tx.executeSql('CREATE TABLE IF NOT EXISTS conference (' +
-        'id text PRIMARY KEY, ' +
-        'name_rus text,' +
-        'name_eng text,' +
-        'place_name text,' +
-        'place_name_eng text,' +
-        'place text,' +
-        'format text,' +
-        'format_eng text,' +
-        'contact text,' +
-        'contact_eng text,' +
-        'thematic_conference text,' +
-        'organizer text,' +
-        'organizer_eng text,' +
-        'date_event text,' +
-        'time_beg text,' +
-        'time_end text' + ');')
-    }, (e) => {
-      console.log('Transaction conference create Error', e);
-    }, () => {
-      console.log('Created conference OK..');
-    })
-  }*/
 
-/*
-  delConference(id) {
-    return new Promise(resolve => {
-      var query = "DELETE FROM conference WHERE id=?";
-      this.db.executeSql(query, [id], (s) => {
-        console.log('Delete Success...', s);
-
-        resolve(true);
-
-      }, (err) => {
-        console.log('Deleting Error', err);
-      });
-    })
-
-  }
-*/
-
-/*  checkConferenceForId(id) {
-    return new Promise(res => {
-      let query = 'SELECT * FROM conference WHERE id=' + id;
-      this.db.executeSql(query, [], rs => {
-        console.log("checkParticipantForId(id)!!! id=", id, query);
-        console.log(rs);
-        console.log(rs.rows.length);
-        if (rs.rows.length > 0) return res(true)
-        else return res(false);
-
-      });
-    });
-  }*/
-
-
-/*  checkTableForId(id, tableName) {
-    return new Promise(res => {
-      let query = 'SELECT * FROM ' + tableName + ' WHERE id=' + id;
-      this.db.executeSql(query, [], rs => {
-        console.log("checkParticipantForId(id)!!! id=", id, query);
-        console.log(rs);
-        console.log(rs.rows.length);
-        if (rs.rows.length > 0) return res(true)
-        else return res(false);
-
-      });
-    });
-  }*/
-/*
-
-  delTableId(id, tableName) {
-    return new Promise(resolve => {
-      var query = "DELETE FROM " + tableName + " WHERE id=?";
-      this.db.executeSql(query, [id], (s) => {
-        console.log('Delete Success...', s);
-
-        resolve(true);
-
-      }, (err) => {
-        console.log('Deleting Error', err);
-      });
-    })
-
-  }
-*/
 
 addFromApi(){
   this.api=new ConferenceApi(this.http);
@@ -272,78 +159,7 @@ addFromApi(){
   }
 
 
-/*
-  selectConference() {
-    return new Promise(res => {
-      this.arr = [];
-      let query = "SELECT * FROM conference";
-      this.db.executeSql(query, [], rs => {
-        if (rs.rows.length > 0) {
-          this.arr=[];
-          for (var i = 0; i < rs.rows.length; i++) {
 
-            this.arr.push(<conference>rs.rows.item(i));
-
-          }
-        }
-        res(this.arr);
-      }, (e) => {
-        console.log('Sql Query Error', e);
-      });
-    })
-
-  }
-*/
-
-/*
-  delAllConference() {
-    console.log('try to delete all');
-    return new Promise(resolve => {
-      let query = "DELETE FROM conference";
-      this.db.executeSql(query, [], (s) => {
-        console.log('Delete All Success...', s);
-        this.selectConference().then(s => {
-          resolve(true);
-        });
-      }, (err) => {
-        console.log('Deleting Error', err);
-      });
-    })
-
-  }
-*/
-/*
-  delAllTable(tableName) {
-    console.log('try to delete all');
-    return new Promise(resolve => {
-      let query = "DELETE FROM "+tableName;
-      this.db.executeSql(query, [], (s) => {
-        console.log('Delete All Success...', s);
-        this.selectConference().then(s => {
-          resolve(true);
-        });
-      }, (err) => {
-        console.log('Deleting Error', err);
-      });
-    })
-
-  }*/
-/*
-  getMyForumForConference(id){
-    return new Promise(res => {
-        let userId=localStorage.getItem('userid');
-        if (!userId) return (res(false))
-        let query ="select id from myforum where my_iblock_id=14 and my_id="+id+' and user='+userId;
-        console.log(query);
-        this.db.executeSql(query, [], rs => {
-          if (rs){
-            res(rs.rows.item(0).id);
-          }
-          else res(false);
-        });
-      }
-    );
-  }*/
 
 
 

@@ -23,7 +23,7 @@ import {TutorialPage} from "../pages/tutorial/tutorial";
 
 import {Storage} from '@ionic/storage';
 import {HomePage} from "../pages/home/home";
-import {MapYandexPage} from "../pages/map-yandex/map-yandex";
+
 import {ParkPatriotPage} from "../pages/park-patriot-all/park-patriot/park-patriot";
 import {WarTacticPage} from "../pages/park-patriot-all/war-tactic-page/war-tactic-page";
 import {Http} from "@angular/http";
@@ -45,7 +45,7 @@ export interface PageInterface {
   templateUrl: 'app.html'
 })
 export class MyApp {
-  // @ViewChild(Nav) navCtrl: Nav;
+
 
   @ViewChild(Nav) nav: Nav;
   rootPage: any;
@@ -54,6 +54,11 @@ export class MyApp {
   language: string;
   langVal: boolean;
 
+  //interface stings
+  menuStr: string;
+  signUpStr: string;
+  infoStr: string;
+  aboutForumStr: string;
   pages: PageInterface[] = [
 
     {title: 'Homepage', name: 'HomePage', component: HomePage, icon: 'home'},
@@ -63,7 +68,7 @@ export class MyApp {
     {title: 'Участники', name: 'ParticipantPage', component: ParticipantPage, icon: 'list'},
     {title: 'Мой форум', name: 'MyForumPage', component: MyForumPage, icon: 'bookmark'},
     {title: 'Карта', name: 'MapPage', component: MapPage, icon: 'map'},
-    {title: 'Карта Яндекс', name: 'MapYandexPage', component: MapYandexPage, icon: 'map'},
+
     {title: 'О Форуме', name: 'AboutPage', component: AboutPage, icon: 'information-circle'},
     {title: 'Парк Патриот', name: 'ParkPatrionPage', component: ParkPatriotPage, icon: 'information-circle'},
     {title: 'Центр военно-тактических игр', name: 'WarTacticPage', component: WarTacticPage, icon: 'information-circle'}
@@ -103,7 +108,6 @@ export class MyApp {
     }];
 
 
-
   constructor(public platform: Platform,
               public splashScreen: SplashScreen,
               public statusBar: StatusBar,
@@ -112,12 +116,37 @@ export class MyApp {
               public userData: UserData,
               public confData: ConferenceData,
               public storage: Storage,
-              public http: Http
-              ) {
+              public http: Http) {
 
     console.log("hi!");
-    this.lang = 'ru';
-    localStorage.setItem('lang', 'ru');
+    this.lang = localStorage.getItem('lang');
+
+    console.log("lang init value=", this.lang);
+    if (!this.lang) this.lang = 'ru';
+
+    console.log("lang init after check value=", this.lang);
+    this.langVal = !(this.lang == 'ru');
+    if (this.lang == 'ru') {
+      this.setRussianStrings();
+    }
+    else {
+      this.setEnglishStrings();
+    }
+
+    this.events.subscribe('language:change', () => {
+
+
+      this.lang = localStorage.getItem('lang');
+      if (this.lang == 'ru') {
+        console.log('this.events.subscribe(language:change) ru= ', this.lang);
+        this.setRussianStrings();
+      }
+      else {
+        console.log('this.events.subscribe(language:change) en= ', this.lang);
+        this.setEnglishStrings();
+      }
+    });
+    // localStorage.setItem('lang', 'ru');
 
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -135,7 +164,7 @@ export class MyApp {
       } else {
         this.rootPage = TutorialPage;
       }
-      //   this.platformReady()
+      this.platformReady()
     });
     confData.load();
 
@@ -146,23 +175,81 @@ export class MyApp {
     this.enableMenu(true);
 
     this.listenToLoginEvents();
-   /* if (!this.platform.is('core')) {
-      //it's in the browser
 
-      console.log('run in simulator');
-      //this.conferenceSql = new ConferenceSql(http);
-      console.log('new ConferenceSql(http)');
-      this.conferenceSql.countTable().then(res => {
-        console.log(" this.conferenceSql=", res);
-        if (<any>res == 0) {
-          this.conferenceSql.addFromApi();
-        }
+  }
+  openPage(page: PageInterface) {
+    let params = {};
+
+    // the nav component was found using @ViewChild(Nav)
+    // setRoot on the nav to remove previous pages and only have this page
+    // we wouldn't want the back button to show in this scenario
+    if (page.index) {
+      params = { tabIndex: page.index };
+    }
+
+    // If we are already on tabs just change the selected tab
+    // don't setRoot again, this maintains the history stack of the
+    // tabs even if changing them from the menu
+    if (this.nav.getActiveChildNavs().length && page.index != undefined) {
+      this.nav.getActiveChildNavs()[0].select(page.index);
+      // Set the root of the nav with params if it's a tab index
+    } else {
+      this.nav.setRoot(page.name, params).catch((err: any) => {
+        console.log(`Didn't set nav root: ${err}`);
       });
-      let placeSql = new PlaceSql(http);
-      let myForumSql = new MyForumSQL(http);
-      let mapSql = new MapSql(http);
-      let participantSql = new ParticipantSql(http);
-    }*/
+    }
+
+    if (page.logsOut === true) {
+      // Give the menu time to close before changing to logged out
+      this.userData.logout();
+    }
+  }
+
+  openTutorial() {
+    this.nav.setRoot(TutorialPage);
+  }
+
+  listenToLoginEvents() {
+    this.events.subscribe('user:login', () => {
+      this.enableMenu(true);
+    });
+
+    this.events.subscribe('user:signup', () => {
+      this.enableMenu(true);
+    });
+
+    this.events.subscribe('user:logout', () => {
+      this.enableMenu(false);
+    });
+  }
+
+  enableMenu(loggedIn: boolean) {
+    this.menu.enable(loggedIn, 'loggedInMenu');
+    this.menu.enable(!loggedIn, 'loggedOutMenu');
+  }
+
+  platformReady() {
+    // Call any initial plugins when ready
+    this.platform.ready().then(() => {
+      this.splashScreen.hide();
+    });
+  }
+
+  isActive(page: PageInterface) {
+    let childNav = this.nav.getActiveChildNavs()[0];
+
+    // Tabs are a special case because they have their own navigation
+    if (childNav) {
+      if (childNav.getSelected() && childNav.getSelected().root === page.tabComponent) {
+        return 'primary';
+      }
+      return;
+    }
+
+    if (this.nav.getActive() && this.nav.getActive().name === page.name) {
+      return 'primary';
+    }
+    return;
   }
 
   /* openPage(page) {
@@ -179,8 +266,100 @@ export class MyApp {
 
   }
 
+  setRussianStrings() {
+    this.menuStr = 'Меню';
+    this.signUpStr = 'Регистрация';
+    this.infoStr = 'Справочная информация';
+    this.aboutForumStr = 'Информация о форуме';
+    this.loggedInPages = [
+      {title: 'Профиль', name: 'AccountPage', component: AccountPage, icon: 'person'},
+      {title: 'Обратная связь', name: 'SupportPage', component: SupportPage, icon: 'help'},
+      {title: 'Выйти', name: 'TabsPage', component: TabsPage, icon: 'log-out', logsOut: true}
 
-  openPage(page: PageInterface) {
+    ];
+    this.loggedOutPages = [
+      {title: 'Войти', name: 'LoginPage', component: LoginPage, icon: 'log-in'},
+      {title: 'Обратная связь', name: 'SupportPage', component: SupportPage, icon: 'help'},
+      {title: 'Зарегистрироваться', name: 'SignupPage', component: SignupPage, icon: 'person-add'}];
+
+
+    this.appPages = [
+      {
+        title: 'Программа',
+        name: 'TabsPage',
+        component: TabsPage,
+        tabComponent: SchedulePage,
+        index: 0,
+        icon: 'calendar'
+      },
+      {
+        title: 'Контакты',
+        name: 'TabsPage',
+        component: TabsPage,
+        tabComponent: SpeakerListPage,
+        index: 1,
+        icon: 'contacts'
+      },
+      {title: 'Карта', name: 'TabsPage', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map'},
+      {
+        title: 'О форуме',
+        name: 'TabsPage',
+        component: TabsPage,
+        tabComponent: AboutPage,
+        index: 3,
+        icon: 'information-circle'
+      }];
+
+  }
+
+  setEnglishStrings() {
+    this.menuStr = 'Menu';
+    this.signUpStr = 'Sign Up';
+    this.infoStr = 'Info';
+    this.aboutForumStr = 'About Forum';
+
+    this.loggedInPages = [
+      {title: 'Profile', name: 'AccountPage', component: AccountPage, icon: 'person'},
+      {title: 'Help', name: 'SupportPage', component: SupportPage, icon: 'help'},
+      {title: 'Log out', name: 'TabsPage', component: TabsPage, icon: 'log-out', logsOut: true}
+
+    ];
+    this.loggedOutPages = [
+      {title: 'Log in', name: 'LoginPage', component: LoginPage, icon: 'log-in'},
+      {title: 'Help', name: 'SupportPage', component: SupportPage, icon: 'help'},
+      {title: 'Sign up', name: 'SignupPage', component: SignupPage, icon: 'person-add'}];
+
+
+    this.appPages = [
+      {
+        title: 'Programm',
+        name: 'TabsPage',
+        component: TabsPage,
+        tabComponent: SchedulePage,
+        index: 0,
+        icon: 'calendar'
+      },
+      {
+        title: 'Contacts',
+        name: 'TabsPage',
+        component: TabsPage,
+        tabComponent: SpeakerListPage,
+        index: 1,
+        icon: 'contacts'
+      },
+      {title: 'Map', name: 'TabsPage', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map'},
+      {
+        title: 'About',
+        name: 'TabsPage',
+        component: TabsPage,
+        tabComponent: AboutPage,
+        index: 3,
+        icon: 'information-circle'
+      }];
+
+  }
+
+  /*openPage(page: PageInterface) {
     let params = {};
 
     console.log(page, name);
@@ -196,7 +375,7 @@ export class MyApp {
     // don't setRoot again, this maintains the history stack of the
     // tabs even if changing them from the menu
     if (this.nav.getActiveChildNav() && page.index != undefined) {
-      // this.nav.setRoot(page.component);///this.rootPage=page.component;
+      this.rootPage=page.component;
       this.nav.getActiveChildNav().select(page.index);
       // Set the root of the nav with params if it's a tab index
     } else {
@@ -209,14 +388,14 @@ export class MyApp {
       // Give the menu time to close before changing to logged out
       this.userData.logout();
     }
-  }
+  }*/
 
 
-  openTutorial() {
+/*  openTutorial() {
     this.nav.setRoot(TutorialPage);
-  }
+  }*/
 
-  listenToLoginEvents() {
+/*  listenToLoginEvents() {
     this.events.subscribe('user:login', () => {
       console.log(" this.enableMenu(true); user:login");
       this.enableMenu(true);
@@ -231,22 +410,24 @@ export class MyApp {
       console.log(" this.enableMenu(false); user:logout");
       this.enableMenu(false);
     });
-  }
+  }*/
 
-  enableMenu(loggedIn: boolean) {
+/*  enableMenu(loggedIn: boolean) {
     console.log("from enable menu loggedIn=", loggedIn);
     this.menu.enable(loggedIn, 'loggedInMenu');
     this.menu.enable(!loggedIn, 'loggedOutMenu');
-  }
+  }*/
 
+/*
   platformReady() {
     // Call any initial plugins when ready
     this.platform.ready().then(() => {
       this.splashScreen.hide();
     });
   }
+*/
 
-  isActive(page: PageInterface) {
+/*  isActive(page: PageInterface) {
     let childNav = this.nav.getActiveChildNav();
 
     // Tabs are a special case because they have their own navigation
@@ -264,15 +445,18 @@ export class MyApp {
       return 'primary';
     }
     return;
-  }
+  }*/
 
   setLangRuEn() {
+    console.log('setLangRuEn ru before=', this.lang);
     if (this.lang == 'ru') {
       this.lang = 'en';
+
       this.language = 'English';
       localStorage.setItem('lang', 'en');
       console.log('set language=', 'en');
       this.events.publish('language:change');
+
     }
     else {
       this.lang = 'ru';

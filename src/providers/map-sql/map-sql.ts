@@ -35,13 +35,18 @@ export class MapSql extends BaseSql {
       {name: "name_rus", type: 'text'},
       {name: "name_eng", type: 'text'},
       {name: "width", type: 'text'},
-      {name: "height", type: 'text'}]);
+      {name: "height", type: 'text'},
+      {name: "map_left", type: 'text'},
+      {name: "map_right", type: 'text'},
+      {name: "map_up", type: 'text'},
+      {name: "map_down", type: 'text'},
+    ]);
     console.log('Hello MapConferenceSql Provider');
-    this.mapApi= new BaseApi(http);
-    this.mapApi.getApi(`http://army2017.ru/api/map_list.php`).subscribe(res => {
+  /*  this.mapApi= new BaseApi(http);
+    this.mapApi.getApi(`map_list.php`).subscribe(res => {
       console.log('res in MapSql constructor=', res);
       this.addItemList(<any>res);
-    });
+    });*/
 
 
   }
@@ -98,11 +103,11 @@ export class MapSql extends BaseSql {
     })
   }
 
-  getParticipantForMap(thematic: string) {
+/*  getParticipantForMap(thematic: string) {
     console.log("getParticipantForMap");
     console.log("thematic=", thematic);
     return new Promise(res => {
-      let query = 'select a.id, a.name_rus, a.name_eng, a.desc_rus, ' +
+      let query = 'select a.id, a.name_rus, a.name_eng, a.desc_rus as desc, ' +
         'a.desc_eng, a.logo, a.address_rus, a.address_eng, a.phone, a.email, ' +
         'a.www, b.id as my_forum_id, c.name_rus as place_name ' +
         'from participant a left join myforum b on a.id=b.my_id left join place c on a.place=c.id ' +
@@ -121,6 +126,6 @@ export class MapSql extends BaseSql {
         console.log('Sql Query Error', e);
       });
     })
-  }
+  }*/
 
 }

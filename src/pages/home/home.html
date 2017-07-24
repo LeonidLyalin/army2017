@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title text-center> Армия 2017</ion-title>
+    <ion-title text-center> {{title}}</ion-title>
   </ion-navbar>
 
 
@@ -19,33 +19,34 @@
         <ion-col col-4>
 
           <img src="assets/img/homeicons/about-forum.png" height="{{iconHeight}}" width="{{iconWidth}}" (click)="aboutPage()"/>
-          <p>О Форуме</p>
+          <p>{{aboutForumStr}}</p>
 
 
         </ion-col>
         <ion-col col-4>
           <img src="assets/img/homeicons/map.png"  height="{{iconHeight}}" width="{{iconWidth}}"(click)="forumMapPage()"/>
-          <p>Карта форума</p>
+          <p>{{mapStr}}</p>
         </ion-col>
         <ion-col col-4>
           <img src="assets/img/homeicons/exposure.png" height="{{iconHeight}}" width="{{iconWidth}}" (click)="participantPage()"/>
-          <p>Экспозиция</p>
+          <p>{{participantsStr}}</p>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col col-4>
           <img src="assets/img/homeicons/science-program-icon.png" height="{{iconHeight}}" width="{{iconWidth}}"(click)="conferencePage()"/>
-          <p>Конференция</p>
+          <p>{{conferenceStr}}</p>
         </ion-col>
         <ion-col col-4>
           <img src="assets/img/homeicons/demo-program.jpg" height="{{iconHeight}}" width="{{iconWidth}}"(click)="conferencePageJson()"/>
-          <p>Демопрограмма</p>
+          <p>{{demoProgramStr}}</p>
         </ion-col>
         <ion-col col-4>
           <img src="assets/img/homeicons/how-to-get.jpg" height="{{iconHeight}}" width="{{iconWidth}}"/>
-          <p>Как добраться</p>
+          <p>{{howDoYouGetStr}}</p>
         </ion-col>
       </ion-row>
+
 
     </ion-grid>
   </ion-slide>
@@ -54,29 +55,29 @@
       <ion-row>
         <ion-col col-4>
           <img src="assets/img/homeicons/about-forum.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
-          <p>О Форуме "Армия-2017</p>
+          <p>{{onTheForumStr}}</p>
         </ion-col>
         <ion-col col-4>
           <img src="assets/img/homeicons/park-patriot-icon.png" height="{{iconHeight}}" width="{{iconWidth}}" (click)="parkPatriot()"/>
-          <p>Парк "Патриот"</p>
+          <p>{{parkPatriotStr}}</p>
         </ion-col>
         <ion-col col-4>
           <img src="assets/img/homeicons/q&a.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
-          <p>Вопросы и ответы</p>
+          <p>{{answersAndQuestionsStr}}</p>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col col-4>
           <img src="assets/img/homeicons/entrance-exit.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
-          <p>Входы-выходы</p>
+          <p>{{entrancesExitsStr}}</p>
         </ion-col>
         <ion-col col-4>
           <img src="assets/img/homeicons/restaurants.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
-          <p>Рестораны/кафе</p>
+          <p>{{restaurantsCafe}}</p>
         </ion-col>
         <ion-col col-4>
           <img src="assets/img/homeicons/wc.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
-          <p>Туалеты</p>
+          <p>{{wcStr}}</p>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -94,15 +95,15 @@
         <ion-row>
           <ion-col col-4>
             <img src="assets/img/homeicons/info.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
-            <p>Справочная информация</p>
+            <p>{{infoStr}}</p>
           </ion-col>
           <ion-col col-4>
             <img src="assets/img/homeicons/army-2017.jpg" height="{{iconHeight}}" width="{{iconWidth}}"/>
-            <p>Мой форум</p>
+            <p>{{myForumStr}}</p>
           </ion-col>
           <ion-col col-4>
             <img src="assets/img/homeicons/qr-scanner.png" height="{{iconHeight}}" width="{{iconWidth}}"/>
-            <p>QR сканнер</p>
+            <p>{{qrScannerStr}}</p>
           </ion-col>
         </ion-row>
       </ion-grid>
