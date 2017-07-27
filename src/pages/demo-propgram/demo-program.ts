@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Events, NavController, NavParams, ToastController} from 'ionic-angular';
-import {MyForumSQL} from "../../providers/my-forum-sql";
+import {MyForumSql} from "../../providers/my-forum-sql";
 import {conferenceRusMyForum, ConferenceSql} from "../../providers/conference-sql/conference-sql";
 import {Http} from "@angular/http";
 import {ConferenceDetailPage} from "../conference-detail/conference-detail";
@@ -59,7 +59,7 @@ export class DemoProgramPage {
 
 
               public conferenceSql: ConferenceSql,
-              public sqlMyForum: MyForumSQL,
+              public sqlMyForum: MyForumSql,
 
               public navParams: NavParams,
               public toastCtrl: ToastController,
@@ -361,6 +361,7 @@ export class DemoProgramPage {
     this.thematicSearch = '';
   }
 
+/*
 
   showMapConference() {
     this.placeSql.select().then(res => {
@@ -377,6 +378,7 @@ export class DemoProgramPage {
       });
     });
   }
+*/
 
   setRussianStrings() {
     console.log('this.setRussianStrings()');

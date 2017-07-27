@@ -1,6 +1,9 @@
 import {Component, ViewChild} from '@angular/core';
 
-import {Content, MenuController, NavController, Platform, Slides, LoadingController, Events} from 'ionic-angular';
+import {
+  Content, MenuController, NavController, Platform, Slides, LoadingController, Events,
+  AlertController
+} from 'ionic-angular';
 
 import {AboutPage} from "../about/about";
 import {ForumMapPage} from "../maps/forum-map/forum-map";
@@ -67,7 +70,8 @@ export class HomePage {
               public platform: Platform,
               public http: Http,
               public loadingCtrl: LoadingController,
-              public events: Events) {
+              public events: Events,
+              public alertCtrl:AlertController) {
     this.lang = localStorage.getItem('lang');
     if (this.lang == 'ru') {
       this.setRussianStrings();
@@ -112,7 +116,7 @@ export class HomePage {
   }
 
   setEnglishStrings() {
-    this.title = 'Army 2017'
+    this.title = 'Army 2017';
     this.aboutForumStr='About';
     this.mapStr='Map';
     this.participantsStr='Exhibitors';
@@ -145,30 +149,27 @@ export class HomePage {
     this.viewCountStr = localStorage.getItem('viewcount');
     this.viewCount = Number(this.viewCountStr);
     console.log('this.viewCount=', this.viewCount);
-    let loader = this.loadingCtrl.create({
-      content: this.waitLoadStr,
-      duration: 30000,
-    });
+
     if (this.viewCount == 0) {
       /**
        * init tables of database
        */
+      let loader = this.loadingCtrl.create({
+        content: this.waitLoadStr,
+        duration: 30000,
+      });
 
-      /*  [{"name":"id", "type":"text PRIMARY KEY"}, {"name":"name_rus", "type":"text"},
-          {"name":"name_eng", "type":"text"}, {"name":"place_name", "type":"text"},
-          {"name":"place_name_eng", "type":"text"}, {"name":"place", "type":"text"},
-          {"name":"format", "type":"text"}, {"name":"format_eng", "type":"text"},
-          {"name":"contact", "type":"text"}, {"name":"contact_eng", "type":"text"},
-          {"name":"thematic_conference", "type":"text"}, {"name":"organizer", "type":"text"},
-          {"name":"organizer_eng", "type":"text"}, {"name":"date_event", "type":"text"},
-          {"name":"time_beg", "type":"text"}, {"name":"time_end", "type":"text"}, {"name":"name_rus_upper", "type":"text"}]*/
-            loader.present();
+
+
+
+
       let api = new BaseApi(this.http);
       api.getApi('universal_list.php?IBLOCK=21').subscribe(data => {
           console.log("in home.ts after getApi=", data);
 
           let tableAction = new TableActionSql(this.http);
           for (let i = 0; i < data.length; i++) {
+
             console.log("data.id", data[i]["ID"]);
             tableAction.checkForId(data[i]["ID"]).then(res => {
               console.log("tableAction.checkForId res=", res);
@@ -180,7 +181,9 @@ export class HomePage {
                 console.log("fields.length=", fields.length);
                 console.log("fields[1]", fields[1]);
                 if (!this.platform.is('core')) {
+                  loader.present().then(()=>{
                   if (data[i]["STATUS"] == 'recreate') {
+
                     console.log('mydata[i]["TABLE_NAME"]=', data[i]["TABLE_NAME"]);
                     console.log('fields=', fields);
                     console.log('mydata[i]["STATUS"]=', data[i]["STATUS"]);
@@ -188,10 +191,14 @@ export class HomePage {
                     table.loadApi(data[i]["API_PATH"]);
                   }
                   tableAction.addItem({id: data[i]["ID"]}).then(res => {
-                    console.log("tableAction.addItem res=", res)
-                  })
+                    console.log("tableAction.addItem res=", res);
+                    loader.dismiss();
+                  });
+                    loader.dismiss();
+                  });
                 }
               }
+
             })
             //if this action was never make
 
@@ -203,7 +210,7 @@ export class HomePage {
 
 
     }
-    loader.dismiss();
+
     this.viewCount++;
     localStorage.setItem('viewcount', String(this.viewCount));
   }

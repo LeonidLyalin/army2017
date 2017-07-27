@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
-import {ThematicConferenceApi} from "../pages/shared/tehematic-conference/thematic-conference-api-service";
+
 import {BaseSql} from "./base-sql";
 
 /*
@@ -34,8 +34,8 @@ export class ThematicSql extends BaseSql {
 
   /* tableName: string = 'thematic';*/
 
-  constructor(public http: Http,
-              public thematicApi: ThematicConferenceApi) {
+  constructor(public http: Http
+              ) {
 
     super(http, 'thematic', [
       {name: 'id', type: 'text PRIMARY KEY'},

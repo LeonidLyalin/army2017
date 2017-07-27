@@ -15,13 +15,7 @@
 
     <ion-content class="outer-content">
 
-     <!-- <ion-list>
-        <ion-list-header>
-          Рус/Eng
-          <ion-toggle [(ngModel)]="langVal" onchange="setLang()"></ion-toggle>
-        </ion-list-header>
-        {{language}}
-      </ion-list>-->
+
 
 
       <ion-list>
@@ -44,15 +38,7 @@
         </button>
       </ion-list>
 
-  <!--    <ion-list>
-        <ion-list-header>
-          Сервисные функции
-        </ion-list-header>
-        <button ion-item menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-          <ion-icon item-left [name]="p.icon" [color]="isActive(p)"></ion-icon>
-          {{p.title}}
-        </button>
-      </ion-list>-->
+
 
     </ion-content>
 
@@ -77,15 +63,6 @@
 
 
 
-  <!--    <ion-list>
-        <ion-list-header>
-          Форум
-        </ion-list-header>
-        <button ion-item menuClose *ngFor="let p of appPages" (click)="openPage(p)">
-          <ion-icon item-left [name]="p.icon" [color]="isActive(p)"></ion-icon>
-          {{p.title}}
-        </button>
-      </ion-list>-->
 
       <ion-list>
         <ion-list-header>
@@ -93,7 +70,7 @@
         </ion-list-header>
         <button ion-item menuClose *ngFor="let p of loggedInPages" (click)="openPage(p)">
           <ion-icon item-left [name]="p.icon" [color]="isActive(p)"></ion-icon>
-          {{p.title}}
+          {{p.titleStr}}
         </button>
       </ion-list>
 
@@ -107,25 +84,7 @@
         </button>
       </ion-list>
 
-  <!--    <ion-list>
-        <ion-list-header>
-          Сервисные функции
-        </ion-list-header>
-        <button ion-item menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-          <ion-icon item-left [name]="p.icon" [color]="isActive(p)"></ion-icon>
-          {{p.title}}
-        </button>
-      </ion-list>-->
-<!--
-      <ion-list>
-        <ion-list-header>
-          Отдельные страницы
-        </ion-list-header>
-        <button ion-item menuClose ion-item *ngFor="let p of viewPages" (click)="openPage(p)">
-          <ion-icon item-left [name]="p.icon" [color]="isActive(p)"></ion-icon>
-          {{p.title}}
-        </button>
-      </ion-list>-->
+
 
 
     </ion-content>

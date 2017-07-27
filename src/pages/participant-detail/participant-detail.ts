@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {Events, NavController, NavParams} from 'ionic-angular';
 import {ThematicSql} from "../../providers/thematic-sql";
 import {ParticipantSql} from "../../providers/participant-sql";
-import {MyForumSQL} from "../../providers/my-forum-sql";
+import {MyForumSql} from "../../providers/my-forum-sql";
 import {place, PlaceSql} from "../../providers/place-sql/place-sql";
 import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
 import {map, MapSql} from "../../providers/map-sql/map-sql";
@@ -24,27 +24,27 @@ export class ParticipantDetailPage {
 
 
   //interface strings
-  title:string;
-  onMapStr:string;
-  myForumStr:string;
-  thematicStr:string;
+  title: string;
+  onMapStr: string;
+  myForumStr: string;
+  thematicStr: string;
 
   constructor(public navParams: NavParams,
               public navCtrl: NavController,
               public thematicSql: ThematicSql,
               public participantSql: ParticipantSql,
-              public sqlMyForum: MyForumSQL,
+              public sqlMyForum: MyForumSql,
               public placeSql: PlaceSql,
               public mapSql: MapSql,
-              public events:Events) {
+              public events: Events) {
     this.lang = localStorage.getItem('lang');
     console.log("now in Participant detail");
     console.log(navParams);
     this.thematic = [];
     if (navParams.data.participant)
-      this.participant = navParams.data.participant
+      this.participant = navParams.data.participant[0];
     else if (navParams.data.res) this.participant = navParams.data.res;
-
+    console.log('this.participant=', this.participant);
     this.thematicSql.getThematicOfParticipant(this.participant.id).then(
       res => {
         console.log("res in thematic page=", res)
@@ -81,18 +81,20 @@ export class ParticipantDetailPage {
 
   }
 
-  setRussianStrings(){
-    this.title='Участник';
-    this.onMapStr='На карте';
-    this.myForumStr='Мой форум';
-    this.thematicStr='Тематика:'
+  setRussianStrings() {
+    this.title = 'Участник';
+    this.onMapStr = 'На карте';
+    this.myForumStr = 'Мой форум';
+    this.thematicStr = 'Тематика:'
   }
-  setEnglishStrings(){
-    this.title='Exhibitor';
-    this.onMapStr='Map';
-    this.myForumStr='My Forum';
-    this.thematicStr='Thematic Section:'
+
+  setEnglishStrings() {
+    this.title = 'Exhibitor';
+    this.onMapStr = 'Map';
+    this.myForumStr = 'My Forum';
+    this.thematicStr = 'Thematic Section:'
   }
+
   ionViewDidLoad() {
     this.userId = localStorage.getItem('userid');
     this.lang = localStorage.getItem('lang');
@@ -110,8 +112,8 @@ export class ParticipantDetailPage {
     console.log("participant=", participant);
 
 
-    this.placeSql.selectWhere('id='+participant.place).then(res => {
-      console.log('showLeafLetMap res=',res);
+    this.placeSql.selectWhere('id=' + participant.place).then(res => {
+      console.log('showLeafLetMap res=', res);
       let place: place[] = (<place[]>res);
       this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
         console.log("res=", res);

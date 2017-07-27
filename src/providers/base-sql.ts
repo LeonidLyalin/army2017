@@ -220,7 +220,10 @@ export class BaseSql {
       let orderStr = 'order by ';
       this.arr = [];
       let query = "SELECT * FROM " + this.tableName;
-      if (whereStr != '') query += ' where ' + whereStr;
+      if (whereStr != '') {
+        if (!whereStr.includes('where')) query += ' where ';
+        query += ' '+whereStr;
+      }
       if (fieldSort) {
         if (fieldSort != '')  query +=' order by '+ fieldSort;
       }
@@ -533,6 +536,7 @@ export class BaseSql {
           console.log("try to insert data[i]=", data[i])
           this.addItem(data[i]).then(res => {
             console.log('after insert res=', res);
+            return res;
           });
         }
       }

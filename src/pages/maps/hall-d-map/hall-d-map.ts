@@ -218,7 +218,7 @@ export class HallDMapPage extends MapBaseProvider {
           console.log("(<any>res).name_rus=", (<any>res).name_rus);
           console.log("participant_name=", this.participant_name);
           let alert = this.alertCtrl.create({
-            title: placeSingle.name_rus,
+            titleStr: placeSingle.name_rus,
             message: this.participant_name,
             buttons: ['OK']
 
@@ -227,7 +227,7 @@ export class HallDMapPage extends MapBaseProvider {
         }
         else {
           let alert = this.alertCtrl.create({
-            title: placeSingle.name_rus,
+            titleStr: placeSingle.name_rus,
             buttons: ['OK']
           });
 

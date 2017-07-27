@@ -4,7 +4,7 @@ import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 
 
-import {MyForumSQL} from "../../providers/my-forum-sql";
+import {MyForumSql} from "../../providers/my-forum-sql";
 import {UserData} from "../providers/user-data";
 import {ParticipantDetailPage} from "../participant-detail/participant-detail";
 import {ConferenceDetailPage} from "../conference-detail/conference-detail";
@@ -43,7 +43,7 @@ export class MyForumPage {
 
   constructor(public navCtrl: NavController,
               public http: Http,
-              public sqlMyForum: MyForumSQL,
+              public sqlMyForum: MyForumSql,
               public userData: UserData,
               public placeSql: PlaceSql,
               public mapSql: MapSql,
@@ -122,6 +122,7 @@ export class MyForumPage {
     console.log('try to get userID');
     try {
       this.userId = localStorage.getItem('userid');//this.userData.getUserId();
+      this.refreshMyForum();
     }
     catch (err) {
       console.log(err);
@@ -129,7 +130,7 @@ export class MyForumPage {
     }
     console.log('userid=', this.userId);
 
-    this.refreshMyForum();
+
 
   }
 
@@ -140,8 +141,7 @@ export class MyForumPage {
  refreshMyForum() {
     console.log("refreshMyForum");
     this.getApi();
-//this.selectParticipantRus();
-//this.selectConferenceRus();
+
 
   }
 
@@ -193,6 +193,7 @@ export class MyForumPage {
 
   }
 
+/*
   selectItems() {
     //console.log("this.myForumParticipant");
     // this.myForumParticipant=this.sqlMyForum.getRows2();
@@ -204,6 +205,7 @@ export class MyForumPage {
       this.myForumParticipant = res;
     })
   }
+*/
 
   goToParticipantDetail(participant) {
     console.log("goToParticipantDetail()");

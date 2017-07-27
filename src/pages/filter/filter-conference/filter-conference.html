@@ -1,6 +1,6 @@
-<ion-navbar>
-  <ion-toolbar no-border-top>
-    <ion-row>
+<ion-scroll scrollY="true">
+  <ion-list scrollY="true">
+    <ion-item>
       <ion-searchbar
         [(ngModel)]="filterProvider.partOfName"
         (ionInput)="selectConferenceSearch()"
@@ -8,61 +8,76 @@
         placeholder="{{filterProvider.findName}}">
       </ion-searchbar>
 
-    </ion-row>
-  </ion-toolbar>
-  <ion-label>
-    {{filterProvider.thematicConferenceTitle}}
-  </ion-label>
-  <ion-row>
-    <ion-label text-wrap>{{filterProvider.thematicConferenceField}}</ion-label>
-    <button ion-button (click)="cancelFilterThematic()" item-right color="army-red">
-      <ion-icon name="close"></ion-icon>
-    </button>
-    <button ion-button (click)="filterThematic()" item-right color="army-red">
-      <ion-icon name="list"></ion-icon>
-    </button>
-  </ion-row>
+    </ion-item>
+
+    <ion-item text-wrap>
+      <i class="fa fa-tasks fa-2x"></i>
+      {{filterProvider.thematicConferenceTitle}}
+      <button ion-button (click)="cancelFilterThematic()" item-right color="army-red">
+        <ion-icon name="close"></ion-icon>
+      </button>
+      <button ion-button (click)="filterThematic()" item-right color="army-red">
+        <ion-icon name="list"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item *ngIf="filterProvider.thematicConferenceField && (filterProvider.thematicConferenceField!='')">
+
+      <ion-label text-wrap>{{filterProvider.thematicConferenceField}}</ion-label>
+
+    </ion-item>
 
 
-  <ion-label>
-    {{filterProvider.mapTitle}}
-  </ion-label>
-  <ion-row>
-    <ion-label text-wrap>{{filterProvider.mapField}}</ion-label>
-    <button ion-button (click)="cancelFilterMap()" item-right color="army-red">
-      <ion-icon name="close"></ion-icon>
-    </button>
-    <button ion-button (click)="filterMap()" item-right color="army-red">
-      <ion-icon name="list"></ion-icon>
-    </button>
-  </ion-row>
+    <ion-item text-wrap>
+      <i class="fa fa-university fa-2x"></i>
+      {{filterProvider.mapTitle}}
 
-  <ion-label>
-    {{filterProvider.placeTitle}}
-  </ion-label>
-  <ion-row>
+        <button ion-button (click)="cancelFilterMap()" item-right color="army-red">
+          <ion-icon name="close"></ion-icon>
+        </button>
+        <button ion-button (click)="filterMap()" item-right color="army-red">
+          <ion-icon name="list"></ion-icon>
+        </button>
+    </ion-item>
+    <ion-item *ngIf="filterProvider.mapField && (filterProvider.mapField!='')">
+      <ion-label text-wrap>{{filterProvider.mapField}}</ion-label>
 
-    <ion-label text-wrap>{{filterProvider.placeField}}</ion-label>
-    <button ion-button (click)="cancelFilterPlace()" item-right color="army-red">
-      <ion-icon name="close"></ion-icon>
-    </button>
-    <button ion-button (click)="filterPlace()" item-right color="army-red">
-      <ion-icon name="list"></ion-icon>
-    </button>
-  </ion-row>
+    </ion-item>
 
-  <ion-label>
-    {{filterProvider.dateTitle}}
-  </ion-label>
-  <ion-row>
-    <ion-label text-wrap>{{filterProvider.dateField}}</ion-label>
-    <button ion-button (click)="cancelFilterDate()" item-right color="army-red">
-      <ion-icon name="close"></ion-icon>
-    </button>
-    <button ion-button (click)="filterDate()" item-right color="army-red">
-      <ion-icon name="list"></ion-icon>
-    </button>
-  </ion-row>
+    <ion-item text-wrap *ngIf="filterProvider.mapField && (filterProvider.mapField!='')">
+      <i class="fa fa-map-marker fa-2x"></i>
+      {{filterProvider.placeTitle}}
 
+        <button ion-button (click)="cancelFilterPlace()" item-right color="army-red">
+          <ion-icon name="close"></ion-icon>
+        </button>
+        <button ion-button (click)="filterPlace()" item-right color="army-red">
+          <ion-icon name="list"></ion-icon>
+        </button>
 
-</ion-navbar>
+    </ion-item>
+    <ion-item *ngIf="filterProvider.placeField && (filterProvider.placeField!='')">
+
+      <ion-label text-wrap>{{filterProvider.placeField}}</ion-label>
+
+    </ion-item>
+
+    <ion-item>
+      <i class="fa fa-calendar fa-2x"></i>
+      {{filterProvider.dateTitle}}
+
+        <button ion-button (click)="cancelFilterDate()" item-right color="army-red">
+          <ion-icon name="close"></ion-icon>
+        </button>
+        <button ion-button (click)="filterDate()" item-right color="army-red">
+          <ion-icon name="list"></ion-icon>
+        </button>
+
+    </ion-item>
+    <ion-item *ngIf="filterProvider.dateField && (filterProvider.dateField!='')">
+      <ion-label text-wrap>{{filterProvider.dateField}}</ion-label>
+
+    </ion-item>
+
+  </ion-list>
+</ion-scroll>
+

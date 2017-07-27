@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Events, MenuController, Nav, Platform} from 'ionic-angular';
+import {AlertController, Events, MenuController, Nav, Platform} from 'ionic-angular';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {StatusBar} from '@ionic-native/status-bar';
 import {TabsPage} from '../pages/tabs/tabs';
@@ -116,22 +116,64 @@ export class MyApp {
               public userData: UserData,
               public confData: ConferenceData,
               public storage: Storage,
-              public http: Http) {
+              public http: Http,
+              public alertCtrl: AlertController) {
+
+
+    this.platform.ready().then(() => {
+      // Okay, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
+      this.statusBar.backgroundColorByName("red");
+      this.splashScreen.hide();
+
+    });
+    // used for an example of ngFor and navigation
+
+
+    localStorage.setItem('viewcount', '0');
 
     console.log("hi!");
     this.lang = localStorage.getItem('lang');
+    if (!this.lang) {
+      let confirm = this.alertCtrl.create({
+        title: 'Язык/Language?',
+        message: '',
+        buttons: [
+          {
+            text: 'English',
+            handler: () => {
+              console.log('English clicked');
+              localStorage.setItem('lang', 'en');
+              this.lang = 'en';
+              this.langVal = true;
+              this.events.publish('language:change');
+              this.setEnglishStrings();
+            }
+          },
+          {
+            text: 'Русский',
+            handler: () => {
+              console.log('Русский clicked');
+              this.lang = 'ru'
+              localStorage.setItem('lang', 'ru');
+              this.langVal = false;
+              this.events.publish('language:change');
+              this.setRussianStrings();
 
-    console.log("lang init value=", this.lang);
-    if (!this.lang) this.lang = 'ru';
-
-    console.log("lang init after check value=", this.lang);
-    this.langVal = !(this.lang == 'ru');
-    if (this.lang == 'ru') {
-      this.setRussianStrings();
+            }
+          }
+        ]
+      });
+      confirm.present();
     }
     else {
-      this.setEnglishStrings();
+      this.langVal = (this.lang == 'en');
+      if (this.lang == 'ru') this.setRussianStrings();
+      else this.setEnglishStrings();
     }
+
+
+
 
     this.events.subscribe('language:change', () => {
 
@@ -147,22 +189,11 @@ export class MyApp {
       }
     });
     // localStorage.setItem('lang', 'ru');
-
-    this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      this.statusBar.backgroundColorByName("red");
-      this.splashScreen.hide();
-    });
-    // used for an example of ngFor and navigation
-
-
-    localStorage.setItem('viewcount', '0');
     this.storage.get('hasSeenTutorial').then((hasSeenTutorial) => {
       if (hasSeenTutorial) {
         this.rootPage = TabsPage;
       } else {
-        this.rootPage = TutorialPage;
+        this.rootPage = TabsPage;//TutorialPage;
       }
       this.platformReady()
     });
@@ -177,6 +208,7 @@ export class MyApp {
     this.listenToLoginEvents();
 
   }
+
   openPage(page: PageInterface) {
     let params = {};
 
@@ -184,7 +216,7 @@ export class MyApp {
     // setRoot on the nav to remove previous pages and only have this page
     // we wouldn't want the back button to show in this scenario
     if (page.index) {
-      params = { tabIndex: page.index };
+      params = {tabIndex: page.index};
     }
 
     // If we are already on tabs just change the selected tab
@@ -252,19 +284,6 @@ export class MyApp {
     return;
   }
 
-  /* openPage(page) {
-   // Reset the content nav to have just this page
-   // we wouldn't want the back button to show in this scenario
-   console.log(page.title);
-   this.nav.setRoot(page.component);
-   }
-   */
-  initializeApp() {
-    /**
-     * create all tables
-     */
-
-  }
 
   setRussianStrings() {
     this.menuStr = 'Меню';
@@ -359,93 +378,6 @@ export class MyApp {
 
   }
 
-  /*openPage(page: PageInterface) {
-    let params = {};
-
-    console.log(page, name);
-
-    // the nav component was found using @ViewChild(Nav)
-    // setRoot on the nav to remove previous pages and only have this page
-    // we wouldn't want the back button to show in this scenario
-    if (page.index) {
-      params = {tabIndex: page.index};
-    }
-
-    // If we are already on tabs just change the selected tab
-    // don't setRoot again, this maintains the history stack of the
-    // tabs even if changing them from the menu
-    if (this.nav.getActiveChildNav() && page.index != undefined) {
-      this.rootPage=page.component;
-      this.nav.getActiveChildNav().select(page.index);
-      // Set the root of the nav with params if it's a tab index
-    } else {
-      this.nav.setRoot(page.component, params).catch((err: any) => {
-        console.log(`Didn't set nav root: ${err}`);
-      });
-    }
-
-    if (page.logsOut === true) {
-      // Give the menu time to close before changing to logged out
-      this.userData.logout();
-    }
-  }*/
-
-
-/*  openTutorial() {
-    this.nav.setRoot(TutorialPage);
-  }*/
-
-/*  listenToLoginEvents() {
-    this.events.subscribe('user:login', () => {
-      console.log(" this.enableMenu(true); user:login");
-      this.enableMenu(true);
-    });
-
-    this.events.subscribe('user:signup', () => {
-      console.log(" this.enableMenu(true); 'user:signup");
-      this.enableMenu(true);
-    });
-
-    this.events.subscribe('user:logout', () => {
-      console.log(" this.enableMenu(false); user:logout");
-      this.enableMenu(false);
-    });
-  }*/
-
-/*  enableMenu(loggedIn: boolean) {
-    console.log("from enable menu loggedIn=", loggedIn);
-    this.menu.enable(loggedIn, 'loggedInMenu');
-    this.menu.enable(!loggedIn, 'loggedOutMenu');
-  }*/
-
-/*
-  platformReady() {
-    // Call any initial plugins when ready
-    this.platform.ready().then(() => {
-      this.splashScreen.hide();
-    });
-  }
-*/
-
-/*  isActive(page: PageInterface) {
-    let childNav = this.nav.getActiveChildNav();
-
-    // Tabs are a special case because they have their own navigation
-    if (childNav) {
-      //  console.log("childNav",page.name );
-      if (childNav.getSelected() && childNav.getSelected().root === page.tabName) {
-        console.log("page.tabName=" + page.tabName);
-        return 'primary';
-      }
-      return;
-    }
-
-    if (this.nav.getActive() && this.nav.getActive().name === page.name) {
-      console.log("this.nav.getActive() return primary");
-      return 'primary';
-    }
-    return;
-  }*/
 
   setLangRuEn() {
     console.log('setLangRuEn ru before=', this.lang);

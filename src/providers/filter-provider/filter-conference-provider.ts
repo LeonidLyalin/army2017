@@ -35,7 +35,7 @@ export class FilterConferenceProvider {
 
   public partOfName: string;
 
-  setStr: string;
+  setFilterStr: string;
   cancelFilterStr: string;
   findName: string;
 
@@ -43,7 +43,7 @@ export class FilterConferenceProvider {
     console.log('Hello FilterParticipantProvider Provider');
   }
 
-  setFilterStr(filterStr) {
+  setFilterValue(filterStr) {
     this.filterStr = filterStr;
     console.log("provider this.filterStr",this.filterStr)
   }

@@ -55,7 +55,7 @@ export class FilterConferencePage {
     this.filterProvider.dateTitle = 'Дата';
 
     //interface strings
-    this.filterProvider.setStr = 'Установить';
+    this.filterProvider.setFilterStr = 'Установить';
     this.filterProvider.cancelFilterStr = 'Отменить';
     this.filterProvider.findName = 'Наименование';
 
@@ -69,7 +69,7 @@ export class FilterConferencePage {
     this.filterProvider.dateTitle = 'Date of event';
 
     //interface strings
-    this.filterProvider.setStr = 'Set';
+    this.filterProvider.setFilterStr = 'Set';
     this.filterProvider.cancelFilterStr = 'Cancel';
     this.filterProvider.findName = 'Name';
   }
@@ -79,6 +79,22 @@ export class FilterConferencePage {
     console.log('ionViewDidLoad FilterParticipantPage');
 
     //  this.filterProvider.thematicTitle='Тематика';
+  }
+
+
+  filterCreate(){
+    /* this.filterProvider.filterStr=this.filterCreateWhereStr();*/
+    if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
+      this.filterCreateWhereStrMap().then(res => {
+        console.log(' filterMap()1 res=',<any>res);
+        this.filterProvider.setFilterValue(<string>res);
+      });
+    else
+      this.filterCreateWhereStr().then(res => {
+        console.log(' filterMap() res=',<any>res);
+        this.filterProvider.setFilterValue(<string>res);
+      });
+    console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
   }
 
   filterThematic() {
@@ -98,18 +114,7 @@ export class FilterConferencePage {
         console.log(data);
         this.filterProvider.thematicConferenceField = data["field"];
         this.filterProvider.thematicConferenceValue = data["value"];
-        /* this.filterProvider.filterStr=this.filterCreateWhereStr();*/
-        if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
-          this.filterCreateWhereStrMap().then(res => {
-            console.log(' filterMap()1 res=',<any>res);
-            this.filterProvider.setFilterStr(<string>res);
-          });
-        else
-          this.filterCreateWhereStr().then(res => {
-            console.log(' filterMap() res=',<any>res);
-            this.filterProvider.setFilterStr(<string>res);
-          });
-        console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
+
       });
     filterModal.present();
   }
@@ -132,17 +137,7 @@ export class FilterConferencePage {
         this.filterProvider.mapField = data["field"];
         this.filterProvider.mapValue = data["value"];
         // this.filterStr=this.filterCreateWhereStr();
-        if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
-          this.filterCreateWhereStrMap().then(res => {
-            console.log(' filterMap()1 res=',<any>res);
-            this.filterProvider.setFilterStr(<string>res);
-          });
-        else
-          this.filterCreateWhereStr().then(res => {
-            console.log(' filterMap() res=',<any>res);
-            this.filterProvider.setFilterStr(<string>res);
-          });
-        console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
+        this.filterCreate();
       });
     filterModal.present();
   }
@@ -167,17 +162,7 @@ export class FilterConferencePage {
           this.filterProvider.placeField = data["field"];
           this.filterProvider.placeValue = data["value"];
           //this.filterProvider.filterStr=
-          if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
-            this.filterCreateWhereStrMap().then(res => {
-              console.log(' filterMap()1 res=',<any>res);
-              this.filterProvider.setFilterStr(<string>res);
-            });
-          else
-            this.filterCreateWhereStr().then(res => {
-              console.log(' filterMap() res=',<any>res);
-              this.filterProvider.setFilterStr(<string>res);
-            });
-          console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
+          this.filterCreate();
         });
       filterModal.present();
     }
@@ -203,18 +188,7 @@ export class FilterConferencePage {
         console.log(data);
         this.filterProvider.dateField = data["field"];
         this.filterProvider.dateValue = data["value"];
-        //this.filterStr=this.filterCreateWhereStr();
-        if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
-          this.filterCreateWhereStrMap().then(res => {
-            console.log(' filterMap() res=',<any>res);
-            this.filterProvider.setFilterStr(<string>res);
-          });
-        else
-          this.filterCreateWhereStr().then(res => {
-            console.log(' filterMap() res=',<any>res);
-            this.filterProvider.setFilterStr(<string>res);
-          });
-        console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
+        this.filterCreate();
       }
     );
 
@@ -277,7 +251,7 @@ export class FilterConferencePage {
       }
 
       if (whereStr != '') whereStr = ' where ' + whereStr;
-      this.filterProvider.setFilterStr(whereStr);
+      this.filterProvider.setFilterValue(whereStr);
       console.log('so whereStr is =', whereStr);
       return res(whereStr);
     });
@@ -335,7 +309,7 @@ export class FilterConferencePage {
 
           if (whereStr != '') whereStr = ' where ' + whereStr;
           console.log('so whereStr is =', whereStr);
-          this.filterProvider.setFilterStr(whereStr);
+          this.filterProvider.setFilterValue(whereStr);
           console.log('so whereStr is =', whereStr);
 
         })
@@ -355,28 +329,28 @@ export class FilterConferencePage {
     if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
       this.filterCreateWhereStrMap().then(res => {
         console.log(' filterMap()1 res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     else
       this.filterCreateWhereStr().then(res => {
         console.log(' filterMap() res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
   }
 
   selectConferenceSearch() {
     //  this.filterStr=this.filterCreateWhereStr();
-   // this.filterProvider.setFilterStr(this.filterCreateWhereStr());
+   // this.filterProvider.setFilterValue(this.filterCreateWhereStr());
     if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
       this.filterCreateWhereStrMap().then(res => {
         console.log(' filterMap()1 res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     else
       this.filterCreateWhereStr().then(res => {
         console.log(' filterMap() res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
   }
@@ -387,12 +361,12 @@ export class FilterConferencePage {
     if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
       this.filterCreateWhereStrMap().then(res => {
         console.log(' filterMap()1 res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     else
       this.filterCreateWhereStr().then(res => {
         console.log(' filterMap() res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
 
@@ -404,12 +378,12 @@ export class FilterConferencePage {
     if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
       this.filterCreateWhereStrMap().then(res => {
         console.log(' filterMap()1 res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     else
       this.filterCreateWhereStr().then(res => {
         console.log(' filterMap() res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
 
@@ -421,12 +395,12 @@ export class FilterConferencePage {
     if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
       this.filterCreateWhereStrMap().then(res => {
         console.log(' filterMap()1 res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     else
       this.filterCreateWhereStr().then(res => {
         console.log(' filterMap() res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
 
@@ -438,12 +412,12 @@ export class FilterConferencePage {
     if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
       this.filterCreateWhereStrMap().then(res => {
         console.log(' filterMap()1 res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     else
       this.filterCreateWhereStr().then(res => {
         console.log(' filterMap() res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
 
@@ -455,12 +429,12 @@ export class FilterConferencePage {
     if ((this.filterProvider.mapValue) && ( (!this.filterProvider.placeValue) || (this.filterProvider.placeValue == '')))
       this.filterCreateWhereStrMap().then(res => {
         console.log(' filterMap()1 res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     else
       this.filterCreateWhereStr().then(res => {
         console.log(' filterMap() res=',<any>res);
-        this.filterProvider.setFilterStr(<string>res);
+        this.filterProvider.setFilterValue(<string>res);
       });
     console.log('this.filterProvider.filterStr=', this.filterProvider.filterStr);
   }

@@ -12,11 +12,20 @@
 
 
 <ion-content class="cards-bg">
+<ion-toolbar>
+  <page-conference-help>
+
+  </page-conference-help>
+</ion-toolbar>
+
 <ion-label>
   {{filterStr}}
 </ion-label>
 
-  <ion-toolbar no-border-top>
+  <page-filter-conference>
+
+  </page-filter-conference>
+
     <page-filter-participant></page-filter-participant>
     <ion-buttons >
       <button ion-button  color="danger" (click)="setFilterStrAbout()">
@@ -45,7 +54,6 @@
         </button>
       </ion-buttons>
     </ion-row>
-  </ion-toolbar>
 
   <ion-card>
 

@@ -1,8 +1,12 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {Events, NavController, NavParams} from 'ionic-angular';
 import {ThematicApi} from "../shared/thematic/thematic-api-service";
 import {ThematicSql} from "../../providers/thematic-sql";
 import {ParticipantPage} from "../participant/participant";
+import {BaseApi} from "../shared/base-api-service";
+import {BaseLangPageProvider} from "../../providers/base-lang-page/base-lang-page";
+import {Http} from "@angular/http";
+import {MyForumSql} from "../../providers/my-forum-sql";
 
 /**
  * Generated class for the ThematicPage page.
@@ -15,13 +19,31 @@ import {ParticipantPage} from "../participant/participant";
   selector: 'page-thematic',
   templateUrl: 'thematic.html',
 })
-export class ThematicPage {
+export class ThematicPage extends BaseLangPageProvider {
   thematic: any;
+
+  apiUrl: string = 'thematic_list.php';
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public thematicApi: ThematicApi,
-              public thematicSql: ThematicSql) {
+              public BaseApi: BaseApi,
+              public thematicSql: ThematicSql,
+              public http: Http,
+              public events: Events,
+              public myForumSql: MyForumSql) {
+    super(navCtrl, navParams, events, http);
+
+  }
+
+  setRussianStrings() {
+    super.setRussianStrings();
+    this.titleStr = 'Тематика участника';
+  }
+
+  setEnglishStrings() {
+    super.setEnglishStrings();
+    this.titleStr = 'Thematic';
   }
 
   ionViewDidLoad() {
@@ -33,7 +55,7 @@ export class ThematicPage {
         console.log("this.thematic=", this.thematic);
       }
       else {
-        this.thematicApi.getThematic().subscribe(res => {
+        this.BaseApi.getApi(this.apiUrl).subscribe(res => {
           this.thematic = <any>res;
           this.addItemThematic();
         });
@@ -45,16 +67,16 @@ export class ThematicPage {
   }
 
 
-  getThematicApi() {
-    console.log('run thematic promise. run!');
+  /*  getThematicApi() {
+      console.log('run thematic promise. run!');
+  //this.baseApi.
+      this.thematicApi.getThematic().subscribe(data => {
+        console.log("here are the results");
+        console.log(data);
+        this.thematic = data
+      });
 
-    this.thematicApi.getThematic().subscribe(data => {
-      console.log("here are the results");
-      console.log(data);
-      this.thematic = data
-    });
-
-  }
+    }*/
 
 
   /**
@@ -80,10 +102,31 @@ export class ThematicPage {
   }
 
   goToParticipantThematicList(thematic: string) {
-    this.thematicSql.getParticipantForThematic(thematic).then(res => {
-      console.log(res);
-      this.navCtrl.push(ParticipantPage, {data: res, select: 'thematic'});
-    })
+    let whereStr =
+      ' where a.thematic like "' + thematic + ',%" or a.thematic like "%,'
+      + thematic + ',%" or a.thematic like "%,' + thematic + '" or a.thematic="' + thematic + '"';
+    if (this.lang == 'ru') {
+      this.myForumSql.getRusParticipant(whereStr).then(res => {
+        console.log(res);
+        this.navCtrl.push(ParticipantPage, {data: res, select: 'thematic'}
+        );
+      });
+    }
+    else {
+      this.myForumSql.getEngParticipant(whereStr).then(res => {
+          console.log(res);
+          this.navCtrl.push(ParticipantPage, {data: res, select: 'thematic'}
+          );
+        }
+      )
+
+
+    }
+
+    /* this.thematicSql.getParticipantForThematic(thematic).then(res => {
+       console.log(res);
+       this.navCtrl.push(ParticipantPage, {data: res, select: 'thematic'});
+     })*/
 
   }
 

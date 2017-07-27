@@ -1,25 +1,24 @@
-->
 <ion-header>
 
   <ion-navbar>
 
-
     <ion-title>{{filterTitle}}</ion-title>
-<button ion-button >
-  <ion-icon name="close-circle" (click)="dismiss('','')"></ion-icon>
-</button>
+    <button ion-button>
+      <ion-icon name="close-circle" (click)="dismiss('','')"></ion-icon>
+    </button>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content no-padding>
 
   <ion-list>
 
-    <ion-item *ngFor="let filter  of filterList" (click)="dismiss(filter.value, filter.field)">
-       <p text-wrap>{{filter.field}}</p>
-    </ion-item>
+      <ion-item *ngFor="let filter  of filterList" (click)="dismiss(filter.value, filter.field)"  text-wrap>
+        {{filter.field}}
+      </ion-item>
+
   </ion-list>
 
 </ion-content>

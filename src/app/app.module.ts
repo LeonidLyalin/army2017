@@ -20,7 +20,7 @@ import {ParticipantApi} from "../pages/shared/participant/participant-api.servic
 import {SQLite} from '@ionic-native/sqlite'
 import {MyForumPage} from "../pages/my-forum/my-forum";
 import {MyForumApi} from "../pages/shared/my-forum/my-forum-api";
-import {MyForumSQL} from "../providers/my-forum-sql";
+import {MyForumSql} from "../providers/my-forum-sql";
 import {ParticipantDetailPage} from "../pages/participant-detail/participant-detail";
 import {UserData} from "../pages/providers/user-data";
 import {LoginPage} from "../pages/login/login";
@@ -58,7 +58,7 @@ import {ConferenceSql} from '../providers/conference-sql/conference-sql';
 import {ThematicConferenceSql} from '../providers/thematic-conference-sql/thematic-conference-sql';
 import {ConferencePage} from "../pages/conference/conference";
 import {ConferenceApi} from "../providers/conference-sql/conference-api-service";
-import {ThematicConferenceApi} from "../pages/shared/tehematic-conference/thematic-conference-api-service";
+
 import {MapSql} from "../providers/map-sql/map-sql";
 
 import {ConferenceDetailPage} from "../pages/conference-detail/conference-detail";
@@ -76,6 +76,10 @@ import {FilterConferencePage} from "../pages/filter/filter-conference/filter-con
 import {DemoProgramPage} from "../pages/demo-propgram/demo-program";
 
 import {TableActionSql} from "../providers/table-action-sql/thematic-action-sql";
+import { BaseLangPageProvider } from '../providers/base-lang-page/base-lang-page';
+import {ParticipantHelpPage} from "../pages/help/participant-help/participant-help";
+import {ConferenceHelpPage} from "../pages/help/conference-help/conference-help";
+import { BaseListPageProvider } from '../providers/base-list-page/base-list-page';
 
 
 
@@ -124,7 +128,9 @@ import {TableActionSql} from "../providers/table-action-sql/thematic-action-sql"
     FilterPage,
     FilterParticipantPage,
     FilterConferencePage,
-    DemoProgramPage
+    DemoProgramPage,
+    ParticipantHelpPage,
+    ConferenceHelpPage
 
 
 
@@ -190,7 +196,9 @@ import {TableActionSql} from "../providers/table-action-sql/thematic-action-sql"
     HallDMapPage,
     LeafletMapPage,
     FilterPage,
-    DemoProgramPage
+    DemoProgramPage,
+    ParticipantHelpPage,
+    ConferenceHelpPage
 
 
 
@@ -208,7 +216,7 @@ import {TableActionSql} from "../providers/table-action-sql/thematic-action-sql"
     ConferenceData,
     ParticipantSql,
     PlaceApi,
-    MyForumSQL,
+    MyForumSql,
     PlaceSql,
     ThematicSql,
     ThematicApi,
@@ -217,7 +225,7 @@ import {TableActionSql} from "../providers/table-action-sql/thematic-action-sql"
     ConferenceSql,
     ThematicConferenceSql,
     ConferenceApi,
-    ThematicConferenceApi,
+
     ConferenceApi,
     MapSql,
 
@@ -228,7 +236,11 @@ import {TableActionSql} from "../providers/table-action-sql/thematic-action-sql"
     FilterParticipantProvider,
     LanguageProvider,
     FilterConferenceProvider,
-    TableActionSql
+    TableActionSql,
+    BaseLangPageProvider,
+    BaseListPageProvider
+
+
 
 
 

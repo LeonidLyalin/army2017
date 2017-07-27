@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Events, NavParams} from 'ionic-angular';
 import {ThematicConferenceSql} from "../../providers/thematic-conference-sql/thematic-conference-sql";
-import {MyForumSQL} from "../../providers/my-forum-sql";
+import {MyForumSql} from "../../providers/my-forum-sql";
 import {ConferenceSql} from "../../providers/conference-sql/conference-sql";
 
 
@@ -26,7 +26,7 @@ export class ConferenceDetailPage {
   constructor(public navParams: NavParams,
               public thematicConferenceSql: ThematicConferenceSql,
               public conferenceDetailSql: ConferenceSql,
-              public sqlMyForum: MyForumSQL,
+              public sqlMyForum: MyForumSql,
               public events:Events) {
     console.log("now in Participant detail");
     console.log(navParams);

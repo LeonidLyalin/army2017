@@ -11,7 +11,7 @@ import {MyForumApi} from "../pages/shared/my-forum/my-forum-api";
 /*declare var window: any;*/
 @Injectable()
 
-export class MyForumSQL extends BaseSql {
+export class MyForumSql extends BaseSql {
 
   public myForumApi:MyForumApi;
   constructor(public http: Http) {
@@ -24,7 +24,7 @@ export class MyForumSQL extends BaseSql {
       'UNIQUE ("user", "my_id")'
     );
 
-    console.log("create MyForumSQL");
+    console.log("create MyForumSql");
     this.myForumApi=new MyForumApi(this.http);
     //  this.openDb();
   }
@@ -172,6 +172,82 @@ export class MyForumSQL extends BaseSql {
   }
 
   /**
+   * variant before size of the selection was reduced
+   * @param {string} where
+   * @returns {Promise<any>}
+   */
+  getRusParticipantFull(where: string = '') {
+    console.log('getRusParticipantMyForum()');
+    console.log(' where=' + where);
+    return new Promise(res => {
+      this.arr = [];
+      let userId = localStorage.getItem('userid');
+      let query = 'select a.id, a.name_rus as name, a.desc_rus as desc, a.country_rus as country, ' +
+        'a.address_rus as address, a.phone, a.email, a.www, a.logo, a.place,' +
+        'b.id as my_forum_id, c.name_rus as place_name, c.name_rus as place_name_place, c.name_map, c.coords ' +
+        'from participant a left join myforum b on a.id=b.my_id';
+      if (userId) query += ' and b.user=' + userId;
+
+      query += ' left join place c on a.place=c.id';
+
+      if (where != '') query = query +' ' +where;
+      console.log(query);
+      this.db.executeSql(query, [], rs => {
+        console.log("right after executeSql in getRusParticipant");
+        console.log(rs);
+        // console.log(rs.rows.item(0).id);
+        this.arr = [];
+        if (rs.rows.length) {
+          for (var i = 0; i < rs.rows.length; i++) {
+            this.arr.push(<any>rs.rows.item(i));
+
+          }
+        }
+        console.log("this.arr=", this.arr);
+        res(this.arr);
+      }, (e) => {
+        console.log('Sql Query Error', e);
+      });
+    })
+
+  }
+  getEngParticipantFull(where: string = '') {
+    console.log('getRusParticipantMyForum()');
+    console.log(' where=' + where);
+    return new Promise(res => {
+      this.arr = [];
+      let userId = localStorage.getItem('userid');
+      let query = 'select a.id, a.name_eng as name, a.desc_eng as desc, a.country_eng as country, ' +
+        'a.address_eng as address, a.phone, a.email, a.www, a.logo, a.place,' +
+        'b.id as my_forum_id, c.name_eng as place_name, c.name_eng as place_name_place, c.name_map, c.coords ' +
+        'from participant a left join myforum b on a.id=b.my_id';
+      if (userId) query += ' and b.user=' + userId;
+
+      query += ' left join place c on a.place=c.id';
+
+      if (where != '') query = query+' ' + where;
+      console.log(query);
+      this.db.executeSql(query, [], rs => {
+        console.log("right after executeSql in getRusParticipant");
+        console.log(rs);
+        // console.log(rs.rows.item(0).id);
+        this.arr = [];
+        if (rs.rows.length) {
+          for (var i = 0; i < rs.rows.length; i++) {
+            this.arr.push(<any>rs.rows.item(i));
+
+          }
+        }
+        console.log("this.arr=", this.arr);
+        res(this.arr);
+      }, (e) => {
+        console.log('Sql Query Error', e);
+      });
+    })
+
+  }
+
+  /**
    * get ALL records from participant and ADD a filed from MyForum
    * @returns {Promise<T>}
    */
@@ -181,9 +257,8 @@ export class MyForumSQL extends BaseSql {
     return new Promise(res => {
       this.arr = [];
       let userId = localStorage.getItem('userid');
-      let query = 'select a.id, a.name_rus as name, a.desc_rus as desc, a.country_rus as country, ' +
-        'a.address_rus as address, a.phone, a.email, a.www, a.logo, a.place,' +
-        'b.id as my_forum_id, c.name_rus as place_name, c.name_rus as place_name_place, c.name_map, c.coords ' +
+      let query = 'select a.id, a.name_rus as name, a.place,  ' +
+                'b.id as my_forum_id, c.name_rus as place_name, c.name_rus as place_name_place, c.name_map, c.coords  ' +
         'from participant a left join myforum b on a.id=b.my_id';
       if (userId) query += ' and b.user=' + userId;
 
@@ -210,8 +285,6 @@ export class MyForumSQL extends BaseSql {
     })
 
   }
-
-
   /**
    * get ALL records from participant and ADD a filed from MyForum
    * @returns {Promise<T>}
@@ -222,16 +295,16 @@ export class MyForumSQL extends BaseSql {
     return new Promise(res => {
       this.arr = [];
       let userId = localStorage.getItem('userid');
-      let query = 'select a.id, a.name_eng as name, a.desc_eng as desc, a.country_eng as country, ' +
-        'a.address_eng as address, a.phone, a.email, a.www, a.logo, a.place,' +
+      let query = 'select a.id, a.name_eng as name, a.place,  ' +
+
         'b.id as my_forum_id, c.name_eng as place_name, c.name_eng as place_name_place, c.name_map, c.coords ' +
         'from participant a left join myforum b on a.id=b.my_id';
       if (userId) query += ' and b.user=' + userId;
 
       query += ' left join place c on a.place=c.id';
-      console.log(query);
-      if (where != '') query = query + where;
 
+      if (where != '') query = query+' ' + where;
+      console.log(query);
       this.db.executeSql(query, [], rs => {
         console.log("right after executeSql in getRusParticipant");
         console.log(rs);
@@ -257,6 +330,7 @@ export class MyForumSQL extends BaseSql {
    * @param {string} where
    * @returns {Promise<any>}
    */
+
   getEngConference(where: string = '') {
     console.log('getRusParticipantMyForum()');
     console.log(' where=' + where);
@@ -299,6 +373,7 @@ export class MyForumSQL extends BaseSql {
    * @param {string} where
    * @returns {Promise<any>}
    */
+
   getRusConference(where: string = '') {
     console.log('getRusParticipantMyForum()');
     console.log(' where=' + where);
@@ -335,6 +410,8 @@ export class MyForumSQL extends BaseSql {
     })
 
   }
+
+
 
   /**
    *
