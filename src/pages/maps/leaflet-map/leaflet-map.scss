@@ -1,11 +1,14 @@
 page-forum-map {
 
+  ion-scroll { white-space: nowrap;
+  }
+  map {
+    display: inline;
+  }
 
-
+  i{
+    color:red;
+  }
 }
 
-ion-scroll { white-space: nowrap;
-}
-map {
-  display: inline;
-}
+

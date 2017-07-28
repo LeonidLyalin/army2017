@@ -5,37 +5,27 @@ import {ConferenceSql} from "../../providers/conference-sql/conference-sql";
 import {ConferenceApi} from "../../providers/conference-sql/conference-api-service";
 import {Http} from "@angular/http";
 import {ConferenceDetailPage} from "../conference-detail/conference-detail";
-import {map, MapSql} from "../../providers/map-sql/map-sql";
-import {place, PlaceSql} from "../../providers/place-sql/place-sql";
+import {MapSql} from "../../providers/map-sql/map-sql";
+import {PlaceSql} from "../../providers/place-sql/place-sql";
 
 
-import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
 import {FilterConferenceProvider} from "../../providers/filter-provider/filter-conference-provider";
 import {BaseListPageProvider} from "../../providers/base-list-page/base-list-page";
 
-
-/**
- * Generated class for the ConferencePageJson page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 
 @Component({
   selector: 'page-conference',
   templateUrl: 'conference.html',
 })
-export class ConferencePage extends BaseListPageProvider{
+export class ConferencePage extends BaseListPageProvider {
 
 
-  iblockId: any = 14;
+  //title: string;
 
-  title: string;
-
-  filterStr: string;
+  // filterStr: string;
 
 
-  showMainList:boolean=true;
+ // showMainList: boolean = true;
 
   constructor(public navCtrl: NavController,
               public http: Http,
@@ -49,8 +39,8 @@ export class ConferencePage extends BaseListPageProvider{
               public filterProvider: FilterConferenceProvider,
               public events: Events) {
 
-    super(navCtrl, navParams, events, http, placeSql,mapSql);
-   // this.listOut = [];
+    super(navCtrl, navParams, events, http, placeSql, mapSql);
+    // this.listOut = [];
     console.log("navParams in constructor", navParams);
     console.log("navParams==null", this.navParams == null);
     console.log("navParams.data.length", navParams.data.length);
@@ -65,6 +55,7 @@ export class ConferencePage extends BaseListPageProvider{
       console.log("navParams.data", navParams.data.data);
       this.listOut = navParams.data.data;
     }
+    this.iblockId = 14;//number of the infoblock in bitrix
   }
 
 
@@ -97,7 +88,7 @@ export class ConferencePage extends BaseListPageProvider{
 
   }
 
- /**
+  /**
    * Show the detail view of the listOut
    * @param listOut - record in the json format for current listOut element
    */
@@ -229,38 +220,6 @@ export class ConferencePage extends BaseListPageProvider{
     );
 
   }
-/*
-  showMapParticipant() {
-    this.placeSql.select().then(res => {
-      let place: place[] = (<place[]>res);
-      this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
-        console.log("res=", res);
-        let map = <map[]>res;
-        this.navCtrl.push(LeafletMapPage, {
-          typeOfMap: 'participant',
-          popupElement: this.listOut,
-          place: place,
-          map: map
-        });
-      });
-    });
-  }*/
-
-/*  showMapConference() {
-    this.placeSql.select().then(res => {
-      let place: place[] = (<place[]>res);
-      this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
-        console.log("res=", res);
-        let map = <map[]>res;
-        this.navCtrl.push(LeafletMapPage, {
-          typeOfMap: 'conference',
-          popupElement: this.listOut,
-          place: place,
-          map: map
-        });
-      });
-    });
-  }*/
 
   setRussianStrings() {
     super.setRussianStrings('Конференция')

@@ -29,7 +29,7 @@ import {ConferenceData} from "../pages/providers/conference-data";
 import {SupportPage} from "../pages/support/support";
 import {SignupPage} from "../pages/signup/signup";
 import {SchedulePage} from "../pages/schedule/schedule";
-import {MapPage} from "../pages/map/map";
+
 import {SpeakerListPage} from "../pages/speaker-list/speaker-list";
 import {TutorialPage} from "../pages/tutorial/tutorial";
 import {UserApi} from "../pages/shared/user/user-api.service";
@@ -39,7 +39,7 @@ import {WarTacticPage} from "../pages/park-patriot-all/war-tactic-page/war-tacti
 import {ForumMapPage} from "../pages/maps/forum-map/forum-map";
 import {SectorVksPage} from "../pages/park-patriot-all/sektor-vks-page/sector-vks-page";
 import {DemoOpkPage} from "../pages/park-patriot-all/demo-opk-page/demo-opk-page";
-import {ConferencePageJson} from "../pages/conference-json/conference-json";
+
 import {WaterClusterMapPage} from "../pages/maps/water-cluster-map/water-cluster-map";
 import {GroundClusterMapPage} from "../pages/maps/ground-cluster-map/ground-cluster-map";
 import {AirClusterMapPage} from "../pages/maps/air-cluster-map/air-cluster-map";
@@ -103,14 +103,14 @@ import { BaseListPageProvider } from '../providers/base-list-page/base-list-page
     SchedulePage,
     SpeakerListPage,
     TutorialPage,
-    MapPage,
+
 
     ParkPatriotPage,
     WarTacticPage,
     ForumMapPage,
     SectorVksPage,
     DemoOpkPage,
-    ConferencePageJson,
+
     WaterClusterMapPage,
     GroundClusterMapPage,
     AirClusterMapPage,
@@ -143,7 +143,6 @@ import { BaseListPageProvider } from '../providers/base-list-page/base-list-page
       links: [
         { component: TabsPage, name: 'TabsPage', segment: 'tabs-page' },
         { component: SchedulePage, name: 'Schedule', segment: 'schedule' },
-        { component: MapPage, name: 'Map', segment: 'map' },
         { component: AboutPage, name: 'About', segment: 'about' },
         { component: TutorialPage, name: 'Tutorial', segment: 'tutorial' },
         { component: SupportPage, name: 'SupportPage', segment: 'support' },
@@ -173,14 +172,13 @@ import { BaseListPageProvider } from '../providers/base-list-page/base-list-page
     SchedulePage,
     SpeakerListPage,
     TutorialPage,
-    MapPage,
 
     ParkPatriotPage,
     WarTacticPage,
     ForumMapPage,
     SectorVksPage,
     DemoOpkPage,
-    ConferencePageJson,
+
     WaterClusterMapPage,
     GroundClusterMapPage,
     AirClusterMapPage,

@@ -7,21 +7,13 @@ import {Events, ModalController, NavController, NavParams, ToastController} from
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {ParticipantApi} from '../shared/participant/participant-api.service';
-
-
 import {participant, ParticipantSql} from "../../providers/participant-sql";
 import {MyForumSql} from "../../providers/my-forum-sql";
 import {ParticipantDetailPage} from "../participant-detail/participant-detail";
 import {MyForumApi} from "../shared/my-forum/my-forum-api";
-
-import {place, PlaceSql} from "../../providers/place-sql/place-sql";
-import {map, MapSql} from "../../providers/map-sql/map-sql";
-
-import {country} from "../../providers/country-sql/country-sql";
-
-
+import {PlaceSql} from "../../providers/place-sql/place-sql";
+import {MapSql} from "../../providers/map-sql/map-sql";
 import {FilterParticipantProvider} from "../../providers/filter-provider/filter-participant-provider";
-import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
 import {BaseListPageProvider} from "../../providers/base-list-page/base-list-page";
 
 
@@ -31,34 +23,13 @@ import {BaseListPageProvider} from "../../providers/base-list-page/base-list-pag
   providers: [ParticipantSql],
 })
 
-export class ParticipantPage extends BaseListPageProvider{
-  /*partOfName: string = '';*/
-  /*listOut: any;*/
-  /*userId: any;*/
-
-  iblockId: any = 1;
+export class ParticipantPage extends BaseListPageProvider {
 
 
 
 
-/*
-  showFilter: boolean = false;
-  colorFilter: string = "white";
 
-  showHelp: boolean = false;
-  colorHelp: string = "white";
 
-  showMainList: boolean = true;*/
-
-  //interface strings
-
-  /*titleStr: string;*/
-
-  /*addMyForumStr: string;
-  delMyForumStr: string;
-  loadStr: string;*/
-
-  filterStr: string;
 
   constructor(public navCtrl: NavController,
               public http: Http,
@@ -74,7 +45,7 @@ export class ParticipantPage extends BaseListPageProvider{
               public filterProvider: FilterParticipantProvider,
               public events: Events) {
 //подгружаем список участников выставки
-    super(navCtrl, navParams, events, http, placeSql,mapSql);
+    super(navCtrl, navParams, events, http, placeSql, mapSql);
 
     console.log("navParams in constructor", navParams);
     console.log("navParams==null", this.navParams == null);
@@ -90,7 +61,7 @@ export class ParticipantPage extends BaseListPageProvider{
       console.log("navParams.data", navParams.data.data);
       this.listOut = navParams.data.data;
     }
-
+    this.iblockId  = 1;//for my_forum
   }
 
   setRussianStrings() {
@@ -100,7 +71,6 @@ export class ParticipantPage extends BaseListPageProvider{
   setEnglishStrings() {
     super.setEnglishStrings('Exhibitors');
   }
-
 
 
   ionViewDidLoad() {
@@ -176,75 +146,6 @@ export class ParticipantPage extends BaseListPageProvider{
 
   }
 
-  /**
-   * get records from Participant infoblock on site and change records in the table "participant"
-   */
-
-  /* participantRefresh() {
-     let tmpParticipant: any = [];
-     console.log('participantRefresh');
-     this.participantApi.getParticipant().subscribe(data => {
-       console.log("here are the results for participantRefresh");
-       console.log(data);
-       tmpParticipant = data;
-       console.log("refresh for just began");
-       for (let participant of tmpParticipant) {
-         console.log("participant.id");
-         console.log(participant.id);
-         console.log(participant.name_rus);
-         console.log("this.checkParticipantForId(participant.id)");
-         // console.log(this.checkParticipantForId(participant.id));
-
-         this.participantSql.checkForId(participant.id).then(res => {
-           if (res) {
-             console.log("there was true")
-             this.deleteOneParticipant(participant.id).then(res => {
-               console.log("try to add new Participant after delete")
-               this.addOneItemParticipant(participant);
-             });
-           }
-           else {
-             console.log("there was false")
-             console.log("try to add new Participant without delete")
-             this.addOneItemParticipant(participant);
-           }
-         });
-       }
-       this.sqlMyForum.getRusParticipant().then(res => {
-
-         console.log('our select in refresh participant');
-         console.log(res);
-         this.listOut = res;
-       });
-
-
-       //create country list
-     /!*  this.participantSql.getTableFieldDistinctList(this.countryList, 'country_rus')
-       console.log("step2");*!/
-
-
-     });
-
-
-   }*/
-
-/*
-  showMapParticipant() {
-    this.placeSql.select().then(res => {
-      let place: place[] = (<place[]>res);
-      this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
-        console.log("res=", res);
-        let map = <map[]>res;
-        this.navCtrl.push(LeafletMapPage, {
-          typeOfMap: 'participant',
-          popupElement: this.listOut,
-          place: place,
-          map: map
-        });
-      });
-    });
-  }*/
-
 
   /**
    * check whether the record with id = "id" parameter is in "participant" table
@@ -277,43 +178,6 @@ export class ParticipantPage extends BaseListPageProvider{
     })
 
   }
-
-/*  addOneItemParticipant(participant) {
-
-    console.log('try to insert');
-    console.log(participant);
-    this.participantSql.addItemParticipant(participant
-    ).then(res => {
-        console.log('success');
-        console.log(res);
-      }
-    ).catch(err => {
-      console.error('Unable to insert storage tables', err.tx, err.err);
-    })
-
-
-  }*/
-
-  /**
-   * add Items from this.participant property to the table "participant"
-   */
- /* addItemParticipant() {
-    for (let participant of this.listOut) {
-
-
-      console.log('try to insert');
-      console.log("participant=", participant);
-      this.participantSql.addItemParticipant(participant)
-        .then(res => {
-            console.log('success');
-            console.log(res);
-          }
-        ).catch(err => {
-        console.error('Unable to insert storage tables', err.tx, err.err);
-      })
-
-    }
-  }*/
 
 
   selectParticipantAll() {
@@ -366,56 +230,31 @@ export class ParticipantPage extends BaseListPageProvider{
   }
 
 
-/*
-  /!**
-   * delete ONE record (with id = "id" from the table "participant"
-   * @param id - id of the deleted record
-   *!/
-  deleteOneParticipant(id) {
-    return new Promise(res => {
-      this.participantSql.delId(id).then(res => {
-          console.log('deleteOneParticipant()', id);
-          console.log(res);
-          return res;
-        }
-      );
-    })
-  }
-*/
-
- /* deleteParticipantAll() {
-    this.participantSql.delAll();
-  }*/
-
-/*  getParticipantApiInsertBase() {
-    this.participantApi.getParticipant().subscribe(data => {
-      console.log("here are the results");
-      console.log(data);
-
-      this.listOut = data;
-      this.addItemParticipant();
-    });
-  }*/
-
   deleteFromMyForum(id) {
     this.sqlMyForum.delFromMyForum(id).then(res => {
-        this.selectParticipantAll();
-
+        //  this.selectParticipantAll();
+        this.getListOut();
       }
     );
   }
 
   addToMyForumSite(id) {
-    this.sqlMyForum.addToMyForumSite(id, this.iblockId, this.userId).then(res => {
-        this.selectParticipantAll();
+    this.sqlMyForum.addToMyForumSite(id, this.iblockId, this.userId, this.listOut).then(res => {
+        //this.selectParticipantAll();
+     /* for (let participant of this.listOut){
+        if (participant.id==id){
+          participant.my_forum_id=1;
+          break;
+        }
+      }*/
+     // this.getListOut();
+
       }
     );
   }
 
 
-
-
-  setFilterStrParticipant() {
+  getListOut() {
     this.filterStr = this.filterProvider.filterStr;
     console.log("this.filterStr", this.filterStr);
     if (this.lang == 'ru') {
@@ -423,7 +262,7 @@ export class ParticipantPage extends BaseListPageProvider{
         console.log('our select');
         console.log(res);
         this.listOut = res;
-        this.showHideFilter();
+        //  this.showHideFilter();
       });
     }
     else {
@@ -431,9 +270,31 @@ export class ParticipantPage extends BaseListPageProvider{
         console.log('our select');
         console.log(res);
         this.listOut = res;
-        this.showHideFilter();
+
       });
     }
+  }
+
+  setFilterStrParticipant() {
+
+    this.getListOut();
+    /*  if (this.lang == 'ru') {
+        this.sqlMyForum.getRusParticipant(this.filterStr).then(res => {
+          console.log('our select');
+          console.log(res);
+          this.listOut = res;
+        //  this.showHideFilter();
+        });
+      }
+      else {
+        this.sqlMyForum.getEngParticipant(this.filterStr).then(res => {
+          console.log('our select');
+          console.log(res);
+          this.listOut = res;
+
+        });
+      }*/
+    this.showHideFilter();
   }
 
   cancelFilterStrParticipant() {

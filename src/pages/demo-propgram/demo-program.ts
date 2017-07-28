@@ -11,13 +11,6 @@ import {FilterConferenceProvider} from "../../providers/filter-provider/filter-c
 import {BaseApi} from "../shared/base-api-service";
 
 
-/**
- * Generated class for the ConferencePageJson page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-
 @Component({
   selector: 'page-demo-program',
   templateUrl: 'demo-program.html',
@@ -109,7 +102,7 @@ export class DemoProgramPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ConferencePageJson');
+    console.log('ionViewDidLoad ');
 
     this.userId = localStorage.getItem('userid');
 

@@ -30,7 +30,6 @@ export class MyForumSql extends BaseSql {
   }
 
 
-
   /**
    * get only records which are in MyForum also
    * @returns {Promise<T>}

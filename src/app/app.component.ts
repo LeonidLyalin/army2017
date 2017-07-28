@@ -13,7 +13,7 @@ import {LoginPage} from "../pages/login/login";
 import {SupportPage} from "../pages/support/support";
 import {SignupPage} from "../pages/signup/signup";
 import {SchedulePage} from "../pages/schedule/schedule";
-import {MapPage} from "../pages/map/map";
+
 import {AboutPage} from "../pages/about/about";
 import {SpeakerListPage} from "../pages/speaker-list/speaker-list";
 import {ConferenceData} from "../pages/providers/conference-data";
@@ -67,7 +67,7 @@ export class MyApp {
     {title: 'Программа', name: 'EventPage', component: EventPage, icon: 'calendar'},
     {title: 'Участники', name: 'ParticipantPage', component: ParticipantPage, icon: 'list'},
     {title: 'Мой форум', name: 'MyForumPage', component: MyForumPage, icon: 'bookmark'},
-    {title: 'Карта', name: 'MapPage', component: MapPage, icon: 'map'},
+
 
     {title: 'О Форуме', name: 'AboutPage', component: AboutPage, icon: 'information-circle'},
     {title: 'Парк Патриот', name: 'ParkPatrionPage', component: ParkPatriotPage, icon: 'information-circle'},
@@ -97,7 +97,7 @@ export class MyApp {
       index: 1,
       icon: 'contacts'
     },
-    {title: 'Карта', name: 'TabsPage', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map'},
+
     {
       title: 'О форуме',
       name: 'TabsPage',
@@ -319,7 +319,7 @@ export class MyApp {
         index: 1,
         icon: 'contacts'
       },
-      {title: 'Карта', name: 'TabsPage', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map'},
+
       {
         title: 'О форуме',
         name: 'TabsPage',
@@ -366,7 +366,7 @@ export class MyApp {
         index: 1,
         icon: 'contacts'
       },
-      {title: 'Map', name: 'TabsPage', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map'},
+
       {
         title: 'About',
         name: 'TabsPage',

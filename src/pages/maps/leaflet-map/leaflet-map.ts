@@ -6,8 +6,12 @@ import {PatriotExpoMapPage} from "../patriot-expo-map/patriot-expo-map";
 import {DrawFunctionProvider} from "../../../providers/draw-function/draw-function";
 import * as L from 'leaflet';
 import {MapSql} from "../../../providers/map-sql/map-sql";
-import {BaseSql} from "../../../providers/base-sql";
+
 import {Http} from "@angular/http";
+import {BaseLangPageProvider} from "../../../providers/base-lang-page/base-lang-page";
+import {BaseSql} from "../../../providers/base-sql";
+import {ParticipantDetailPage} from "../../participant-detail/participant-detail";
+import {MyForumSql} from "../../../providers/my-forum-sql";
 
 /**
  * Base class for show any leaflet map
@@ -30,7 +34,7 @@ export interface coord {
   selector: 'leaflet-map',
   templateUrl: 'leaflet-map.html',
 })
-export class LeafletMapPage {
+export class LeafletMapPage extends BaseLangPageProvider {
 
   @ViewChild(Content) content: Content;
   @ViewChild(Scroll) scroll: Scroll;
@@ -48,18 +52,18 @@ export class LeafletMapPage {
   imageMap = new Image;
 
 
-  width = 1178;
-  height = 741;
+  // width = 1178;
+  // height = 741;
   map: any;
   bounds: any;
 
   popupElement: any;
   place: any;
-  mapParam: any;
+  //mapParam: any;
   typeOfMap: string;
 
   mapList: any;
-  currentMapName: any;//
+  //currentMapName: any;//
   fullMapList: any;//all maps from Table map
 
   currentMapNumber: number;
@@ -88,11 +92,18 @@ export class LeafletMapPage {
    * @placeList for conference - several event can use the same place in differenct time
    */
   placeList: any;
+  /**
+   *  @list of places for the currentMap
+   */
+  placeListForMap: any;
   lang: string;
 
   //interface strings
 
   titleStr: string;
+
+
+  currentMap: any;
 
   constructor(public http: Http,
               public navCtrl: NavController,
@@ -103,47 +114,29 @@ export class LeafletMapPage {
               public drawFunction: DrawFunctionProvider,
               public mapSql: MapSql,
               public events: Events,
-              /*public placeSql: PlaceSql*/) {
-
+              public placeSql: PlaceSql) {
+    super(navCtrl, navParams, events, http);
     this.popupElement = navParams.get('popupElement');
     this.place = navParams.get('place');
-    this.mapParam = navParams.get('map');
+    this.currentMap = navParams.get('map');
     console.log("popupElement=", this.popupElement);
     console.log("place=", this.place);
-    console.log("mapParam=", this.mapParam);
-    this.lang = localStorage.getItem('lang');
-    if (this.lang == 'ru') {
-      this.setRussianStrings();
-    }
-    else {
-      this.setEnglishStrings();
-    }
+    console.log("currentMap=", this.currentMap);
 
-    this.events.subscribe('language:change', () => {
-
-
-      this.lang = localStorage.getItem('lang');
-      if (this.lang == 'ru') {
-        console.log('this.events.subscribe(language:change)', this.lang);
-        this.setRussianStrings();
-      }
-      else {
-        this.setEnglishStrings();
-      }
-    });
 
   }
 
 
   setRussianStrings() {
-    this.titleStr = 'Карта форума';
+    super.setRussianStrings('Карта форума');
+
   }
 
   setEnglishStrings() {
-    this.titleStr = 'Forum map';
+    super.setRussianStrings('Forum map');
+
   }
 
-  // bounds = [(0, 0), (this.height, this.width)];
 
   /**
    * create map list for all USING maps
@@ -173,7 +166,9 @@ export class LeafletMapPage {
     }
   }
 
-
+  /**
+   * create place list from popupElement from navParams
+   */
   createPlaceList() {
     this.placeList = [];
 
@@ -197,10 +192,13 @@ export class LeafletMapPage {
    */
   getMapFromFullList() {
     for (let i = 0; i < this.fullMapList.length; i++) {
-      if (this.currentMapName == this.fullMapList[i].name_map) {
-        this.width = this.fullMapList[i].width;
-        this.height = this.fullMapList[i].height;
-                this.titleStr = this.fullMapList[i]['name_'+(this.lang == 'ru'?'rus':'eng')];
+      //if (this.currentMapName == this.fullMapList[i].name_map) {
+      if (this.currentMap.name_map == this.fullMapList[i].name_map) {
+        /*this.width = this.fullMapList[i].width;
+        this.height = this.fullMapList[i].height;*/
+        this.currentMap = this.fullMapList[i];
+        //  this.currentMap.height = this.fullMapList[i].height;
+        this.titleStr = this.fullMapList[i]['name_' + (this.lang == 'ru' ? 'rus' : 'eng')];
 
       }
 
@@ -212,20 +210,269 @@ export class LeafletMapPage {
    * create map
    */
   initMap() {
-    this.map = L.map('map', {
-      crs: L.CRS.Simple,
-      minZoom: -2,
-      zoom: 1,
-    });
-    this.bounds = [[0, 0], [this.height, this.width]];//new L.LatLngBounds(this.southWest, this.northEast);
-    L.imageOverlay('assets/img/maps/' + this.currentMapName, this.bounds).addTo(this.map);
+    if (!this.map) {
+      this.map = L.map('map', {
+        crs: L.CRS.Simple,
+        minZoom: -2,
+        zoom: 1,
+      });
+    }
+
+    this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
+    // L.imageOverlay('assets/img/maps/' + this.currentMapName, this.bounds).addTo(this.map);
+    L.imageOverlay('assets/img/maps/' + this.currentMap.name_map, this.bounds).addTo(this.map);
     this.map.fitBounds(this.bounds);
-    /* if (this.lang == 'ru') {
-       this.mapTitle=this.mapList[this.currentMapNumber].name_rus}
-     else {
-       this.mapTitle=this.mapList[this.currentMapNumber].name_eng
-     }
-     */
+
+    this.map.on('click', (e) => {
+      this.mapClick(e)
+    });
+
+    this.createPlaceListForMap();
+
+  }
+
+
+  createPlaceListForMap() {
+    // this.placeSql.selectWhere('name_map="'+this.currentMapName+'"').then(res=>{
+    this.placeSql.selectWhere('name_map="' + this.currentMap.name_map + '"').then(res => {
+      this.placeListForMap = <any>res;
+      console.log("this.placeListForMap=", this.placeListForMap);
+      /*for (let i = 0; i < this.placeListForMap.length; i++) {
+        if (this.placeListForMap[i].shape == 'poly') {
+          let tmpCoords = this.placeListForMap[i].coords.split(',');
+          console.log("tmpCoords=", tmpCoords);
+          let tmpBounds = [];
+          for (let m = 0; m < tmpCoords.length; m = m + 2) {
+            tmpBounds.push([tmpCoords[m], tmpCoords[m + 1]]);
+
+
+          }
+        //  console.log("tmpBounds=", tmpBounds);
+        //  L.polygon(tmpBounds, {color: 'green', weight: 3}).addTo(this.map);
+        }
+      }*/
+      /* let polyline = L.polygon([[0, 0], [30, 30], [60, 60], [90, 90], [120, 120]], {
+         color: 'blue',
+         weight: 3
+       }).addTo(this.map);*/
+    });
+
+    //draw polygons (for reason)
+
+  }
+
+  isInsideRect(x, y, coords, place_name) {
+    console.log("isInsideRect coords=", coords);
+    console.log("isInsideRect x=", x);
+    console.log("isInsideRect y=", y);
+    let coordsList = coords.split(',');
+    console.log("isInsideRect coordsList=", coordsList);
+    var bounds = [[this.currentMap.height - coordsList[1], coordsList[0]], [this.currentMap.height - coordsList[3], coordsList[2]]];
+    console.log("bounds before ", place_name, bounds);
+    console.log("coordsList[1] before ", coordsList[1]);
+    console.log("height -coordsList[1] before ", this.currentMap.height - coordsList[1]);
+    console.log("coordsList[3] before ", coordsList[3]);
+    if ((this.currentMap.height - Number(coordsList[1])) > (this.currentMap.height - Number(coordsList[3]))) {
+      let tmp = coordsList[1];
+      coordsList[1] = coordsList[3];
+      coordsList[3] = tmp;
+    }
+    if (Number(coordsList[0]) > Number(coordsList[2])) {
+      let tmp = coordsList[0];
+      coordsList[0] = coordsList[2];
+      coordsList[2] = tmp;
+    }
+    console.log("coordsList[1] after ", coordsList[1]);
+    bounds = [[this.currentMap.height - coordsList[1], coordsList[0]], [this.currentMap.height - coordsList[3], coordsList[2]]];
+    console.log("bounds after", place_name, bounds);
+    //L.rectangle(this.bounds, {color: "red", weight: 1}).addTo(this.map);
+
+    return (((y >= (this.currentMap.height - coordsList[1]))
+      && (y <= (this.currentMap.height - coordsList[3]))) && ((x >= (coordsList[0])) && (x <= (coordsList[2]))));
+
+
+  }
+
+  isInsidePoly(x, y, coords) {
+    /*    for (var i = 0; i < placeList.length; i++) {
+            if (placeList[i].shape == 'poly') {
+                var tmpCoords = placeList[i].coords.split(',');
+                console.log("tmpCoords=", tmpCoords);
+                var tmpBounds = [];
+                for (var m = 0; m < tmpCoords.length; m = m + 2) {
+                    tmpBounds.push([height-tmpCoords[m + 1],tmpCoords[m]]);
+
+
+                }
+                console.log("tmpBounds=", tmpBounds);
+                L.polygon(tmpBounds, {color: 'green', weight: 2}).addTo(map);
+            }*/
+
+
+    //prepare for check;
+     let tmpBounds = [];
+    console.log("isInsidePoly coords=", coords);
+    let coordsList = coords.split(',');
+    console.log("isInsidePoly coordsList=", coordsList);
+    let vertx = [];
+    let verty = [];
+    let nvert = 0;
+
+
+    for (let i = 0; i < coordsList.length; i = i + 2) {
+      nvert++;
+      verty.push(this.currentMap.height - coordsList[i + 1]);
+      vertx.push(coordsList[i]);
+      tmpBounds.push([this.currentMap.height - coordsList[i + 1], coordsList[i]]);
+
+    }
+    console.log("isInsidePoly nvert=", nvert);
+    console.log("isInsidePoly vertx=", vertx);
+    console.log("isInsidePoly verty=", verty);
+
+      console.log("isInsidePoly tmpBounds=", tmpBounds);
+      L.polygon(tmpBounds, {color: 'blue', weight: 2}).addTo(this.map);
+    return this.pnpoly(nvert, vertx, verty, x, y);
+  }
+
+  pnpoly(nvert, vertx, verty, testx, testy) {
+    let i, j, c = false;
+    for (i = 0, j = nvert - 1; i < nvert; j = i++) {
+      if (( ( verty[i] > testy ) !== ( verty[j] > testy ) ) &&
+        ( testx < ( vertx[j] - vertx[i] ) * ( testy - verty[i] ) / ( verty[j] - verty[i] ) + vertx[i] )) {
+        c = !c;
+      }
+    }
+    return c;
+  }
+
+
+  /**
+   * show popup on a certain place
+   * @param x
+   * @param y
+   * @param content
+   */
+  showPopup(x, y, content) {
+    console.log("x=", x);
+    console.log("y=", y);
+    console.log("content=", content);
+
+    let popup = L.popup({
+      closeOnClick: false,
+      autoClose: false
+    })
+      .setLatLng([this.currentMap.height - y, x])
+      .setContent(content)
+      .openOn(this.map);
+
+  }
+
+  checkPlaceOnMap(x, y) {
+
+    for (let i = 0; i < this.placeListForMap.length; i++) {
+      console.log("placeList=", this.placeListForMap[i].coords);
+      if (this.placeListForMap[i].shape == 'poly') {
+        if (this.isInsidePoly(x, y, this.placeListForMap[i].coords)) {
+          let content = '<b>' + this.placeListForMap[i].name_place_rus + "</b><br>" +
+            '<a href="' + this.placeListForMap[i].ref + '">' + this.placeListForMap[i].name_rus + '</a>';
+          this.showPopup(x, this.currentMap.height - y, content);
+          break;
+        }
+      }
+
+      else {
+        if (this.isInsideRect(x, y, this.placeListForMap[i].coords, this.placeListForMap[i].name_place_rus)) {
+          let content = '<b>' + this.placeListForMap[i].name_place_rus + "</b><br>" +
+            '<a href="' + this.placeListForMap[i].ref + '">' + this.placeListForMap[i].name_rus + '</a>'
+          this.showPopup(x, this.currentMap.height - y, content);
+          break;
+        }
+      }
+
+    }
+
+
+  }
+
+
+  mapClick(e) {
+    console.log(e);
+
+    console.log(e.latlng.lng, e.latlng.lat, '');
+    console.log("this.placeListForMap", this.placeListForMap);
+    if (this.placeListForMap.length) {
+      let goDetail: boolean = false;
+      let numFind: number;
+      for (let i = 0; i < this.placeListForMap.length; i++) {
+        console.log("mapClick(e) this.placeListForMap[i]=", this.placeListForMap[i]);
+
+        if (this.placeListForMap[i].shape == 'rect' || !this.placeListForMap[i].shape) {
+          if (this.isInsideRect(e.latlng.lng, e.latlng.lat, this.placeListForMap[i].coords, this.placeListForMap[i].place_name)) {
+
+            numFind = i;
+            goDetail = true;
+            break;
+          }
+        }
+        else {
+          if (this.placeListForMap[i].shape == 'poly') {
+            if (this.isInsidePoly(e.latlng.lng, e.latlng.lat, this.placeListForMap[i].coords)) {
+
+              numFind = i;
+              goDetail = true;
+              break;
+            }
+          }
+        }
+      }
+      /* ((this.placeListForMap[i].shape=='poly ') &&
+         (this.isInsidePoly(e.latlng.lng, e.latlng.lat, this.placeListForMap[i].coords)))){*/
+      //an example how to use coordinates with leaflet (look at height!!!)
+      //   this.showPopup(e.latlng.lng, this.currentMap.height - e.latlng.lat, this.placeListForMap[i].name_rus);
+      if (goDetail) {
+        console.log("this.placeListForMap[i]=", this.placeListForMap[numFind]);
+        if (this.placeListForMap[numFind].goto) {
+          //goto to the new map
+
+          for (let i = 0; i < this.fullMapList.length; i++) {
+            if (this.fullMapList[i].name_map == this.placeListForMap[i].goto) {
+              this.currentMap = this.fullMapList[i];
+              // setMap();
+              console.log("currentMap=", this.currentMap.name_map);
+              this.currentMapNumber = i;
+              break;
+            }
+
+          }
+          this.getMapFromFullList();
+          this.setMap();
+          this.setButtonsEnable();
+          //if (this.showPopups) this.setPopups();
+        }
+        else {
+          let tmpSql = new MyForumSql(this.http);
+
+          tmpSql.getRusParticipantFull('where a.place=' + this.placeListForMap[numFind].id).then(res => {
+
+
+            if ((<any>res).length) {
+              let participant = <any>res;
+              console.log("participant=", participant);
+              this.navCtrl.push(ParticipantDetailPage, {participant})
+            }
+          });
+        }
+
+      }
+    }
+  }
+
+
+  deleteLayers() {
+    this.map.eachLayer(rs => {
+      this.map.removeLayer(rs);
+    });
   }
 
   /**
@@ -233,20 +480,19 @@ export class LeafletMapPage {
    */
   setMap() {
 
-    this.map.eachLayer(rs => {
-      this.map.removeLayer(rs);
-    });
-    this.bounds = [[0, 0], [this.height, this.width]];//new L.LatLngBounds(this.southWest, this.northEast);
-    L.imageOverlay('assets/img/maps/' + this.currentMapName, this.bounds).addTo(this.map);
+    this.deleteLayers();
+    this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
+    L.imageOverlay('assets/img/maps/' + this.currentMap.name_map, this.bounds).addTo(this.map);
     this.map.fitBounds(this.bounds);
+    this.createPlaceListForMap();
   }
 
   mapBounds() {
     for (let popup of this.popups) {
       this.map.closePopup(popup);
     }
-    this.bounds = [[0, 0], [this.height, this.width]];//new L.LatLngBounds(this.southWest, this.northEast);
-    L.imageOverlay('assets/img/maps/' + this.currentMapName, this.bounds).addTo(this.map);
+    this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
+    L.imageOverlay('assets/img/maps/' + this.currentMap.map_name, this.bounds).addTo(this.map);
     this.map.fitBounds(this.bounds);
 
   }
@@ -255,7 +501,7 @@ export class LeafletMapPage {
    * set popup for the map on the previous lavel
    * @param mapAsPlace
    */
-  setMapAsPlace(mapAsPlace?) {
+  setMapAsPlace(mapAsPlace ?) {
     //first, find the place which was our map
     let placeSql = new PlaceSql(this.http);
     placeSql.selectWhere(' goto="' + mapAsPlace + '"').then(res => {
@@ -284,7 +530,7 @@ export class LeafletMapPage {
       console.log("mCoords[0]=", mCoords[0]);
       console.log("mCoords[1]=", mCoords[1]);
       if ((mCoords[1]) && (mCoords[0])) {
-        popup.setLatLng([this.height - mCoords[1], mCoords[0]]);
+        popup.setLatLng([this.currentMap.height - mCoords[1], mCoords[0]]);
         popup.setContent(content);
         popup.openOn(this.map);
         this.popups.push(popup);
@@ -295,7 +541,7 @@ export class LeafletMapPage {
 
   }
 
-  setPopups(mapAsPlace?) {
+  setPopups(mapAsPlace ?) {
     this.popups = [];
     for (let m = 0; m < this.placeList.length; m++) {
       let content = '';
@@ -307,9 +553,9 @@ export class LeafletMapPage {
       content += '<b>' + this.placeList[m] + '</b>' + '<br>';
       for (let i = 0; i < this.popupElement.length; i++) {
         if ((this.popupElement[i].coords)
-          && (this.popupElement[i].name_map == this.currentMapName) && (this.popupElement[i].place_name_place == this.placeList[m])) {
+          && (this.popupElement[i].name_map == this.currentMap.name_map) && (this.popupElement[i].place_name_place == this.placeList[m])) {
           console.log("this.popupElement[i].name_map ", this.popupElement[i].name_map);
-          console.log("this.currentMapName=", this.currentMapName);
+          console.log("this.currentMap.name_map=", this.currentMap.name_map);
           console.log("this.popupElement[i].place_name_place=", this.popupElement[i].place_name_place);
           console.log("this.placeList[m]=", this.placeList[m]);
           let mCoordsTmp = this.popupElement[i].coords.split(',');
@@ -328,6 +574,7 @@ export class LeafletMapPage {
               this.popupElement[i].time_end + '<br>';
           }
           content += this.popupElement[i].name.trim() + '<br>';
+
           console.log("content=", content);
         }
 
@@ -336,7 +583,8 @@ export class LeafletMapPage {
       console.log("mCoords[0]=", mCoords[0]);
       console.log("mCoords[1]=", mCoords[1]);
       if ((mCoords[1]) && (mCoords[0])) {
-        popup.setLatLng([this.height - mCoords[1], mCoords[0]]);
+        popup.setLatLng([this.currentMap.height - mCoords[1], mCoords[0]]);
+        //  popup.setLatLng([mCoords[1], mCoords[0]]);
         popup.setContent(content);
         popup.openOn(this.map);
         this.popups.push(popup);
@@ -346,27 +594,27 @@ export class LeafletMapPage {
   }
 
   ionViewDidLoad() {
-
+    super.ionViewDidLoad();
     this.typeOfMap = this.navParams.get('typeOfMap');
     this.popupElement = this.navParams.get('popupElement');
     this.place = this.navParams.get('place');
-    this.mapParam = this.navParams.get('map');
+    this.currentMap = this.navParams.get('map');
 
     if (this.typeOfMap == 'participantDetail') {
       this.showArrow = 0;
       console.log("popupElement=", this.popupElement);
       console.log("place=", this.place);
-      console.log("mapParam=", this.mapParam);
+      console.log("currentMap=", this.currentMap);
       this.map = L.map('map', {
         crs: L.CRS.Simple,
         //    minZoom: -5
       });
-      this.height = this.mapParam.height;
-      this.width = this.mapParam.width;
+      // this.height = this.currentMap.height;
+      // this.width = this.currentMap.width;
       /*this.southWest = this.map.unproject([0, this.height], this.map.getMaxZoom() - 1);
        this.northEast = this.map.unproject([this.width, 0], this.map.getMaxZoom() - 1);*/
-      this.bounds = [[0, 0], [this.height, this.width]];//new L.LatLngBounds(this.southWest, this.northEast);
-      L.imageOverlay('assets/img/maps/' + this.mapParam.name_map, this.bounds).addTo(this.map);
+      this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
+      L.imageOverlay('assets/img/maps/' + this.currentMap.name_map, this.bounds).addTo(this.map);
       this.map.fitBounds(this.bounds);
       let popup = L.popup({
         closeOnClick: false,
@@ -385,7 +633,7 @@ export class LeafletMapPage {
       }
       console.log("mCoords[1]=", mCoords[1]);
       console.log("mCoords[0]=", mCoords[0]);
-      popup.setLatLng([this.height - mCoords[1], mCoords[0]]);
+      popup.setLatLng([this.currentMap.height - mCoords[1], mCoords[0]]);
       let content: string;
       if (this.lang == 'ru') {
         content = this.place[0].name_rus + '<br>' + this.popupElement.name;
@@ -399,7 +647,7 @@ export class LeafletMapPage {
 
     if (this.typeOfMap == 'conference') {
       this.createMapList();
-      this.currentMapName = this.mapList[0];
+      //this.currentMapName = this.mapList[0];
       this.currentMapNumber = 0;
       this.mapSql.select().then(res => {
         this.fullMapList = <any>res;
@@ -415,7 +663,7 @@ export class LeafletMapPage {
 
     if (this.typeOfMap == 'participant') {
       this.createMapList();
-      this.currentMapName = this.mapList[0];
+      /*this.currentMapName = this.mapList[0];*/
       this.currentMapNumber = 0;
       this.mapSql.select().then(res => {
         this.fullMapList = <any>res;
@@ -454,43 +702,10 @@ export class LeafletMapPage {
 
   }
 
-  /*  mapRight() {
-      console.log("mapRight this.mapList=", this.mapList);
-      if (this.currentMapNumber < (this.mapList.length - 1)) {
-        this.currentMapNumber++;
-        this.currentMapName = this.mapList[this.currentMapNumber];
-        if (this.lang == 'ru') {
-          this.mapTitle = this.mapList[this.currentMapNumber].name_rus
-        }
-        else {
-          this.mapTitle = this.mapList[this.currentMapNumber].name_eng;
-        }
-        console.log(" this.currentMapName=", this.currentMapName);
-        //flayer L.imageOverlay('assets/img/maps/' + this.currentMapName, this.bounds).remove();
-        this.mapBounds();
-        this.setPopups();
-      }
-    }*/
 
-  /*
-    mapLeft() {
-      console.log("mapLeft this.mapList=", this.mapList);
-      if (this.currentMapNumber > 0) {
-        this.currentMapNumber--;
-        this.currentMapName = this.mapList[this.currentMapNumber];
-        if (this.lang == 'ru') {
-          this.mapTitle = this.mapList[this.currentMapNumber].name_rus
-        }
-        else {
-          this.mapTitle = this.mapList[this.currentMapNumber].name_eng
-        }
-
-        this.mapBounds();
-        this.setPopups();
-      }
-    }*/
-
-
+  /**
+   * set buttons for the current map according to the fields map_right, map_left, map_up, map_down
+   */
   setButtonsEnable() {
 
     console.log("setButtonsEnable() this.currentMapNumber=", this.currentMapNumber);
@@ -515,9 +730,10 @@ export class LeafletMapPage {
 
   }
 
-
-
-
+  /**
+   * moving through the maps according to direction (up/down, left/right)
+   * @param direction
+   */
   mapDirection(direction) {
     direction = 'map_' + direction;
     console.log("currentMapNumber=", this.currentMapNumber);
@@ -527,9 +743,9 @@ export class LeafletMapPage {
     if (this.fullMapList[this.currentMapNumber][direction]) {
       for (var i = 0; i < this.fullMapList.length; i++) {
         if (this.fullMapList[i].name_map == this.fullMapList[this.currentMapNumber][direction]) {
-          this.currentMapName = this.fullMapList[i].name_map;
+          this.currentMap = this.fullMapList[i];
           // setMap();
-          console.log("currentMap=", this.currentMapName);
+          console.log("currentMap=", this.currentMap.name_map);
           this.currentMapNumber = i;
           break;
         }
@@ -542,9 +758,12 @@ export class LeafletMapPage {
 
   }
 
+  /**
+   * get previos (i.e. map from the previous level) map for the current map
+   */
   mapPrevious() {
     let direction = "place_previous";
-    let old_map_name=this.currentMapName;
+    let old_map_name = this.currentMap.name_map;
     console.log("currentMapNumber=", this.currentMapNumber);
     console.log("direction=", direction);
     console.log("fullMapList[currentMapNumber]=", this.fullMapList[this.currentMapNumber]);
@@ -552,9 +771,9 @@ export class LeafletMapPage {
     if (this.fullMapList[this.currentMapNumber][direction]) {
       for (var i = 0; i < this.fullMapList.length; i++) {
         if (this.fullMapList[i].name_map == this.fullMapList[this.currentMapNumber][direction]) {
-          this.currentMapName = this.fullMapList[i].name_map;
+          this.currentMap = this.fullMapList[i];
           // setMap();
-          console.log("currentMap=", this.currentMapName);
+          console.log("currentMap=", this.currentMap.name_map);
           this.currentMapNumber = i;
           break;
         }
@@ -575,6 +794,8 @@ export class LeafletMapPage {
       }
     }
   }
+
+
 }
 
 

@@ -187,7 +187,8 @@ export class HomePage {
                     console.log('mydata[i]["TABLE_NAME"]=', data[i]["TABLE_NAME"]);
                     console.log('fields=', fields);
                     console.log('mydata[i]["STATUS"]=', data[i]["STATUS"]);
-                    let table = new BaseSql(this.http, data[i]["TABLE_NAME"], fields, '', data[i]["STATUS"]);
+                    console.log('constrains=', data[i]["CONSTRAINS"]);
+                    let table = new BaseSql(this.http, data[i]["TABLE_NAME"], fields, data[i]["CONSTRAINS"], data[i]["STATUS"]);
                     table.loadApi(data[i]["API_PATH"]);
                   }
                   tableAction.addItem({id: data[i]["ID"]}).then(res => {
@@ -236,9 +237,7 @@ export class HomePage {
     this.navCtrl.push(ConferencePage, {select: 'all'});
   }
 
-  conferencePageJson() {
-    this.navCtrl.push(DemoProgramPage, {select: 'all'});
-  }
+
 
   participantPage() {
     this.navCtrl.push(ParticipantPage, {select: 'all'});
