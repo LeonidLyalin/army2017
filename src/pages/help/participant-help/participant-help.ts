@@ -22,7 +22,7 @@ export class ParticipantHelpPage extends BaseLangPageProvider {
               public navParams: NavParams,
               public events: Events,
               public http: Http) {
-    super(navCtrl, navParams, events, http);
+    super(navCtrl, events, http);
 
 
   }

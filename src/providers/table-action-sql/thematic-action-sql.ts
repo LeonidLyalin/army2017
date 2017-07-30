@@ -8,7 +8,7 @@ import {BaseSql} from "../base-sql";
 
 this table contains information about action which were done with tables
 */
-declare var window: any;
+declare let window: any;
 
 
 @Injectable()
@@ -20,7 +20,7 @@ export class TableActionSql extends BaseSql{
       {name:"id", type:"text PRIMARY KEY"    },
 
       ]
-    )
+    );
     console.log('Hello table_action constructor');
     //this.openDb();
   }

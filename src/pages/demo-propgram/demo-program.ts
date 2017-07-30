@@ -4,9 +4,8 @@ import {MyForumSql} from "../../providers/my-forum-sql";
 import {conferenceRusMyForum, ConferenceSql} from "../../providers/conference-sql/conference-sql";
 import {Http} from "@angular/http";
 import {ConferenceDetailPage} from "../conference-detail/conference-detail";
-import {map, MapSql} from "../../providers/map-sql/map-sql";
+import {MapSql} from "../../providers/map-sql/map-sql";
 import {place, PlaceSql} from "../../providers/place-sql/place-sql";
-import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
 import {FilterConferenceProvider} from "../../providers/filter-provider/filter-conference-provider";
 import {BaseApi} from "../shared/base-api-service";
 
@@ -97,8 +96,7 @@ export class DemoProgramPage {
 
 
   showHideFilter() {
-    if (this.showFilter) this.showFilter = false;
-    else this.showFilter = true;
+    this.showFilter = !this.showFilter;
   }
 
   ionViewDidLoad() {
@@ -150,12 +148,9 @@ export class DemoProgramPage {
   }*/
 
 
-
-
-
   /**
-   * Show the detail view of the demoProgramList
-   * @param demoProgramList - record in the json format for current demoProgramList element
+   *
+   * @param conferenceSingle
    */
   goToConferenceDetail(conferenceSingle) {
     console.log("goToParticipantDetail()");

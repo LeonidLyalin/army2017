@@ -1,5 +1,5 @@
-import {Component, ViewChild} from '@angular/core';
-import {Content, Events, NavController, NavParams, Platform} from 'ionic-angular';
+import {Component} from '@angular/core';
+import { Events, NavController, NavParams, Platform} from 'ionic-angular';
 import {BaseLangPageProvider} from "../../../providers/base-lang-page/base-lang-page";
 import {Http} from "@angular/http";
 
@@ -28,7 +28,7 @@ export class ConferenceHelpPage extends BaseLangPageProvider {
               public events: Events,
               public http: Http,
               public platform:Platform) {
-    super(navCtrl, navParams, events, http);
+    super(navCtrl, events, http);
 
     this.widthScroll="100%";
    // this.heightScroll="500px";

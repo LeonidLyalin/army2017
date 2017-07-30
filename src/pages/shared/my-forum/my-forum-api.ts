@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
-import {UserData} from "../../providers/user-data";
 
 /*
  Generated class for the MyForumApi provider.
@@ -44,7 +43,6 @@ export class MyForumApi {
 
   /**
    *
-   * @param user_id
    * @param id_block
    * @param id
    * @returns {Observable<R>}

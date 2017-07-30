@@ -1,15 +1,12 @@
 import {Component, ViewChild} from '@angular/core';
 import {Content, Events, NavController, NavParams, Platform, Scroll, ToastController} from 'ionic-angular';
-import {PlaceApi} from "../../shared/place/place-api-service";
 import {place, PlaceSql} from "../../../providers/place-sql/place-sql";
 import {PatriotExpoMapPage} from "../patriot-expo-map/patriot-expo-map";
 import {DrawFunctionProvider} from "../../../providers/draw-function/draw-function";
 import * as L from 'leaflet';
 import {MapSql} from "../../../providers/map-sql/map-sql";
-
 import {Http} from "@angular/http";
 import {BaseLangPageProvider} from "../../../providers/base-lang-page/base-lang-page";
-import {BaseSql} from "../../../providers/base-sql";
 import {ParticipantDetailPage} from "../../participant-detail/participant-detail";
 import {MyForumSql} from "../../../providers/my-forum-sql";
 
@@ -17,18 +14,18 @@ import {MyForumSql} from "../../../providers/my-forum-sql";
  * Base class for show any leaflet map
  */
 
-export interface mapSize {
+/*export interface mapSize {
   x: number;
   y: number;
-}
+}*/
 
-export interface coord {
+/*export interface coord {
   x1: number;
   y1: number;
   x2: number;
   y2: number;
   page: any;
-}
+}*/
 
 @Component({
   selector: 'leaflet-map',
@@ -70,7 +67,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
 
 
   mapTitle: string;
-  showArrow: number = 0;
+  showArrow: boolean;
 
   popups: any;
 
@@ -109,13 +106,13 @@ export class LeafletMapPage extends BaseLangPageProvider {
               public navCtrl: NavController,
               public navParams: NavParams,
               public platform: Platform,
-              public placeApi: PlaceApi,
+              /*public placeApi: PlaceApi,*/
               public toastCtrl: ToastController,
               public drawFunction: DrawFunctionProvider,
               public mapSql: MapSql,
               public events: Events,
               public placeSql: PlaceSql) {
-    super(navCtrl, navParams, events, http);
+    super(navCtrl, events, http);
     this.popupElement = navParams.get('popupElement');
     this.place = navParams.get('place');
     this.currentMap = navParams.get('map');
@@ -146,24 +143,23 @@ export class LeafletMapPage extends BaseLangPageProvider {
     this.mapList = [];
 
     console.log("createMapList(popupElement=", this.popupElement);
+    if (this.popupElement && this.popupElement.length) {
 
-    let flags = [], l = (this.popupElement.length);
-    for (let i = 0; i < l; i++) {
-      if (this.popupElement[i].name_map) {
-        if (flags[this.popupElement[i].name_map]) continue;
-        flags[this.popupElement[i].name_map] = true;
-        this.mapList.push(this.popupElement[i].name_map);
+      let flags = [], l = (this.popupElement.length);
+      for (let i = 0; i < l; i++) {
+        if (this.popupElement[i].name_map) {
+          if (flags[this.popupElement[i].name_map]) continue;
+          flags[this.popupElement[i].name_map] = true;
+          this.mapList.push(this.popupElement[i].name_map);
+        }
+
+
       }
+      console.log("mapList=", this.mapList);
+      this.showArrow = (this.mapList.length > 1);
 
+    }
 
-    }
-    console.log("mapList=", this.mapList);
-    if (this.mapList.length > 1) {
-      this.showArrow = 1;
-    }
-    else {
-      this.showArrow = 0;
-    }
   }
 
   /**
@@ -171,39 +167,40 @@ export class LeafletMapPage extends BaseLangPageProvider {
    */
   createPlaceList() {
     this.placeList = [];
+    if (this.popupElement) {
+      console.log("createPlaceList(popupElement=", this.popupElement);
 
-    console.log("createPlaceList(popupElement=", this.popupElement);
+      let flags = [], l = (this.popupElement.length);
+      for (let i = 0; i < l; i++) {
+        if (this.popupElement[i].place_name_place) {
+          if (flags[this.popupElement[i].place_name_place]) continue;
+          flags[this.popupElement[i].place_name_place] = true;
+          this.placeList.push(this.popupElement[i].place_name_place);
+        }
 
-    let flags = [], l = (this.popupElement.length);
-    for (let i = 0; i < l; i++) {
-      if (this.popupElement[i].place_name_place) {
-        if (flags[this.popupElement[i].place_name_place]) continue;
-        flags[this.popupElement[i].place_name_place] = true;
-        this.placeList.push(this.popupElement[i].place_name_place);
-      }
-
-
-    }
-    console.log("placeList=", this.placeList);
-  }
-
-  /**
-   * get parameters of the current map from fullMapList on name_map
-   */
-  getMapFromFullList() {
-    for (let i = 0; i < this.fullMapList.length; i++) {
-      //if (this.currentMapName == this.fullMapList[i].name_map) {
-      if (this.currentMap.name_map == this.fullMapList[i].name_map) {
-        /*this.width = this.fullMapList[i].width;
-        this.height = this.fullMapList[i].height;*/
-        this.currentMap = this.fullMapList[i];
-        //  this.currentMap.height = this.fullMapList[i].height;
-        this.titleStr = this.fullMapList[i]['name_' + (this.lang == 'ru' ? 'rus' : 'eng')];
 
       }
-
+      console.log("placeList=", this.placeList);
     }
   }
+
+  /*  /!**
+     * get parameters of the current map from fullMapList on name_map
+     *!/
+    getMapFromFullList() {
+      for (let i = 0; i < this.fullMapList.length; i++) {
+        //if (this.currentMapName == this.fullMapList[i].name_map) {
+        if (this.currentMap.name_map == this.fullMapList[i].name_map) {
+          /!*this.width = this.fullMapList[i].width;
+          this.height = this.fullMapList[i].height;*!/
+          this.currentMap = this.fullMapList[i];
+          //  this.currentMap.height = this.fullMapList[i].height;
+          this.titleStr = this.fullMapList[i]['name_' + (this.lang == 'ru' ? 'rus' : 'eng')];
+
+        }
+
+      }
+    }*/
 
 
   /**
@@ -214,6 +211,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
       this.map = L.map('map', {
         crs: L.CRS.Simple,
         minZoom: -2,
+        maxZoom: 5,
         zoom: 1,
       });
     }
@@ -222,9 +220,13 @@ export class LeafletMapPage extends BaseLangPageProvider {
     // L.imageOverlay('assets/img/maps/' + this.currentMapName, this.bounds).addTo(this.map);
     L.imageOverlay('assets/img/maps/' + this.currentMap.name_map, this.bounds).addTo(this.map);
     this.map.fitBounds(this.bounds);
-
+    this.map.tap = true;
     this.map.on('click', (e) => {
       this.mapClick(e)
+    });
+
+    this.map.on('zoom', (e) => {
+      this.mapOnZoom(e)
     });
 
     this.createPlaceListForMap();
@@ -237,28 +239,20 @@ export class LeafletMapPage extends BaseLangPageProvider {
     this.placeSql.selectWhere('name_map="' + this.currentMap.name_map + '"').then(res => {
       this.placeListForMap = <any>res;
       console.log("this.placeListForMap=", this.placeListForMap);
-      /*for (let i = 0; i < this.placeListForMap.length; i++) {
-        if (this.placeListForMap[i].shape == 'poly') {
-          let tmpCoords = this.placeListForMap[i].coords.split(',');
-          console.log("tmpCoords=", tmpCoords);
-          let tmpBounds = [];
-          for (let m = 0; m < tmpCoords.length; m = m + 2) {
-            tmpBounds.push([tmpCoords[m], tmpCoords[m + 1]]);
-
-
-          }
-        //  console.log("tmpBounds=", tmpBounds);
-        //  L.polygon(tmpBounds, {color: 'green', weight: 3}).addTo(this.map);
-        }
-      }*/
-      /* let polyline = L.polygon([[0, 0], [30, 30], [60, 60], [90, 90], [120, 120]], {
-         color: 'blue',
-         weight: 3
-       }).addTo(this.map);*/
     });
 
-    //draw polygons (for reason)
 
+  }
+
+  static pnpoly(nvert, vertx, verty, testx, testy) {
+    let i, j, c = false;
+    for (i = 0, j = nvert - 1; i < nvert; j = i++) {
+      if (( ( verty[i] > testy ) !== ( verty[j] > testy ) ) &&
+        ( testx < ( vertx[j] - vertx[i] ) * ( testy - verty[i] ) / ( verty[j] - verty[i] ) + vertx[i] )) {
+        c = !c;
+      }
+    }
+    return c;
   }
 
   isInsideRect(x, y, coords, place_name) {
@@ -267,7 +261,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
     console.log("isInsideRect y=", y);
     let coordsList = coords.split(',');
     console.log("isInsideRect coordsList=", coordsList);
-    var bounds = [[this.currentMap.height - coordsList[1], coordsList[0]], [this.currentMap.height - coordsList[3], coordsList[2]]];
+    let bounds = [[this.currentMap.height - coordsList[1], coordsList[0]], [this.currentMap.height - coordsList[3], coordsList[2]]];
     console.log("bounds before ", place_name, bounds);
     console.log("coordsList[1] before ", coordsList[1]);
     console.log("height -coordsList[1] before ", this.currentMap.height - coordsList[1]);
@@ -310,7 +304,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
 
 
     //prepare for check;
-     let tmpBounds = [];
+    let tmpBounds = [];
     console.log("isInsidePoly coords=", coords);
     let coordsList = coords.split(',');
     console.log("isInsidePoly coordsList=", coordsList);
@@ -322,7 +316,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
     for (let i = 0; i < coordsList.length; i = i + 2) {
       nvert++;
       verty.push(this.currentMap.height - coordsList[i + 1]);
-      vertx.push(coordsList[i]);
+      vertx.push(coordsList[i] * 1);
       tmpBounds.push([this.currentMap.height - coordsList[i + 1], coordsList[i]]);
 
     }
@@ -330,70 +324,74 @@ export class LeafletMapPage extends BaseLangPageProvider {
     console.log("isInsidePoly vertx=", vertx);
     console.log("isInsidePoly verty=", verty);
 
-      console.log("isInsidePoly tmpBounds=", tmpBounds);
-      L.polygon(tmpBounds, {color: 'blue', weight: 2}).addTo(this.map);
-    return this.pnpoly(nvert, vertx, verty, x, y);
-  }
-
-  pnpoly(nvert, vertx, verty, testx, testy) {
-    let i, j, c = false;
-    for (i = 0, j = nvert - 1; i < nvert; j = i++) {
-      if (( ( verty[i] > testy ) !== ( verty[j] > testy ) ) &&
-        ( testx < ( vertx[j] - vertx[i] ) * ( testy - verty[i] ) / ( verty[j] - verty[i] ) + vertx[i] )) {
-        c = !c;
-      }
-    }
-    return c;
+    console.log("isInsidePoly tmpBounds=", tmpBounds);
+    // L.polygon(tmpBounds, {color: 'blue', weight: 2}).addTo(this.map);
+    return LeafletMapPage.pnpoly(nvert, vertx, verty, x, y);
   }
 
 
   /**
-   * show popup on a certain place
-   * @param x
-   * @param y
-   * @param content
+   * Show and place popups on the currentmap
+   * @param content - what will be shown on the popup
+   * @param coords - where to place pop up (actualy, firtst two numbers from the coords)
    */
-  showPopup(x, y, content) {
-    console.log("x=", x);
-    console.log("y=", y);
+
+  showPopup(content, coords) {
+    /*console.log("x=", x);
+    console.log("y=", y);*/
     console.log("content=", content);
+    if (coords) {
 
-    let popup = L.popup({
-      closeOnClick: false,
-      autoClose: false
-    })
-      .setLatLng([this.currentMap.height - y, x])
-      .setContent(content)
-      .openOn(this.map);
 
-  }
-
-  checkPlaceOnMap(x, y) {
-
-    for (let i = 0; i < this.placeListForMap.length; i++) {
-      console.log("placeList=", this.placeListForMap[i].coords);
-      if (this.placeListForMap[i].shape == 'poly') {
-        if (this.isInsidePoly(x, y, this.placeListForMap[i].coords)) {
-          let content = '<b>' + this.placeListForMap[i].name_place_rus + "</b><br>" +
-            '<a href="' + this.placeListForMap[i].ref + '">' + this.placeListForMap[i].name_rus + '</a>';
-          this.showPopup(x, this.currentMap.height - y, content);
-          break;
+      let mCoordsTmp = coords.split(',');
+      let mCoords: number[] = [];
+      console.log('mCoordsTmp= ', mCoordsTmp);
+      for (let mCoordsSingle of mCoordsTmp) {
+        if (mCoordsSingle) {
+          console.log("mCoordsSingle=", mCoordsSingle);
+          mCoords.push(Number(mCoordsSingle));
         }
-      }
 
-      else {
-        if (this.isInsideRect(x, y, this.placeListForMap[i].coords, this.placeListForMap[i].name_place_rus)) {
-          let content = '<b>' + this.placeListForMap[i].name_place_rus + "</b><br>" +
-            '<a href="' + this.placeListForMap[i].ref + '">' + this.placeListForMap[i].name_rus + '</a>'
-          this.showPopup(x, this.currentMap.height - y, content);
-          break;
-        }
-      }
 
+      }
+      L.popup({
+        closeOnClick: false,
+        autoClose: false
+      })
+        .setLatLng([this.currentMap.height - mCoords[1], mCoords[0]])
+        .setContent(content)
+        .openOn(this.map);
     }
 
 
   }
+
+  /*  checkPlaceOnMap(x, y) {
+
+      for (let i = 0; i < this.placeListForMap.length; i++) {
+        console.log("placeList=", this.placeListForMap[i].coords);
+        if (this.placeListForMap[i].shape == 'poly') {
+          if (this.isInsidePoly(x, y, this.placeListForMap[i].coords)) {
+            let content = '<b>' + this.placeListForMap[i].name_place_rus + "</b><br>" +
+              '<a href="' + this.placeListForMap[i].ref + '">' + this.placeListForMap[i].name_rus + '</a>';
+            this.showPopup(x, this.currentMap.height - y, content);
+            break;
+          }
+        }
+
+        else {
+          if (this.isInsideRect(x, y, this.placeListForMap[i].coords, this.placeListForMap[i].name_place_rus)) {
+            let content = '<b>' + this.placeListForMap[i].name_place_rus + "</b><br>" +
+              '<a href="' + this.placeListForMap[i].ref + '">' + this.placeListForMap[i].name_rus + '</a>';
+            this.showPopup(x, this.currentMap.height - y, content);
+            break;
+          }
+        }
+
+      }
+
+
+    }*/
 
 
   mapClick(e) {
@@ -416,6 +414,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
           }
         }
         else {
+          console.log('check for poly');
           if (this.placeListForMap[i].shape == 'poly') {
             if (this.isInsidePoly(e.latlng.lng, e.latlng.lat, this.placeListForMap[i].coords)) {
 
@@ -436,7 +435,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
           //goto to the new map
 
           for (let i = 0; i < this.fullMapList.length; i++) {
-            if (this.fullMapList[i].name_map == this.placeListForMap[i].goto) {
+            if (this.fullMapList[i].name_map == this.placeListForMap[numFind].goto) {
               this.currentMap = this.fullMapList[i];
               // setMap();
               console.log("currentMap=", this.currentMap.name_map);
@@ -445,7 +444,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
             }
 
           }
-          this.getMapFromFullList();
+          //this.getMapFromFullList();
           this.setMap();
           this.setButtonsEnable();
           //if (this.showPopups) this.setPopups();
@@ -459,7 +458,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
             if ((<any>res).length) {
               let participant = <any>res;
               console.log("participant=", participant);
-              this.navCtrl.push(ParticipantDetailPage, {participant})
+              this.navCtrl.push(ParticipantDetailPage, {participant: participant, map: false})
             }
           });
         }
@@ -484,71 +483,56 @@ export class LeafletMapPage extends BaseLangPageProvider {
     this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
     L.imageOverlay('assets/img/maps/' + this.currentMap.name_map, this.bounds).addTo(this.map);
     this.map.fitBounds(this.bounds);
+
+    this.titleStr = this.currentMap['name_' + (this.lang == 'ru' ? 'rus' : 'eng')];
     this.createPlaceListForMap();
   }
 
-  mapBounds() {
-    for (let popup of this.popups) {
-      this.map.closePopup(popup);
-    }
-    this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
-    L.imageOverlay('assets/img/maps/' + this.currentMap.map_name, this.bounds).addTo(this.map);
-    this.map.fitBounds(this.bounds);
+  /*  mapBounds() {
+      for (let popup of this.popups) {
+        this.map.closePopup(popup);
+      }
+      this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
+      L.imageOverlay('assets/img/maps/' + this.currentMap.map_name, this.bounds).addTo(this.map);
+      this.map.fitBounds(this.bounds);
 
-  }
+    }*/
 
   /**
-   * set popup for the map on the previous lavel
+   * set popup for the map on the previous level
    * @param mapAsPlace
    */
-  setMapAsPlace(mapAsPlace ?) {
+  setMapAsPlace(mapAsPlace) {
     //first, find the place which was our map
+    console.log("mapAsPlace=", mapAsPlace);
     let placeSql = new PlaceSql(this.http);
     placeSql.selectWhere(' goto="' + mapAsPlace + '"').then(res => {
       let place = <any>res[0];
-      let content = '';
-      let popup = L.popup({
-        closeOnClick: false,
-        autoClose: false
-      });
-      let mCoords: number[] = [];
-      if (this.lang == 'ru') {
-        content += '<b>' + place.name_rus + '</b>' + '<br>';
-      }
-      else {
-        content += '<b>' + place.name_eng + '</b>' + '<br>';
-      }
-      let mCoordsTmp = place.coords.split(',');
+      let content = place["name_" + ((this.lang == 'ru') ? 'rus' : 'eng')];// + '<br>' + this.popupElement.name;
+      /* let mCoordsTmp = place.coords.split(',');
+       let mCoords: number[] = [];
+       for (let mCoordsSingle of mCoordsTmp) {
+         console.log("setPopups mCoordsSingle=", mCoordsSingle);
+         mCoords.push(Number(mCoordsSingle));
 
-
-      for (let mCoordsSingle of mCoordsTmp) {
-        console.log("setPopups mCoordsSingle=", mCoordsSingle);
-        mCoords.push(Number(mCoordsSingle));
-
-      }
-      console.log("mCoords=", mCoords);
-      console.log("mCoords[0]=", mCoords[0]);
-      console.log("mCoords[1]=", mCoords[1]);
-      if ((mCoords[1]) && (mCoords[0])) {
-        popup.setLatLng([this.currentMap.height - mCoords[1], mCoords[0]]);
-        popup.setContent(content);
-        popup.openOn(this.map);
-        this.popups.push(popup);
-      }
+       }*/
+      //this.showPopup(mCoords[0], mCoords[1], content);
+      this.showPopup(content, place.coords);
 
     });
 
 
   }
 
-  setPopups(mapAsPlace ?) {
+  setPopups() {
+    if (!this.popupElement) return;
     this.popups = [];
     for (let m = 0; m < this.placeList.length; m++) {
       let content = '';
       let popup = L.popup({
         closeOnClick: false,
         autoClose: false
-      })
+      });
       let mCoords: number[] = [];
       content += '<b>' + this.placeList[m] + '</b>' + '<br>';
       for (let i = 0; i < this.popupElement.length; i++) {
@@ -558,15 +542,6 @@ export class LeafletMapPage extends BaseLangPageProvider {
           console.log("this.currentMap.name_map=", this.currentMap.name_map);
           console.log("this.popupElement[i].place_name_place=", this.popupElement[i].place_name_place);
           console.log("this.placeList[m]=", this.placeList[m]);
-          let mCoordsTmp = this.popupElement[i].coords.split(',');
-
-
-          for (let mCoordsSingle of mCoordsTmp) {
-            console.log("setPopups mCoordsSingle=", mCoordsSingle);
-            mCoords.push(Number(mCoordsSingle));
-
-          }
-
 
           if (this.typeOfMap == 'conference') {
             content += this.popupElement[i].date_event + '. '
@@ -574,21 +549,27 @@ export class LeafletMapPage extends BaseLangPageProvider {
               this.popupElement[i].time_end + '<br>';
           }
           content += this.popupElement[i].name.trim() + '<br>';
-
           console.log("content=", content);
+          this.showPopup(content, this.popupElement[i].coords);
         }
 
+
       }
-      console.log("mCoords=", mCoords);
-      console.log("mCoords[0]=", mCoords[0]);
-      console.log("mCoords[1]=", mCoords[1]);
-      if ((mCoords[1]) && (mCoords[0])) {
-        popup.setLatLng([this.currentMap.height - mCoords[1], mCoords[0]]);
-        //  popup.setLatLng([mCoords[1], mCoords[0]]);
-        popup.setContent(content);
-        popup.openOn(this.map);
-        this.popups.push(popup);
-      }
+      /*    let mCoordsTmp = this.popupElement[i].coords.split(',');
+          for (let mCoordsSingle of mCoordsTmp) {
+            console.log("setPopups mCoordsSingle=", mCoordsSingle);
+            mCoords.push(Number(mCoordsSingle));
+          }
+          console.log("mCoords=", mCoords);
+          console.log("mCoords[0]=", mCoords[0]);
+          console.log("mCoords[1]=", mCoords[1]);
+          if ((mCoords[1]) && (mCoords[0])) {
+            popup.setLatLng([this.currentMap.height - mCoords[1], mCoords[0]]);
+            //  popup.setLatLng([mCoords[1], mCoords[0]]);
+            popup.setContent(content);
+            popup.openOn(this.map);
+            this.popups.push(popup);
+          }*/
 
     }
   }
@@ -599,50 +580,57 @@ export class LeafletMapPage extends BaseLangPageProvider {
     this.popupElement = this.navParams.get('popupElement');
     this.place = this.navParams.get('place');
     this.currentMap = this.navParams.get('map');
-
+    console.log("popupElement=", this.popupElement);
+    console.log("place=", this.place);
+    console.log("currentMap=", this.currentMap);
     if (this.typeOfMap == 'participantDetail') {
-      this.showArrow = 0;
-      console.log("popupElement=", this.popupElement);
-      console.log("place=", this.place);
-      console.log("currentMap=", this.currentMap);
-      this.map = L.map('map', {
-        crs: L.CRS.Simple,
-        //    minZoom: -5
-      });
-      // this.height = this.currentMap.height;
-      // this.width = this.currentMap.width;
-      /*this.southWest = this.map.unproject([0, this.height], this.map.getMaxZoom() - 1);
-       this.northEast = this.map.unproject([this.width, 0], this.map.getMaxZoom() - 1);*/
-      this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
-      L.imageOverlay('assets/img/maps/' + this.currentMap.name_map, this.bounds).addTo(this.map);
-      this.map.fitBounds(this.bounds);
-      let popup = L.popup({
-        closeOnClick: false,
-        autoClose: false
-      })
-      let mCoordsTmp = this.place[0].coords.split(',');
-      let mCoords: number[] = [];
-      console.log('mCoordsTmp= ', mCoordsTmp);
-      for (let mCoordsSingle of mCoordsTmp) {
-        if (mCoordsSingle) {
-          console.log("mCoordsSingle=", mCoordsSingle);
-          mCoords.push(Number(mCoordsSingle));
-        }
+      this.showArrow = false;
+
+      /*      this.map = L.map('map', {
+              crs: L.CRS.Simple,
+              //    minZoom: -5
+            });
 
 
-      }
-      console.log("mCoords[1]=", mCoords[1]);
+            this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
+            L.imageOverlay('assets/img/maps/' + this.currentMap.name_map, this.bounds).addTo(this.map);
+            this.map.fitBounds(this.bounds);*/
+
+      this.initMap();
+      /*let popup = */
+      /* L.popup({
+         closeOnClick: false,
+         autoClose: false
+       });*/
+      /*   let mCoordsTmp = this.place[0].coords.split(',');
+         let mCoords: number[] = [];
+         console.log('mCoordsTmp= ', mCoordsTmp);
+         for (let mCoordsSingle of mCoordsTmp) {
+           if (mCoordsSingle) {
+             console.log("mCoordsSingle=", mCoordsSingle);
+             mCoords.push(Number(mCoordsSingle));
+           }
+
+
+         }*/
+      let content: string;
+      content = this.place[0]["name_" + ((this.lang == 'ru') ? 'rus' : 'eng')] + '<br>' + this.popupElement.name;
+      /*console.log("mCoords[1]=", mCoords[1]);
       console.log("mCoords[0]=", mCoords[0]);
       popup.setLatLng([this.currentMap.height - mCoords[1], mCoords[0]]);
-      let content: string;
-      if (this.lang == 'ru') {
-        content = this.place[0].name_rus + '<br>' + this.popupElement.name;
+
+
+      /!*if (this.lang == 'ru') {
+        content = this.place[0].name_rus
       }
       else {
         content = this.place[0].name_eng + '<br>' + this.popupElement.name;
-      }
+      }*!/
       popup.setContent(content);
-      popup.openOn(this.map);
+      popup.openOn(this.map);*/
+
+      // this.showPopup(mCoords[0], mCoords[1], content);
+      this.showPopup(content, this.place[0].coords);
     }
 
     if (this.typeOfMap == 'conference') {
@@ -652,12 +640,10 @@ export class LeafletMapPage extends BaseLangPageProvider {
       this.mapSql.select().then(res => {
         this.fullMapList = <any>res;
         console.log('this.fullMapList=', res);
-        this.getMapFromFullList();
         this.createPlaceList();
         this.initMap();
         this.setButtonsEnable();
         this.setPopups();
-
       });
     }
 
@@ -668,12 +654,24 @@ export class LeafletMapPage extends BaseLangPageProvider {
       this.mapSql.select().then(res => {
         this.fullMapList = <any>res;
         console.log('this.fullMapList=', res);
-        this.getMapFromFullList();
+        // this.getMapFromFullList();
         this.createPlaceList();
         this.initMap();
         this.setButtonsEnable();
         this.setPopups();
 
+      });
+    }
+
+    if (this.typeOfMap == 'simple') {
+      //this.createMapList();
+      /*this.currentMapName = this.mapList[0];*/
+      this.currentMapNumber = 0;
+      this.mapSql.select().then(res => {
+        this.fullMapList = <any>res;
+        console.log('this.fullMapList=', res);
+        this.initMap();
+        this.setButtonsEnable();
       });
     }
 
@@ -708,26 +706,22 @@ export class LeafletMapPage extends BaseLangPageProvider {
    */
   setButtonsEnable() {
 
-    console.log("setButtonsEnable() this.currentMapNumber=", this.currentMapNumber);
-    console.log("setButtonsEnable() this.fullMapList[this.currentMapNumber]", this.fullMapList[this.currentMapNumber]);
-    if (this.fullMapList[this.currentMapNumber].map_left)
-      this.showLeftArrow = true;
-    else this.showLeftArrow = false;
+    console.log("setButtonsEnable() this.currentMap=", this.currentMap);
 
-    if (this.fullMapList[this.currentMapNumber].map_right)
-      this.showRightArrow = true;
-    else this.showRightArrow = false;
 
-    if (this.fullMapList[this.currentMapNumber].map_up)
-      this.showUpArrow = true;
-    else this.showUpArrow = false;
-    if (this.fullMapList[this.currentMapNumber].map_down)
-      this.showDownArrow = true;
-    else this.showDownArrow = false;
-    if (this.fullMapList[this.currentMapNumber].place_previous)
-      this.showPreviousArrow = true;
-    else this.showPreviousArrow = false;
+    /*   this.showLeftArrow = !!this.fullMapList[this.currentMapNumber].map_left;
 
+       this.showRightArrow = !!this.fullMapList[this.currentMapNumber].map_right;
+       this.showUpArrow = !!this.fullMapList[this.currentMapNumber].map_up;
+       this.showDownArrow = !!this.fullMapList[this.currentMapNumber].map_down;
+       this.showPreviousArrow = !!this.fullMapList[this.currentMapNumber].place_previous;*/
+    this.showLeftArrow = !!this.currentMap.map_left;
+    this.showRightArrow = !!this.currentMap.map_right;
+    this.showUpArrow = !!this.currentMap.map_up;
+    this.showDownArrow = !!this.currentMap.map_down;
+    this.showPreviousArrow = !!this.currentMap.place_previous;
+    this.showArrow = this.showLeftArrow || this.showRightArrow
+      || this.showUpArrow || this.showDownArrow || this.showPreviousArrow;
   }
 
   /**
@@ -741,7 +735,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
     console.log("fullMapList[currentMapNumber]=", this.fullMapList[this.currentMapNumber]);
     console.log("fullMapList[currentMapNumber]=", this.fullMapList[this.currentMapNumber][direction]);
     if (this.fullMapList[this.currentMapNumber][direction]) {
-      for (var i = 0; i < this.fullMapList.length; i++) {
+      for (let i = 0; i < this.fullMapList.length; i++) {
         if (this.fullMapList[i].name_map == this.fullMapList[this.currentMapNumber][direction]) {
           this.currentMap = this.fullMapList[i];
           // setMap();
@@ -751,7 +745,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
         }
       }
     }
-    this.getMapFromFullList();
+    //this.getMapFromFullList();
     this.setMap();
     this.setButtonsEnable();
     if (this.showPopups) this.setPopups();
@@ -769,7 +763,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
     console.log("fullMapList[currentMapNumber]=", this.fullMapList[this.currentMapNumber]);
     console.log("fullMapList[currentMapNumber]=", this.fullMapList[this.currentMapNumber][direction]);
     if (this.fullMapList[this.currentMapNumber][direction]) {
-      for (var i = 0; i < this.fullMapList.length; i++) {
+      for (let i = 0; i < this.fullMapList.length; i++) {
         if (this.fullMapList[i].name_map == this.fullMapList[this.currentMapNumber][direction]) {
           this.currentMap = this.fullMapList[i];
           // setMap();
@@ -779,10 +773,11 @@ export class LeafletMapPage extends BaseLangPageProvider {
         }
       }
     }
-    this.getMapFromFullList();
+    //  this.getMapFromFullList();
     this.setMap();
     this.setButtonsEnable();
-    if (this.showPopups) this.setMapAsPlace(old_map_name)
+    console.log("old_map_name=", old_map_name);
+    if (this.showPopups) this.setMapAsPlace(old_map_name);
   }
 
   updatePopups() {
@@ -795,9 +790,17 @@ export class LeafletMapPage extends BaseLangPageProvider {
     }
   }
 
-
+  mapOnZoom(e) {
+    console.log(e);
+    console.log("this.map.getCenter()=", this.map.getCenter());
+    //Returns the geographical center of the map view
+    console.log("this.map.getZoom()=", this.map.getZoom());
+    //Returns the current zoom level of the map view
+    //  console.log("this.map.getBounds()=",this.map.getBounds());
+    this.showPopup('Привет!', this.map.getCenter().lat + ',' + this.map.getCenter().lng);
+  }
 }
 
 
-
+// 790 strings before refactoring
 

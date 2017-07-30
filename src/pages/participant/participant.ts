@@ -132,10 +132,10 @@ export class ParticipantPage extends BaseListPageProvider {
     // and pass in the session data
     if (this.lang == 'ru') {
       this.sqlMyForum.getRusParticipantFull('where a.id=' + participant.id).then(res => {
-        let participantDetail = <any>res;
-        console.log("participantDetail=", participantDetail);
+        let participant = <any>res;
+        console.log("participantDetail=", participant);
         this.navCtrl.push(ParticipantDetailPage, {
-          participant: participantDetail
+          participant
         });
       });
     } else
@@ -153,8 +153,8 @@ export class ParticipantPage extends BaseListPageProvider {
    */
   checkParticipantForId(id) {
     this.participantSql.checkForId(id).then(res => {
-        console.log("check for participant")
-        console.log(res)
+        console.log("check for participant");
+        console.log(res);
         return res;
       }
     );

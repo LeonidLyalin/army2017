@@ -65,7 +65,7 @@ export class PatriotExpoMapPage {
       this.imageMap.onload = () => {
         this.hdc.drawImage(this.imageMap, 0, 0);
 
-      }
+      };
       toast.present();
       this.placeSql.selectWhere('map='+'"'+this.name_map+'"').then(
         res => {

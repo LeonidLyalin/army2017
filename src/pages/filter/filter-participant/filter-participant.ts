@@ -74,17 +74,13 @@ export class FilterParticipantPage {
   }
 
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad FilterParticipantPage');
 
-    //  this.filterProvider.thematicTitle='Тематика';
-  }
 
   filterThematic() {
     let parameters = {
       table: 'thematic', field: 'name_rus',
       value: 'number', title: 'Тематика'
-    }
+    };
     if (this.lang == 'en') {
       parameters = {
         table: 'thematic', field: 'name_eng',
@@ -150,7 +146,7 @@ export class FilterParticipantPage {
     let parameters = {
       table: 'place', field: 'name_rus',
       value: 'id', where: ' name_map="' + this.filterProvider.mapValue + '"', title: 'Стенд'
-    }
+    };
     if (this.lang == 'en') {
       parameters =
         {

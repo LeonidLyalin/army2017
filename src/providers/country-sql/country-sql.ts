@@ -9,7 +9,7 @@ import {BaseSql} from "../base-sql";
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
 */
-declare var window: any;
+declare let window: any;
 export interface country {
   id: number;
   name_rus: string;
@@ -33,7 +33,7 @@ export class CountrySql extends BaseSql{
       {name:"country_eng", type:"text"    },
 
       ]
-    )
+    );
     console.log('Hello CountrySql Provider');
     //this.openDb();
   }
@@ -106,7 +106,7 @@ export class CountrySql extends BaseSql{
       this.db.executeSql(query, [], rs => {
         this.arr = [];
         if (rs.rows.length > 0) {
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any> rs.rows.item(i));
               /*{
               id: rs.rows.item(i).id,

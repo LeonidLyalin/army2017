@@ -9,7 +9,8 @@ import {BaseSql} from "../base-sql";
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
 */
-declare var window: any;
+declare let window: any;
+
 export interface thematicConference {
   id: number;
   name_rus: string;
@@ -34,7 +35,7 @@ export class ThematicConferenceSql extends BaseSql{
       {name:"name_eng", type:"text"    },
       {name:"number", type:"text"    },
       ]
-    )
+    );
     console.log('Hello ThematicConferenceSql Provider');
     //this.openDb();
   }
@@ -67,7 +68,6 @@ export class ThematicConferenceSql extends BaseSql{
     return new Promise(res => {
       console.log('get thematicConference list=', list);
       let thematic: string[];
-      thematic = [];
       thematic = list.split(',');
       console.log('an array=', thematic);
       let whereStr: string = ' where ';
@@ -83,7 +83,7 @@ export class ThematicConferenceSql extends BaseSql{
       this.db.executeSql(query, [], rs => {
         if (rs.rows.length > 0) {
           this.arr = [];
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<thematicConference>rs.rows.item(i));
           }
         }

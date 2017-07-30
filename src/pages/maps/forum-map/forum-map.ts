@@ -18,7 +18,7 @@ import {DrawFunctionProvider} from "../../../providers/draw-function/draw-functi
  * on Ionic pages and navigation.
  */
 
-export interface mapSize {
+/*export interface mapSize {
   x: number;
   y: number;
 }
@@ -28,7 +28,7 @@ export interface coord {
   x2: number;
   y2: number;
   page: any;
-}
+}*/
 @Component({
   selector: 'page-forum-map',
   templateUrl: 'forum-map.html',
@@ -119,7 +119,7 @@ export class ForumMapPage {
       this.imageMap.onload = () => {
         this.hdc.drawImage(this.imageMap, 0, 0);
 
-      }
+      };
       toast.present();
       this.placeSql.selectWhere('map='+'"'+this.name_map+'"').then(
         res => {

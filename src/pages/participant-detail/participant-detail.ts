@@ -7,19 +7,22 @@ import {MyForumSql} from "../../providers/my-forum-sql";
 import {place, PlaceSql} from "../../providers/place-sql/place-sql";
 import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
 import {map, MapSql} from "../../providers/map-sql/map-sql";
+import {BaseLangPageProvider} from "../../providers/base-lang-page/base-lang-page";
+import {Http} from "@angular/http";
 
 
 @Component({
   selector: 'page-participant-detail',
   templateUrl: 'participant-detail.html'
 })
-export class ParticipantDetailPage {
+export class ParticipantDetailPage extends BaseLangPageProvider {
   participant: any;
   thematic: any;
   myForum: any;
-  userId: any;
+  // userId: any;
   iblockId: any = 1;
-  lang: string;
+  //lang: string;
+  showMap: boolean;
 //@todo add icons insteed of words in html]
 
 
@@ -36,18 +39,33 @@ export class ParticipantDetailPage {
               public sqlMyForum: MyForumSql,
               public placeSql: PlaceSql,
               public mapSql: MapSql,
-              public events: Events) {
-    this.lang = localStorage.getItem('lang');
+              public events: Events,
+              http: Http) {
+    super(navCtrl, events, http);
+    //this.lang = localStorage.getItem('lang');
     console.log("now in Participant detail");
     console.log(navParams);
     this.thematic = [];
-    if (navParams.data.participant)
-      this.participant = navParams.data.participant[0];
-    else if (navParams.data.res) this.participant = navParams.data.res;
+   /* if (this.navParams.data.map) this.showMap = this.navParams.data.map;
+    else this.showMap = true;*/
+    if (this.navParams.data.map!=null)
+    this.showMap = this.navParams.data.map;
+    else this.showMap=true;
+    if (navParams.data.participant) {
+      if (navParams.data.participant.length)
+        this.participant = navParams.data.participant[0];
+      else this.participant = navParams.data.participant;
+    }
+    else {
+      if (navParams.data.res) this.participant = navParams.data.res;
+    }
+
+    if (this.showMap) this.showMap=!!this.participant.place_name;
+
     console.log('this.participant=', this.participant);
     this.thematicSql.getThematicOfParticipant(this.participant.id).then(
       res => {
-        console.log("res in thematic page=", res)
+        console.log("res in thematic page=", res);
         this.thematic = res;
         this.participantSql.getFieldFromTable(this.participant.id, 'id', 'myforum').then(//getMyForumForId(this.participant.id).then(
           res => {
@@ -57,47 +75,29 @@ export class ParticipantDetailPage {
         )
       }
     );
-    this.lang = localStorage.getItem('lang');
-    if (this.lang == 'ru') {
-      this.setRussianStrings();
-    }
-    else {
-      this.setEnglishStrings();
-    }
-
-    this.events.subscribe('language:change', () => {
-
-
-      this.lang = localStorage.getItem('lang');
-      if (this.lang == 'ru') {
-        console.log('this.events.subscribe(language:change)', this.lang);
-        this.setRussianStrings();
-      }
-      else {
-        this.setEnglishStrings();
-      }
-    });
 
 
   }
 
   setRussianStrings() {
-    this.title = 'Участник';
+    super.setRussianStrings('Участник');
+
     this.onMapStr = 'На карте';
     this.myForumStr = 'Мой форум';
     this.thematicStr = 'Тематика:'
   }
 
   setEnglishStrings() {
-    this.title = 'Exhibitor';
+    super.setEnglishStrings('Exhibitor');
+
     this.onMapStr = 'Map';
     this.myForumStr = 'My Forum';
     this.thematicStr = 'Thematic Section:'
   }
 
   ionViewDidLoad() {
-    this.userId = localStorage.getItem('userid');
-    this.lang = localStorage.getItem('lang');
+    super.ionViewDidLoad();
+
   }
 
   deleteFromMyForum(id) {

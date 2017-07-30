@@ -81,7 +81,8 @@ export interface demoProgramRusMyForum extends demoProgramRus{
 
 
 
-declare var window: any;
+declare let window: any;
+
 @Injectable()
 export class DemoProgramSql extends BaseSql{
   public text: string = "";

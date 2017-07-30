@@ -62,7 +62,8 @@ export interface conferenceRusMyForum extends conferenceRus{
 
 
 
-declare var window: any;
+declare let window: any;
+
 @Injectable()
 export class ConferenceSql extends BaseSql{
   public text: string = "";
@@ -108,7 +109,7 @@ addFromApi(){
   addItemConference(conferenceSingle: conference) {
     return new Promise(resolve => {
 
-      var InsertQuery = 'insert or replace into conference(' +
+      const InsertQuery = 'insert or replace into conference(' +
         'id, ' +
         'name_rus, ' +
         'name_eng, ' +
@@ -125,7 +126,7 @@ addFromApi(){
         'date_event, ' +
         'time_beg, ' +
         'time_end,' +
-        'name_rus_upper'+
+        'name_rus_upper' +
         ') values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ? )';
       this.db.executeSql(InsertQuery, [
         conferenceSingle.id,

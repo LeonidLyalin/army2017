@@ -31,9 +31,9 @@ $colors: (
   army-gray:rgb(146, 148, 150)
 );
 
-$toolbar-background: color($colors, "army-red");
+$toolbar-background: map_get($colors, "army-red");
 
-$tabs-background: color($colors, "army-red");
+$tabs-background: map-get($colors, "army-red");
 
 // App iOS Variables
 // --------------------------------------------------

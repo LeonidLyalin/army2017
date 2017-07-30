@@ -1,5 +1,4 @@
 import {Injectable, ViewChild} from '@angular/core';
-import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {place, PlaceSql} from "../place-sql/place-sql";
 import {AlertController, NavController, NavParams, ToastController} from "ionic-angular";
@@ -64,7 +63,7 @@ export class MapBaseProvider {
       this.imageMap.onload = () => {
         this.hdc.drawImage(this.imageMap, 0, 0);
 
-      }
+      };
       toast.present();
       this.placeSql.selectWhere('map='+'"'+this.name_map+'"').then(
         res => {

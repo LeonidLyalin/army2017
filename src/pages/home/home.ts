@@ -8,22 +8,23 @@ import {
 import {AboutPage} from "../about/about";
 import {ForumMapPage} from "../maps/forum-map/forum-map";
 import {ParkPatriotPage} from "../park-patriot-all/park-patriot/park-patriot";
-
 import {ParticipantPage} from "../participant/participant";
 import {ConferencePage} from "../conference/conference";
-import {DemoProgramPage} from "../demo-propgram/demo-program";
-import {ConferenceSql} from "../../providers/conference-sql/conference-sql";
 import {BaseApi} from "../shared/base-api-service";
 import {Http} from "@angular/http";
 import {BaseSql} from "../../providers/base-sql";
 import {TableActionSql} from "../../providers/table-action-sql/thematic-action-sql";
+import {BaseLangPageProvider} from "../../providers/base-lang-page/base-lang-page";
+import {CustomIconsModule} from 'ionic2-custom-icons';
+import {map} from "../../providers/map-sql/map-sql";
+import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
 
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage {
+export class HomePage extends BaseLangPageProvider {
   showSkip = true;
 
   public iconHeight: number;
@@ -34,36 +35,35 @@ export class HomePage {
    */
   public viewCount: number;
   public viewCountStr: string;
-  lang: string;
+  // lang: string;
   private iconDivHeight: number = 10;//divider for the evaliation of the icon optimal size according to content width
 
   @ViewChild('slides') slides: Slides;
   @ViewChild(Content) content: Content;
 
-  conferenceSql: ConferenceSql;
 
   //interface strings
-  title: string;
+  //title: string;
   /*onMapStr: string;
   myForumStr: string;
   thematicStr: string;*/
 
-  aboutForumStr:string;
-  mapStr:string;
-  participantsStr:string;
-  conferenceStr:string;
-  demoProgramStr:string;
-  howDoYouGetStr:string;
-  onTheForumStr:string;
-  parkPatriotStr:string;
-  answersAndQuestionsStr:string;
-  entrancesExitsStr:string;
-  restaurantsCafe:string;
-  wcStr:string;
-  infoStr:string;
-  myForumStr:string;
-  qrScannerStr:string;
-  waitLoadStr:string;
+  aboutForumStr: string;
+  mapStr: string;
+  participantsStr: string;
+  conferenceStr: string;
+  demoProgramStr: string;
+  howDoYouGetStr: string;
+  onTheForumStr: string;
+  parkPatriotStr: string;
+  answersAndQuestionsStr: string;
+  entrancesExitsStr: string;
+  restaurantsCafe: string;
+  wcStr: string;
+  infoStr: string;
+  myForumStr: string;
+  qrScannerStr: string;
+  waitLoadStr: string;
 
   constructor(public navCtrl: NavController,
               public menu: MenuController,
@@ -71,68 +71,51 @@ export class HomePage {
               public http: Http,
               public loadingCtrl: LoadingController,
               public events: Events,
-              public alertCtrl:AlertController) {
-    this.lang = localStorage.getItem('lang');
-    if (this.lang == 'ru') {
-      this.setRussianStrings();
-    }
-    else {
-      this.setEnglishStrings();
-    }
-
-    this.events.subscribe('language:change', () => {
-
-
-      this.lang = localStorage.getItem('lang');
-      if (this.lang == 'ru') {
-        console.log('this.events.subscribe(language:change)', this.lang);
-        this.setRussianStrings();
-      }
-      else {
-        this.setEnglishStrings();
-      }
-    });
+              public alertCtrl: AlertController) {
+    super(navCtrl, events, http);
 
   }
 
   setRussianStrings() {
-    this.title = 'Армия 2017';
-    this.aboutForumStr='О Форуме';
-    this.mapStr='Карта форума';
-    this.participantsStr='Участники';
-    this.conferenceStr='Конференция';
-    this.demoProgramStr='Демопрограмма';
-    this.howDoYouGetStr='Как добраться';
-    this.onTheForumStr='О Форуме "Армия-2017"';
-    this.parkPatriotStr='Парк "Патриот"';
-    this.answersAndQuestionsStr='Вопросы и ответы';
-    this.entrancesExitsStr='Входы-выходы';
-    this.restaurantsCafe='Рестораны/кафе';
-    this.wcStr='Туалеты';
-    this.infoStr='Справочная информация';
-    this.myForumStr='Мой форум';
-    this.qrScannerStr='QR сканнер';
-    this.waitLoadStr='Загрузка...';
+    super.setRussianStrings('Армия 2017');
+    //  this.title = 'Армия 2017';
+    this.aboutForumStr = 'О Форуме';
+    this.mapStr = 'Карта форума';
+    this.participantsStr = 'Участники';
+    this.conferenceStr = 'Конференция';
+    this.demoProgramStr = 'Демо программа';
+    this.howDoYouGetStr = 'Как добраться';
+    this.onTheForumStr = 'О Форуме "Армия-2017"';
+    this.parkPatriotStr = 'Парк "Патриот"';
+    this.answersAndQuestionsStr = 'Вопросы и ответы';
+    this.entrancesExitsStr = 'Входы-выходы';
+    this.restaurantsCafe = 'Рестораны/кафе';
+    this.wcStr = 'Туалеты';
+    this.infoStr = 'Справочная информация';
+    this.myForumStr = 'Мой форум';
+    this.qrScannerStr = 'QR сканнер';
+    this.waitLoadStr = 'Загрузка...';
   }
 
   setEnglishStrings() {
-    this.title = 'Army 2017';
-    this.aboutForumStr='About';
-    this.mapStr='Map';
-    this.participantsStr='Exhibitors';
-    this.conferenceStr='Conference';
-    this.demoProgramStr='Demo program';
-    this.howDoYouGetStr='How to get to';
-    this.onTheForumStr='Forum "Army-2017"';
-    this.parkPatriotStr='Park "Patriot"';
-    this.answersAndQuestionsStr='Answers & Questions';
-    this.entrancesExitsStr='Entrances & Exits';
-    this.restaurantsCafe='Restaurant & Cafe';
-    this.wcStr='WC';
-    this.infoStr='Info';
-    this.myForumStr='My Forum';
-    this.qrScannerStr='QR scanner';
-    this.waitLoadStr='Loading...';
+    super.setEnglishStrings('Army 2017');
+    //this.title = 'Army 2017';
+    this.aboutForumStr = 'About';
+    this.mapStr = 'Map';
+    this.participantsStr = 'Exhibitors';
+    this.conferenceStr = 'Conference';
+    this.demoProgramStr = 'Demo program';
+    this.howDoYouGetStr = 'How to get to';
+    this.onTheForumStr = 'Forum "Army-2017"';
+    this.parkPatriotStr = 'Park "Patriot"';
+    this.answersAndQuestionsStr = 'Answers & Questions';
+    this.entrancesExitsStr = 'Entrances & Exits';
+    this.restaurantsCafe = 'Restaurant & Cafe';
+    this.wcStr = 'WC';
+    this.infoStr = 'Info';
+    this.myForumStr = 'My Forum';
+    this.qrScannerStr = 'QR scanner';
+    this.waitLoadStr = 'Loading...';
   }
 
   onSlideChangeStart(slider: Slides) {
@@ -141,7 +124,7 @@ export class HomePage {
 
   ionViewWillEnter() {
     this.iconHeight = this.content.contentHeight / this.iconDivHeight;
-    this.iconWidth = this.iconHeight;
+    this.iconWidth = this.iconHeight;//must be th same
     console.log("this.iconHeight=" + this.iconHeight);
     this.slides.update();
     this.menu.enable(true);
@@ -156,11 +139,8 @@ export class HomePage {
        */
       let loader = this.loadingCtrl.create({
         content: this.waitLoadStr,
-        duration: 30000,
+        duration: 100000,
       });
-
-
-
 
 
       let api = new BaseApi(this.http);
@@ -181,20 +161,20 @@ export class HomePage {
                 console.log("fields.length=", fields.length);
                 console.log("fields[1]", fields[1]);
                 if (!this.platform.is('core')) {
-                  loader.present().then(()=>{
-                  if (data[i]["STATUS"] == 'recreate') {
+                  loader.present().then(() => {
+                    if (data[i]["STATUS"] == 'recreate') {
 
-                    console.log('mydata[i]["TABLE_NAME"]=', data[i]["TABLE_NAME"]);
-                    console.log('fields=', fields);
-                    console.log('mydata[i]["STATUS"]=', data[i]["STATUS"]);
-                    console.log('constrains=', data[i]["CONSTRAINS"]);
-                    let table = new BaseSql(this.http, data[i]["TABLE_NAME"], fields, data[i]["CONSTRAINS"], data[i]["STATUS"]);
-                    table.loadApi(data[i]["API_PATH"]);
-                  }
-                  tableAction.addItem({id: data[i]["ID"]}).then(res => {
-                    console.log("tableAction.addItem res=", res);
-                    loader.dismiss();
-                  });
+                      console.log('mydata[i]["TABLE_NAME"]=', data[i]["TABLE_NAME"]);
+                      console.log('fields=', fields);
+                      console.log('mydata[i]["STATUS"]=', data[i]["STATUS"]);
+                      console.log('constrains=', data[i]["CONSTRAINS"]);
+                      let table = new BaseSql(this.http, data[i]["TABLE_NAME"], fields, data[i]["CONSTRAINS"], data[i]["STATUS"]);
+                      table.loadApi(data[i]["API_PATH"]);
+                    }
+                    tableAction.addItem({id: data[i]["ID"]}).then(res => {
+                      console.log("tableAction.addItem res=", res);
+                      //loader.dismiss();
+                    });
                     loader.dismiss();
                   });
                 }
@@ -226,8 +206,22 @@ export class HomePage {
   }
 
   forumMapPage() {
-    this.navCtrl.push(ForumMapPage);
-  }
+    let mapSql = new BaseSql(this.http, 'map');
+    mapSql.selectWhere('name_map="forum_map.jpg"').then(res => {
+
+      console.log("res=", res);
+      let map = <any>res[0];
+      this.navCtrl.push(LeafletMapPage, {
+        typeOfMap: 'simple',
+
+        map: map
+      });
+    });
+  };
+
+
+  // this.navCtrl.push(ForumMapPage);
+
 
   parkPatriot() {
     this.navCtrl.push(ParkPatriotPage);
@@ -236,7 +230,6 @@ export class HomePage {
   conferencePage() {
     this.navCtrl.push(ConferencePage, {select: 'all'});
   }
-
 
 
   participantPage() {

@@ -19,7 +19,7 @@ export interface baseField {
   type: string;
 }
 
-declare var window: any;
+declare let window: any;
 
 @Injectable()
 export class BaseSql {
@@ -64,7 +64,7 @@ export class BaseSql {
   private createFieldStr() {
     let fieldStr = '';
     for (let field of this.fields) {
-      if (fieldStr != '') fieldStr += ', '
+      if (fieldStr != '') fieldStr += ', ';
       fieldStr += field.name + ' ' + field.type;
 
     }
@@ -80,7 +80,7 @@ export class BaseSql {
   private createFieldInsertStr() {
     let fieldStr = '';
     for (let field of this.fields) {
-      if (fieldStr != '') fieldStr += ', '
+      if (fieldStr != '') fieldStr += ', ';
       fieldStr += field.name;
 
     }
@@ -193,15 +193,15 @@ export class BaseSql {
       this.arr = [];
       let query = "SELECT * FROM " + this.tableName;
       if (fieldSort) {
-        if (fieldSort != '') query+= 'order by '+fieldSort;
+        if (fieldSort != '') query += 'order by ' + fieldSort;
       }
       console.log("query=", query);
       this.db.executeSql(query, [], rs => {
 
         if (rs.rows.length > 0) {
           this.arr = [];
-          console.log("keys=", rs.rows.item(0).keys)
-          for (var i = 0; i < rs.rows.length; i++) {
+
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
           }
           res(this.arr);
@@ -222,18 +222,18 @@ export class BaseSql {
       let query = "SELECT * FROM " + this.tableName;
       if (whereStr != '') {
         if (!whereStr.includes('where')) query += ' where ';
-        query += ' '+whereStr;
+        query += ' ' + whereStr;
       }
       if (fieldSort) {
-        if (fieldSort != '')  query +=' order by '+ fieldSort;
+        if (fieldSort != '') query += ' order by ' + fieldSort;
       }
       console.log("query=", query);
       this.db.executeSql(query, [], rs => {
 
         if (rs.rows.length > 0) {
           this.arr = [];
-          console.log("keys=", rs.rows.item(0).keys)
-          for (var i = 0; i < rs.rows.length; i++) {
+
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
           }
           res(this.arr);
@@ -257,8 +257,8 @@ export class BaseSql {
         if (whereStr != '') query += ' where ' + whereStr;
       }
       if (fieldSort) {
-        if (fieldSort!='') {
-          query +=' order by '+ fieldSort;
+        if (fieldSort != '') {
+          query += ' order by ' + fieldSort;
         }
       }
       console.log("selectDistinct query=", query);
@@ -266,8 +266,8 @@ export class BaseSql {
         console.log("rs=", rs);
         if (rs.rows.length > 0) {
           this.arr = [];
-          console.log("keys=", rs.rows.item(0).keys)
-          for (var i = 0; i < rs.rows.length; i++) {
+
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
           }
           res(this.arr);
@@ -289,7 +289,7 @@ export class BaseSql {
   delAll(whereStr?) {
     console.log('try to delete all ' + this.tableName);
     return new Promise(resolve => {
-      var query = "DELETE FROM " + this.tableName;
+      let query = "DELETE FROM " + this.tableName;
       if (whereStr) {
         query += ' where ' + whereStr;
       }
@@ -312,7 +312,7 @@ export class BaseSql {
   dropTable() {
     console.log('try to drop table ' + this.tableName);
     return new Promise(resolve => {
-      var query = "drop table " + this.tableName;
+      let query = "drop table " + this.tableName;
       this.db.executeSql(query, [], (s) => {
         console.log('Drop table Success...', s);
 
@@ -364,7 +364,6 @@ export class BaseSql {
     return new Promise(res => {
       console.log('get ' + this.tableName + ' list=', list);
       let thematic: string[];
-      thematic = [];
       thematic = list.split(',');
       console.log('an array=', thematic);
       let whereStr: string = ' where ';
@@ -380,7 +379,7 @@ export class BaseSql {
       this.db.executeSql(query, [], rs => {
         if (rs.rows.length > 0) {
           this.arr = [];
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
           }
         }
@@ -401,8 +400,8 @@ export class BaseSql {
       let query = "SELECT count(*) as count FROM " + this.tableName;
       this.db.executeSql(query, [], rs => {
         console.log("rs=", rs);
-        console.log("table " + this.tableName + ". rs.rows.item[0].count=", rs.rows.item[0].count);
-        res(rs.rows.item[0].count);
+        console.log("table " + this.tableName + ". rs.rows.item[0].count=", <any>rs.rows.item[0].count);
+        res(<any>rs.rows.item[0].count);
       }, (e) => {
         console.log('Sql Query Error', e);
       });
@@ -412,7 +411,7 @@ export class BaseSql {
 
   delId(id) {
     return new Promise(resolve => {
-      var query = "DELETE FROM " + this.tableName + " WHERE id=?";
+      let query = "DELETE FROM " + this.tableName + " WHERE id=?";
       this.db.executeSql(query, [id], (s) => {
         console.log('Delete from place Success...', s);
 
@@ -437,8 +436,8 @@ export class BaseSql {
         console.log("checkForId(id)!!! id=", id, query);
         console.log(rs);
         console.log(rs.rows.length);
-        if (rs.rows.length > 0) return res(true)
-        else return res(false);
+        return res(rs.rows.length > 0);
+
 
       });
     });
@@ -483,7 +482,7 @@ export class BaseSql {
       query += ' where ' + field + '=' + value;
       this.db.executeSql(query, [], rs => {
         console.log("rs=", rs);
-        console.log("table " + this.tableName + ". rs.rows.item[0]=", rs.rows.item[0]);
+        console.log("table " + this.tableName + ". rs.rows.item[0]=", <any>rs.rows.item[0]);
         res(<any>rs.rows.item(0));
       }, (e) => {
         console.log('Sql Query Error', e);
@@ -502,7 +501,6 @@ export class BaseSql {
     return new Promise(res => {
       console.log('get thematicConference list=', list);
       let tableList: string[];
-      tableList = [];
       tableList = list.split(',');
       console.log('an array=', tableList);
       let whereStr: string = ' where ';
@@ -518,7 +516,7 @@ export class BaseSql {
       this.db.executeSql(query, [], rs => {
         if (rs.rows.length > 0) {
           this.arr = [];
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
           }
         }
@@ -533,7 +531,7 @@ export class BaseSql {
     let api = new BaseApi(this.http);
     api.getApi(path).subscribe(data => {
         for (let i = 0; i < data.length; i++) {
-          console.log("try to insert data[i]=", data[i])
+          console.log("try to insert data[i]=", data[i]);
           this.addItem(data[i]).then(res => {
             console.log('after insert res=', res);
             return res;

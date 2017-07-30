@@ -3,10 +3,11 @@
     <name>Army-2017</name>
     <description>Forum Army-2017</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">LSL soft</author>
-    <content src="index.html"/>
+    <content src="http://192.168.0.11:8100" original-src="index.html"/>
     <access origin="*"/>
     <allow-navigation href="http://ionic.local/*"/>
     <allow-navigation href="http://192.168.0.16:8100"/>
+    <allow-navigation href="http://192.168.0.11:8100"/>
     <allow-intent href="http://*/*"/>
     <allow-intent href="https://*/*"/>
     <allow-intent href="tel:*"/>

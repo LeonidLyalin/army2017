@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {ThematicApi} from "../shared/thematic/thematic-api-service";
 import {ThematicConferenceSql} from "../../providers/thematic-conference-sql/thematic-conference-sql";
-import {ParticipantPage} from "../participant/participant";
+
 
 /**
  * Generated class for the ThematicConferencePage page.

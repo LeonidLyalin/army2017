@@ -18,7 +18,7 @@ export interface thematic {
 }
 
 
-declare var window: any;
+declare let window: any;
 @Injectable()
 export class ThematicSql extends BaseSql {
   /* public text: string = "";
@@ -152,7 +152,7 @@ export class ThematicSql extends BaseSql {
       this.db.executeSql(query, [], rs => {
         this.arr = [];
         if (rs.rows.length > 0) {
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item[i]);
           }
 

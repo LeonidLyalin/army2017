@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title text-center> {{titleStr}}</ion-title>
+    <ion-title text-left>{{titleStr}}</ion-title>
   </ion-navbar>
 
 
@@ -14,10 +14,11 @@
 
 
   <ion-slide>
+
     <ion-grid>
       <ion-row>
         <ion-col col-4>
-
+ 
           <img src="assets/img/homeicons/about-forum.png" height="{{iconHeight}}" width="{{iconWidth}}" (click)="aboutPage()"/>
           <p>{{aboutForumStr}}</p>
 
@@ -80,14 +81,7 @@
           <p>{{wcStr}}</p>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col col-3>
-        </ion-col>
-        <ion-col col-3>
-        </ion-col>
-        <ion-col col-3>
-        </ion-col>
-      </ion-row>
+
     </ion-grid>
   </ion-slide>
     <ion-slide>

@@ -21,7 +21,7 @@ export interface thematic {
 }
 
 
-declare var window: any;
+declare let window: any;
 @Injectable()
 export class FilterSql extends BaseSql {
 

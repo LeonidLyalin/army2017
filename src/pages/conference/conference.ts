@@ -89,8 +89,8 @@ export class ConferencePage extends BaseListPageProvider {
   }
 
   /**
-   * Show the detail view of the listOut
-   * @param listOut - record in the json format for current listOut element
+   *
+   * @param conferenceSingle
    */
   goToConferenceDetail(conferenceSingle) {
     console.log("goToParticipantDetail()");
@@ -102,7 +102,11 @@ export class ConferencePage extends BaseListPageProvider {
     });
   }
 
-  addOneItemConference(conferenceSingle) {
+  /**
+   *
+   * @param conferenceSingle
+   */
+/*  addOneItemConference(conferenceSingle) {
 
     console.log('try to insert');
     console.log(conferenceSingle);
@@ -114,7 +118,7 @@ export class ConferencePage extends BaseListPageProvider {
     ).catch(err => {
       console.error('Unable to insert storage tables', err.tx, err.err);
     })
-  }
+  }*/
 
 
   /**

@@ -4,7 +4,6 @@ import {HomePage} from '../home/home';
 import {AboutPage} from '../about/about';
 import {MyForumPage} from "../my-forum/my-forum";
 import {ThematicPage} from "../thematic/thematic";
-import {HallAMapPage} from "../maps/hall-a-map/hall-a-map";
 import {ForumMap1Page} from "../maps/forum-map1/forum-map1";
 import {Events} from "ionic-angular";
 

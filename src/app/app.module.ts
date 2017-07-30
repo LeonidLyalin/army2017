@@ -80,6 +80,7 @@ import { BaseLangPageProvider } from '../providers/base-lang-page/base-lang-page
 import {ParticipantHelpPage} from "../pages/help/participant-help/participant-help";
 import {ConferenceHelpPage} from "../pages/help/conference-help/conference-help";
 import { BaseListPageProvider } from '../providers/base-list-page/base-list-page';
+import { CustomIconsModule } from 'ionic2-custom-icons';
 
 
 
@@ -139,7 +140,8 @@ import { BaseListPageProvider } from '../providers/base-list-page/base-list-page
     BrowserModule,
     IonicStorageModule.forRoot(),
     HttpModule,
-    IonicModule.forRoot(MyApp,{}, {
+    IonicModule.forRoot(MyApp,{backButtonText:''
+      }, {
       links: [
         { component: TabsPage, name: 'TabsPage', segment: 'tabs-page' },
         { component: SchedulePage, name: 'Schedule', segment: 'schedule' },
@@ -151,6 +153,7 @@ import { BaseListPageProvider } from '../providers/base-list-page/base-list-page
         { component: SignupPage, name: 'SignupPage', segment: 'signup' }
       ]
     }),
+    CustomIconsModule
 
   ],
   bootstrap: [IonicApp],

@@ -18,7 +18,7 @@ import * as L from 'leaflet';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-
+/*
 export interface mapSize {
   x: number;
   y: number;
@@ -29,7 +29,7 @@ export interface coord {
   x2: number;
   y2: number;
   page: any;
-}
+}*/
 @Component({
   selector: 'page-forum-map1',
   templateUrl: 'forum-map1.html',
@@ -45,13 +45,13 @@ export class ForumMap1Page {
   height_map: number = 359;
   widthMinus: number = -this.width_map;
 
-  canvasStyle: string = 'border: 1px black solid;position:relative;top:0px;left:-' + this.width_map.toString() + 'px;z-index:-1';
+  //canvasStyle: string = 'border: 1px black solid;position:relative;top:0px;left:-' + this.width_map.toString() + 'px;z-index:-1';
 
   places: place[] = [];
-  hdc: any;
+  //hdc: any;
   imageMap = new Image;
-  map_id="forum-map";
-  map_id_img="#forum-map";
+  //map_id="forum-map";
+  //map_id_img="#forum-map";
 
 
 

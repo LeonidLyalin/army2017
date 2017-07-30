@@ -25,7 +25,7 @@ export interface participant {
   thematic: string
 }
 
-declare var window: any;
+declare let window: any;
 @Injectable()
 
 export class ParticipantSql extends BaseSql{
@@ -52,20 +52,20 @@ export class ParticipantSql extends BaseSql{
       {name:"'thematic text",type:"text"},
       {name:"name_rus_upper", type:"text"},
       ]
-    )
+    );
     console.log('Hello ThematicConferenceSql Provider');
    /* this.openDb();*/
   }
 
 
-
   /**
    *
-   * @param addItem for adding: function
+   * @param {participant} participantSingle
+   * @returns {Promise<any>}
    */
   addItemParticipant(participantSingle: participant) {
     return new Promise(resolve => {
-      var InsertQuery = 'insert or replace into participant(' +
+      let InsertQuery = 'insert or replace into participant(' +
         'id, ' +
         'name_rus, ' +
         'desc_rus, ' +

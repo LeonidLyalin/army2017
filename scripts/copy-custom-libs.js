@@ -28,4 +28,8 @@ module.exports = {
     src: ['{{ROOT}}/node_modules/font-awesome/css/font-awesome.min.css'],
     dest: '{{WWW}}/assets/css'
   },
+  copyCustomIcons: {
+    src: ['{{ROOT}}/.tmp-custom-icons/fonts/**/*'],
+    dest: '{{WWW}}/assets/fonts'
+  }
 }

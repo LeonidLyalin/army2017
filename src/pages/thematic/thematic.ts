@@ -32,7 +32,7 @@ export class ThematicPage extends BaseLangPageProvider {
               public http: Http,
               public events: Events,
               public myForumSql: MyForumSql) {
-    super(navCtrl, navParams, events, http);
+    super(navCtrl,  events, http);
 
   }
 

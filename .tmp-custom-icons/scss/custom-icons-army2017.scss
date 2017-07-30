@@ -1,0 +1,43 @@
+@font-face {
+  font-family: "custom-icons-army2017";
+  src: url('../assets/fonts/custom-icons-army2017.eot');
+  src: url('../assets/fonts/custom-icons-army2017.eot?#iefix') format('eot'),
+  url('../assets/fonts/custom-icons-army2017.woff2') format('woff2'),
+  url('../assets/fonts/custom-icons-army2017.woff') format('woff'),
+  url('../assets/fonts/custom-icons-army2017.ttf') format('truetype'),
+  url('../assets/fonts/custom-icons-army2017.svg#custom-icons-army2017') format('svg');
+}
+
+%army2017 {
+  font-family: "custom-icons-army2017";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@function army2017-char($filename) {
+  $char: "";
+  
+    @if $filename == star {
+      $char: "\EA01";
+    }
+  
+  @return $char;
+}
+
+@mixin army2017($filename) {
+  &:before {
+    @extend %army2017;
+    content: army2017-char($filename);
+  }
+}
+
+
+  custom-icon.set-army2017.icon-star {
+    @include army2017(star);
+  }
+

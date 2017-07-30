@@ -1,9 +1,8 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 
-import {Content, NavController} from 'ionic-angular';
+import { NavController} from 'ionic-angular';
 import {FilterParticipantProvider} from "../../providers/filter-provider/filter-participant-provider";
 
-import {ConferenceHelpPage} from "../help/conference-help/conference-help";
 
 
 @Component({

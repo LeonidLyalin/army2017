@@ -20,9 +20,7 @@ export class ParkPatriotPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ParkPatriotPage');
-  }
+
 
   warTacticPage(){
   this.navCtrl.push(WarTacticPage);

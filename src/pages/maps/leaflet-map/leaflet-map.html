@@ -12,7 +12,7 @@
     </ion-buttons>
   </ion-navbar>
 
-  <ion-toolbar *ngIf="showArrow==1">
+  <ion-toolbar *ngIf="showArrow">
     <ion-buttons>
       <button *ngIf="showLeftArrow" ion-button icon-only (click)="mapDirection('left')">
         <i class="fa fa-arrow-circle-left fa-2x" ></i>

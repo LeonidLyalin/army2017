@@ -10,7 +10,8 @@ import {BaseApi} from "../../pages/shared/base-api-service";
  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
  for more info on providers and Angular 2 DI.
  */
-declare var window: any;
+declare let window: any;
+
 export interface map {
 
   id: number,
@@ -21,12 +22,13 @@ export interface map {
   name_rus: string,
   name_eng: string,
 }
+
 @Injectable()
 export class MapSql extends BaseSql {
 
   public mapApi: BaseApi;
-  constructor(public http: Http,
-              ) {
+
+  constructor(public http: Http,) {
     super(http, 'map', [
       {name: 'id', type: 'text PRIMARY KEY'},
       {name: 'map', type: 'text'},
@@ -42,11 +44,11 @@ export class MapSql extends BaseSql {
       {name: "map_down", type: 'text'},
     ]);
     console.log('Hello MapConferenceSql Provider');
-  /*  this.mapApi= new BaseApi(http);
-    this.mapApi.getApi(`map_list.php`).subscribe(res => {
-      console.log('res in MapSql constructor=', res);
-      this.addItemList(<any>res);
-    });*/
+    /*  this.mapApi= new BaseApi(http);
+      this.mapApi.getApi(`map_list.php`).subscribe(res => {
+        console.log('res in MapSql constructor=', res);
+        this.addItemList(<any>res);
+      });*/
 
 
   }
@@ -76,7 +78,6 @@ export class MapSql extends BaseSql {
     return new Promise(res => {
       console.log('get map list=', list);
       let thematic: string[];
-      thematic = [];
       thematic = list.split(',');
       console.log('an array=', thematic);
       let whereStr: string = ' where ';
@@ -92,7 +93,7 @@ export class MapSql extends BaseSql {
       this.db.executeSql(query, [], rs => {
         if (rs.rows.length > 0) {
           this.arr = [];
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<map>rs.rows.item(i));
           }
         }
@@ -103,29 +104,29 @@ export class MapSql extends BaseSql {
     })
   }
 
-/*  getParticipantForMap(thematic: string) {
-    console.log("getParticipantForMap");
-    console.log("thematic=", thematic);
-    return new Promise(res => {
-      let query = 'select a.id, a.name_rus, a.name_eng, a.desc_rus as desc, ' +
-        'a.desc_eng, a.logo, a.address_rus, a.address_eng, a.phone, a.email, ' +
-        'a.www, b.id as my_forum_id, c.name_rus as place_name ' +
-        'from participant a left join myforum b on a.id=b.my_id left join place c on a.place=c.id ' +
-        ' where a.thematic like "' + thematic + ',%" or a.thematic like "%,' + thematic + ',%" or a.thematic like "%,' + thematic + '" or a.thematic="' + thematic + '"';
-      console.log(query);
-      this.db.executeSql(query, [], rs => {
-        this.arr = [];
-        if (rs.rows.length > 0) {
-          for (var i = 0; i < rs.rows.length; i++) {
-            this.arr.push(<any>rs.rows.item(i));
+  /*  getParticipantForMap(thematic: string) {
+      console.log("getParticipantForMap");
+      console.log("thematic=", thematic);
+      return new Promise(res => {
+        let query = 'select a.id, a.name_rus, a.name_eng, a.desc_rus as desc, ' +
+          'a.desc_eng, a.logo, a.address_rus, a.address_eng, a.phone, a.email, ' +
+          'a.www, b.id as my_forum_id, c.name_rus as place_name ' +
+          'from participant a left join myforum b on a.id=b.my_id left join place c on a.place=c.id ' +
+          ' where a.thematic like "' + thematic + ',%" or a.thematic like "%,' + thematic + ',%" or a.thematic like "%,' + thematic + '" or a.thematic="' + thematic + '"';
+        console.log(query);
+        this.db.executeSql(query, [], rs => {
+          this.arr = [];
+          if (rs.rows.length > 0) {
+            for (var i = 0; i < rs.rows.length; i++) {
+              this.arr.push(<any>rs.rows.item(i));
 
+            }
           }
-        }
-        res(this.arr);
-      }, (e) => {
-        console.log('Sql Query Error', e);
-      });
-    })
-  }*/
+          res(this.arr);
+        }, (e) => {
+          console.log('Sql Query Error', e);
+        });
+      })
+    }*/
 
 }

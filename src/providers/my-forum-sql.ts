@@ -53,7 +53,7 @@ export class MyForumSql extends BaseSql {
         console.log(rs.rows.item(0).id);
         if (rs.rows.length > 0) {
           this.arr = [];
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
 
           }
@@ -90,7 +90,7 @@ export class MyForumSql extends BaseSql {
         console.log(rs.rows.item(0).id);
         if (rs.rows.length > 0) {
           this.arr = [];
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
 
           }
@@ -111,7 +111,7 @@ export class MyForumSql extends BaseSql {
       let query = 'select a.id, a.name_rus as name, a.place_name, a.place, a.format, a.contact, ' +
         'a.thematic_conference, a.organizer, a.date_event,  a.time_beg, a.time_end,' +
         'b.id as my_forum_id, c.name_rus as place_name_place,c.coords, c.name_map ' +
-        'from conference a, myforum b  left join place c on a.place=c.id where a.id=b.my_id'
+        'from conference a, myforum b  left join place c on a.place=c.id where a.id=b.my_id';
 
       if (userId != '') {
         query += ' and  b.user=' + userId;
@@ -124,7 +124,7 @@ export class MyForumSql extends BaseSql {
         console.log(rs.rows.item(0).id);
         if (rs.rows.length > 0) {
           this.arr = [];
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
           }
         }
@@ -145,7 +145,7 @@ export class MyForumSql extends BaseSql {
       let query = 'select a.id, a.name_eng as name, a.place_name, a.place, a.format_eng as format, a.contact_eng as contact, ' +
         'a.thematic_conference, a.organizer_eng as organizer, a.date_event,  a.time_beg, a.time_end,' +
         'b.id as my_forum_id, c.name_eng as place_name, c.name_eng as place_name_place,c.coords, c.name_map ' +
-        'from conference a, myforum b  left join place c on a.place=c.id where a.id=b.my_id'
+        'from conference a, myforum b  left join place c on a.place=c.id where a.id=b.my_id';
 
       if (userId != '') {
         query += ' and  b.user=' + userId;
@@ -158,7 +158,7 @@ export class MyForumSql extends BaseSql {
         console.log(rs.rows.item(0).id);
         if (rs.rows.length > 0) {
           this.arr = [];
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
           }
         }
@@ -197,7 +197,7 @@ export class MyForumSql extends BaseSql {
         // console.log(rs.rows.item(0).id);
         this.arr = [];
         if (rs.rows.length) {
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
 
           }
@@ -232,7 +232,7 @@ export class MyForumSql extends BaseSql {
         // console.log(rs.rows.item(0).id);
         this.arr = [];
         if (rs.rows.length) {
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
 
           }
@@ -271,7 +271,7 @@ export class MyForumSql extends BaseSql {
         // console.log(rs.rows.item(0).id);
         this.arr = [];
         if (rs.rows.length) {
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
 
           }
@@ -310,7 +310,7 @@ export class MyForumSql extends BaseSql {
         // console.log(rs.rows.item(0).id);
         this.arr = [];
         if (rs.rows.length) {
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
 
           }
@@ -353,7 +353,7 @@ export class MyForumSql extends BaseSql {
         console.log(rs);
         this.arr = [];
         if (rs.rows.length) {
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
 
           }
@@ -396,7 +396,7 @@ export class MyForumSql extends BaseSql {
         console.log(rs);
         this.arr = [];
         if (rs.rows.length) {
-          for (var i = 0; i < rs.rows.length; i++) {
+          for (let i = 0; i < rs.rows.length; i++) {
             this.arr.push(<any>rs.rows.item(i));
 
           }
@@ -417,7 +417,7 @@ export class MyForumSql extends BaseSql {
    * @param where
    * @returns {any}
    */
-  getRusConferenceReturn(where: string = '') {
+/*  getRusConferenceReturn(where: string = '') {
     console.log('getRusConference()');
     console.log(' where=' + where);
 
@@ -426,7 +426,7 @@ export class MyForumSql extends BaseSql {
     let query = 'select a.id, a.name_rus as name, a.name_rus_upper, a.place_name, a.place, a.format_eng as format, a.contact, ' +
       'a.thematic_conference, a.organizer, a.date_event,  a.time_beg, a.time_end,' +
       'b.id as my_forum_id, c.name_rus as place_name_place ' +
-      'from conference a left join myforum b on a.id=b.my_id '
+      'from conference a left join myforum b on a.id=b.my_id ';
     if (userId) query += ' ' + ' and b.user=' + userId;
 
     query += ' left join place c on a.place=c.id';
@@ -439,22 +439,22 @@ export class MyForumSql extends BaseSql {
         console.log(rs);
 
       },
-      /* console.log("this.arr=", this.arr);
-       return(this.arr.);*/
+      /!* console.log("this.arr=", this.arr);
+       return(this.arr.);*!/
       (e) => {
         console.log('Sql Query Error', e);
 
       });
 
 
-  }
+  }*/
 
 
 
-  //to Update any Item
+/*  //to Update any Item
   update(id, txt) {
     return new Promise(res => {
-      var query = "UPDATE Todo SET todoItem=?  WHERE id=?";
+      let query = "UPDATE Todo SET todoItem=?  WHERE id=?";
       this
         .db
         .executeSql(query, [
@@ -469,7 +469,7 @@ export class MyForumSql extends BaseSql {
         });
     })
 
-  }
+  }*/
 
   /**
    *
@@ -532,7 +532,7 @@ export class MyForumSql extends BaseSql {
           });
         }
         // res(my_forum_id);
-      })
+      });
       rs(my_forum_id);
     });
   }

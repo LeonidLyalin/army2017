@@ -6,12 +6,15 @@
     <ion-title>
       О Форуме
     </ion-title>
-    <button ion-button icon="'search" (click)="menuToggle1()"></button>
+
   </ion-navbar>
 </ion-header>
 
 
 <ion-content class="cards-bg">
+<ion-toolbar>
+  <custom-icon set="army2017" name="star"></custom-icon>
+</ion-toolbar>
 <ion-toolbar>
   <page-conference-help>
 
@@ -28,7 +31,7 @@
 
     <page-filter-participant></page-filter-participant>
     <ion-buttons >
-      <button ion-button  color="danger" (click)="setFilterStrAbout()">
+      <button ion-button  color="danger">
         <ion-icon name="checkmark" ></ion-icon>
 
       </button>
@@ -43,7 +46,7 @@
     </ion-item>
     <ion-row>
       <ion-buttons >
-        <button ion-button  color="army-red" (click)="setFilterStrAbout()">
+        <button ion-button  color="army-red">
           <ion-icon name="checkmark"></ion-icon>
 
         </button>

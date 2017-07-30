@@ -27,6 +27,7 @@ import {HomePage} from "../pages/home/home";
 import {ParkPatriotPage} from "../pages/park-patriot-all/park-patriot/park-patriot";
 import {WarTacticPage} from "../pages/park-patriot-all/war-tactic-page/war-tactic-page";
 import {Http} from "@angular/http";
+import { CustomIconsModule } from 'ionic2-custom-icons';
 
 
 export interface PageInterface {
@@ -154,7 +155,7 @@ export class MyApp {
             text: 'Русский',
             handler: () => {
               console.log('Русский clicked');
-              this.lang = 'ru'
+              this.lang = 'ru';
               localStorage.setItem('lang', 'ru');
               this.langVal = false;
               this.events.publish('language:change');

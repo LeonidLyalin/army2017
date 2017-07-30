@@ -21,7 +21,7 @@ export interface place {
   shape: string;
 }
 
-declare var window: any;
+declare let window: any;
 
 @Injectable()
 
@@ -102,7 +102,7 @@ export class PlaceSql extends BaseSql {
 
   addItemPlace(placeIns: place) {
     return new Promise(resolve => {
-      var InsertQuery = 'insert or replace into place(' +
+      let InsertQuery = 'insert or replace into place(' +
         'id, ' +
         'name_rus, ' +
         'name_eng, ' +
