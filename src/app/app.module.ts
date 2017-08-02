@@ -2,7 +2,7 @@ import {NgModule, ErrorHandler} from '@angular/core';
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {MyApp} from './app.component';
 import {AboutPage} from '../pages/about/about';
-import {ContactPage} from '../pages/contact/contact';
+
 import {HomePage} from '../pages/home/home';
 import {TabsPage} from '../pages/tabs/tabs';
 import {SettingsPage} from '../pages/settings/settings';
@@ -81,6 +81,11 @@ import {ParticipantHelpPage} from "../pages/help/participant-help/participant-he
 import {ConferenceHelpPage} from "../pages/help/conference-help/conference-help";
 import { BaseListPageProvider } from '../providers/base-list-page/base-list-page';
 import { CustomIconsModule } from 'ionic2-custom-icons';
+import {MapHelpPage} from "../pages/help/map-help/map-help";
+import {QrScannerPage} from "../pages/qr-scanner/qr-scanner";
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+import {BarScannerPage} from "../pages/bar-scanner/bar-scanner";
+import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 
 
 
@@ -89,7 +94,7 @@ import { CustomIconsModule } from 'ionic2-custom-icons';
   declarations: [
     MyApp,
     AboutPage,
-    ContactPage,
+
     HomePage,
     TabsPage,
     SettingsPage,
@@ -131,7 +136,10 @@ import { CustomIconsModule } from 'ionic2-custom-icons';
     FilterConferencePage,
     DemoProgramPage,
     ParticipantHelpPage,
-    ConferenceHelpPage
+    ConferenceHelpPage,
+    MapHelpPage,
+    QrScannerPage,
+    BarScannerPage
 
 
 
@@ -160,7 +168,7 @@ import { CustomIconsModule } from 'ionic2-custom-icons';
   entryComponents: [
     MyApp,
     AboutPage,
-    ContactPage,
+
     HomePage,
     TabsPage,
     SettingsPage,
@@ -199,8 +207,10 @@ import { CustomIconsModule } from 'ionic2-custom-icons';
     FilterPage,
     DemoProgramPage,
     ParticipantHelpPage,
-    ConferenceHelpPage
-
+    ConferenceHelpPage,
+    MapHelpPage,
+    QrScannerPage,
+    BarScannerPage
 
 
 
@@ -239,7 +249,11 @@ import { CustomIconsModule } from 'ionic2-custom-icons';
     FilterConferenceProvider,
     TableActionSql,
     BaseLangPageProvider,
-    BaseListPageProvider
+    BaseListPageProvider,
+
+    QRScanner,
+    BarcodeScanner
+
 
 
 

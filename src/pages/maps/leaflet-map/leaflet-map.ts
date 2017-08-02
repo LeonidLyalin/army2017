@@ -6,32 +6,16 @@ import {DrawFunctionProvider} from "../../../providers/draw-function/draw-functi
 import * as L from 'leaflet';
 import {MapSql} from "../../../providers/map-sql/map-sql";
 import {Http} from "@angular/http";
-import {BaseLangPageProvider} from "../../../providers/base-lang-page/base-lang-page";
 import {ParticipantDetailPage} from "../../participant-detail/participant-detail";
 import {MyForumSql} from "../../../providers/my-forum-sql";
+import {BaseListPageProvider} from "../../../providers/base-list-page/base-list-page";
 
-/**
- * Base class for show any leaflet map
- */
-
-/*export interface mapSize {
-  x: number;
-  y: number;
-}*/
-
-/*export interface coord {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-  page: any;
-}*/
 
 @Component({
   selector: 'leaflet-map',
   templateUrl: 'leaflet-map.html',
 })
-export class LeafletMapPage extends BaseLangPageProvider {
+export class LeafletMapPage extends BaseListPageProvider {
 
   @ViewChild(Content) content: Content;
   @ViewChild(Scroll) scroll: Scroll;
@@ -42,15 +26,12 @@ export class LeafletMapPage extends BaseLangPageProvider {
   height_map: number = 359;
   widthMinus: number = -this.width_map;
 
-  //canvasStyle: string = 'border: 1px black solid;position:relative;top:0px;left:-' + this.width_map.toString() + 'px;z-index:-1';
 
   places: place[] = [];
 
   imageMap = new Image;
 
 
-  // width = 1178;
-  // height = 741;
   map: any;
   bounds: any;
 
@@ -60,7 +41,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
   typeOfMap: string;
 
   mapList: any;
-  //currentMapName: any;//
+
   fullMapList: any;//all maps from Table map
 
   currentMapNumber: number;
@@ -68,8 +49,10 @@ export class LeafletMapPage extends BaseLangPageProvider {
 
   mapTitle: string;
   showArrow: boolean;
-
-  popups: any;
+  /**
+   * list of popupList for the current map
+   */
+  popupList: any;
 
   /**
    * define show or not arrow buttons, depending on the description of the map
@@ -81,7 +64,7 @@ export class LeafletMapPage extends BaseLangPageProvider {
   showPreviousArrow: boolean;
 
   /**
-   * define show or not popups on the map
+   * define show or not popupList on the map
    */
   showPopups: boolean = true;
 
@@ -93,14 +76,30 @@ export class LeafletMapPage extends BaseLangPageProvider {
    *  @list of places for the currentMap
    */
   placeListForMap: any;
-  lang: string;
+  //lang: string;
 
   //interface strings
 
-  titleStr: string;
+  // titleStr: string;
 
 
   currentMap: any;
+  leftArrow: any;
+  rightArrow: any;
+  upArrow: any;
+  downArrow: any;
+  previousArrow: any;
+
+  leftArrowIcon: L.Icon;
+  rightArrowIcon: L.Icon;
+  upArrowIcon: L.Icon;
+  downArrowIcon: L.Icon;
+  previousArrowIcon: L.Icon;
+  greenIcon: L.Icon;
+
+  iconArrowSize: number = 20;
+
+  // popupLayer:any;
 
   constructor(public http: Http,
               public navCtrl: NavController,
@@ -112,28 +111,97 @@ export class LeafletMapPage extends BaseLangPageProvider {
               public mapSql: MapSql,
               public events: Events,
               public placeSql: PlaceSql) {
-    super(navCtrl, events, http);
+    super(navCtrl, navParams, events, http);//, placeSql, mapSql);
     this.popupElement = navParams.get('popupElement');
     this.place = navParams.get('place');
     this.currentMap = navParams.get('map');
     console.log("popupElement=", this.popupElement);
     console.log("place=", this.place);
     console.log("currentMap=", this.currentMap);
+    this.initIcons();
 
+//set a bunch of arrows
 
   }
 
+  initIcons(){
+    this.leftArrowIcon = L.icon({
+      iconUrl: 'assets/img/icons/leaf-orange.png',
+      shadowUrl: 'assets/img/icons/leaf-shadow.png',
+      //  iconSize: [this.iconArrowSize, this.iconArrowSize], // size of the icon
+      iconSize: [38, 95], // size of the icon
+      shadowSize: [50, 64], // size of the shadow
+      iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+      shadowAnchor: [4, 62],  // the same for the shadow
+      popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+    this.rightArrowIcon = L.icon({
+      iconUrl: 'assets/img/icons/leaf-red.png',
+      shadowUrl: 'assets/img/icons/leaf-shadow.png',
+      //  iconSize: [this.iconArrowSize, this.iconArrowSize], // size of the icon
+      iconSize: [38, 95], // size of the icon
+      shadowSize: [50, 64], // size of the shadow
+      iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+      shadowAnchor: [4, 62],  // the same for the shadow
+      popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
+    this.upArrowIcon = L.icon({
+      iconUrl: 'assets/img/icons/arrow-up.svg',
+      shadowUrl: 'assets/img/icons/leaf-shadow.png',
+      //  iconSize: [this.iconArrowSize, this.iconArrowSize], // size of the icon
+      iconSize: [38, 95], // size of the icon
+      shadowSize: [50, 64], // size of the shadow
+      iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+      shadowAnchor: [4, 62],  // the same for the shadow
+      popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+    this.downArrowIcon = L.icon({
+      iconUrl: 'assets/img/icons/arrow-down.svg',
+      shadowUrl: 'assets/img/icons/leaf-shadow.png',
+      //  iconSize: [this.iconArrowSize, this.iconArrowSize], // size of the icon
+      iconSize: [38, 95], // size of the icon
+      shadowSize: [50, 64], // size of the shadow
+      iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+      shadowAnchor: [4, 62],  // the same for the shadow
+      popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+    this.previousArrowIcon = L.icon({
+      iconUrl: 'assets/img/icons/level-up.svg',
+      shadowUrl: 'assets/img/icons/leaf-shadow.png',
+      // iconSize: [this.iconArrowSize, this.iconArrowSize], // size of the icon
+      iconSize: [38, 95], // size of the icon
+      shadowSize: [50, 64], // size of the shadow
+      iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+      shadowAnchor: [4, 62],  // the same for the shadow
+      popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+    console.log("L.Icon.Default.imagePath=", L.Icon.Default.imagePath);
+    //L.Icon.Default.imagePath = "/assets/img/icons";
+    this.greenIcon = L.icon({
+      iconUrl: 'assets/img/icons/leaf-green.png',
+      shadowUrl: 'assets/img/icons/leaf-shadow.png',
+
+      iconSize: [38, 95], // size of the icon
+      shadowSize: [50, 64], // size of the shadow
+      iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+      shadowAnchor: [4, 62],  // the same for the shadow
+      popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+  }
 
   setRussianStrings() {
     super.setRussianStrings('Карта форума');
-
   }
 
   setEnglishStrings() {
     super.setRussianStrings('Forum map');
-
   }
 
+  showHideHelp() {
+    super.showHideHelp();
+    console.log(this.lang);
+  }
 
   /**
    * create map list for all USING maps
@@ -184,65 +252,131 @@ export class LeafletMapPage extends BaseLangPageProvider {
     }
   }
 
-  /*  /!**
-     * get parameters of the current map from fullMapList on name_map
-     *!/
-    getMapFromFullList() {
-      for (let i = 0; i < this.fullMapList.length; i++) {
-        //if (this.currentMapName == this.fullMapList[i].name_map) {
-        if (this.currentMap.name_map == this.fullMapList[i].name_map) {
-          /!*this.width = this.fullMapList[i].width;
-          this.height = this.fullMapList[i].height;*!/
-          this.currentMap = this.fullMapList[i];
-          //  this.currentMap.height = this.fullMapList[i].height;
-          this.titleStr = this.fullMapList[i]['name_' + (this.lang == 'ru' ? 'rus' : 'eng')];
-
-        }
-
-      }
-    }*/
-
 
   /**
    * create map
    */
   initMap() {
+    this.popupList = [];
+    this.placeListForMap = [];
+    //  this.p
     if (!this.map) {
       this.map = L.map('map', {
         crs: L.CRS.Simple,
-        minZoom: -2,
-        maxZoom: 5,
-        zoom: 1,
+        minZoom: (this.currentMap.min_zoom ? this.currentMap.min_zoom : -2),
+        maxZoom: (this.currentMap.max_zoom ? this.currentMap.max_zoom : 5),
+        zoom: (this.currentMap.begin_zoom ? this.currentMap.begin_zoom : 0),
+      });
+      this.map.tap = true;
+      this.map.on('click', (e) => {
+        this.mapClick(e)
+      });
+
+      this.map.on('zoom', (e) => {
+        this.mapOnZoom(e)
+      });
+
+    }
+    else (this.deleteLayers());
+    this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
+    L.imageOverlay('assets/img/maps/' + this.currentMap.name_map, this.bounds).addTo(this.map);
+    this.map.fitBounds(this.bounds);
+
+    //  this.createPlaceListForMap();
+
+    this.placeSql.selectWhere('name_map="' + this.currentMap.name_map + '"').then((res: any) => {
+      this.placeListForMap = res;
+      console.log("this.placeListForMap=", this.placeListForMap);
+      this.setSignsForMap();
+    });
+
+    this.titleStr = this.currentMap['name_' + (this.lang == 'ru' ? 'rus' : 'eng')];
+    //  this.map.dragging.disable();
+
+    //set arrows on the sides
+
+
+    // this.showRightArrow = !!this.currentMap.map_right;
+    // this.showUpArrow = !!this.currentMap.map_up;
+    // this.showDownArrow = !!this.currentMap.map_down;
+   // L.marker([300, 300], {icon: this.leftArrowIcon}).addTo(this.map);
+   // if (this.currentMap.map_left) {
+      this.leftArrow = L.marker([200, 200], {icon: this.rightArrowIcon});
+    this.leftArrow.addTo(this.map);
+    this.leftArrow.on('click', (e) => {
+          console.log(e);
+       //   this.mapDirection('left')
+        });
+  //  }
+    if (this.currentMap.map_right) {
+      this.rightArrow = L.marker([this.currentMap.heght / 2, this.currentMap.width], {icon: this.rightArrowIcon});
+      this.rightArrow.addTo(this.map);
+      this.rightArrow.on('click', () => {
+        this.mapDirection('right')
+      });
+    }
+    if (this.currentMap.map_up) {
+      this.upArrow = L.marker([this.currentMap.heght / 2, this.currentMap.width], {icon: this.upArrowIcon});
+      this.upArrow.addTo(this.map);
+      this.upArrow.on('click', (e) => {
+        this.mapDirection('up')
+      });
+    }
+    if (this.currentMap.map_down) {
+      this.downArrow = L.marker([0, this.currentMap.width / 2], {icon: this.downArrowIcon});
+      this.downArrow.addTo(this.map);
+      this.downArrow.on('click', () => {
+        this.mapDirection('down')
+      });
+    }
+    if (this.currentMap.place_previous) {
+      this.previousArrow = L.marker([this.currentMap.height, this.currentMap.width / 2], {icon: this.previousArrowIcon});
+      this.previousArrow.addTo(this.map);
+      this.previousArrow.on('click', () => {
+        this.mapPrevious()
       });
     }
 
-    this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
-    // L.imageOverlay('assets/img/maps/' + this.currentMapName, this.bounds).addTo(this.map);
-    L.imageOverlay('assets/img/maps/' + this.currentMap.name_map, this.bounds).addTo(this.map);
-    this.map.fitBounds(this.bounds);
-    this.map.tap = true;
-    this.map.on('click', (e) => {
-      this.mapClick(e)
+    L.marker([50, 50], {icon: this.greenIcon}).addTo(this.map);
+    //  L.popup([50, 50], {icon: this.greenIcon}).addTo(this.map);
+
+    let popup = L.popup({
+      closeOnClick: false,
+      autoClose: false,
+
     });
-
-    this.map.on('zoom', (e) => {
-      this.mapOnZoom(e)
-    });
-
-    this.createPlaceListForMap();
-
+   //    let mCoords = this.setCoords(coords);
+  //  popup.setLatLng([100, 100]);
+   // let content = "<img src='assets/img/icons/leaf-orange.png'/>"
+  //  popup.setContent(content);
+  //  popup.openOn(this.map);
   }
 
 
-  createPlaceListForMap() {
-    // this.placeSql.selectWhere('name_map="'+this.currentMapName+'"').then(res=>{
-    this.placeSql.selectWhere('name_map="' + this.currentMap.name_map + '"').then(res => {
-      this.placeListForMap = <any>res;
-      console.log("this.placeListForMap=", this.placeListForMap);
-    });
+  /**
+   *   set a new map on a screen (deleting all layer before this)
+   */
+
+  /*  setMap() {
+
+      this.deleteLayers();
+      this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
+      L.imageOverlay('assets/img/maps/' + this.currentMap.name_map, this.bounds).addTo(this.map);
+      this.map.fitBounds(this.bounds);
 
 
-  }
+      this.createPlaceListForMap();
+      this.titleStr = this.currentMap['name_' + (this.lang == 'ru' ? 'rus' : 'eng')];
+      //   this.map.dragging.disable();
+    }*/
+
+  /*
+    createPlaceListForMap() {
+      // this.placeSql.selectWhere('name_map="'+this.currentMapName+'"').then(res=>{
+
+
+
+    }*/
 
   static pnpoly(nvert, vertx, verty, testx, testy) {
     let i, j, c = false;
@@ -256,52 +390,69 @@ export class LeafletMapPage extends BaseLangPageProvider {
   }
 
   isInsideRect(x, y, coords, place_name) {
-    console.log("isInsideRect coords=", coords);
-    console.log("isInsideRect x=", x);
-    console.log("isInsideRect y=", y);
-    let coordsList = coords.split(',');
-    console.log("isInsideRect coordsList=", coordsList);
-    let bounds = [[this.currentMap.height - coordsList[1], coordsList[0]], [this.currentMap.height - coordsList[3], coordsList[2]]];
-    console.log("bounds before ", place_name, bounds);
-    console.log("coordsList[1] before ", coordsList[1]);
-    console.log("height -coordsList[1] before ", this.currentMap.height - coordsList[1]);
-    console.log("coordsList[3] before ", coordsList[3]);
-    if ((this.currentMap.height - Number(coordsList[1])) > (this.currentMap.height - Number(coordsList[3]))) {
-      let tmp = coordsList[1];
-      coordsList[1] = coordsList[3];
-      coordsList[3] = tmp;
+    if (this.typeOfMap != 'OpenStreetMap') {
+      console.log("isInsideRect coords=", coords);
+      console.log("isInsideRect x=", x);
+      console.log("isInsideRect y=", y);
+      let coordsList = coords.split(',');
+      console.log("isInsideRect coordsList=", coordsList);
+      let bounds = [[this.currentMap.height - coordsList[1], coordsList[0]], [this.currentMap.height - coordsList[3], coordsList[2]]];
+      console.log("bounds before ", place_name, bounds);
+      console.log("coordsList[1] before ", coordsList[1]);
+      console.log("height -coordsList[1] before ", this.currentMap.height - coordsList[1]);
+      console.log("coordsList[3] before ", coordsList[3]);
+      if ((this.currentMap.height - Number(coordsList[1])) > (this.currentMap.height - Number(coordsList[3]))) {
+        let tmp = coordsList[1];
+        coordsList[1] = coordsList[3];
+        coordsList[3] = tmp;
+      }
+      if (Number(coordsList[0]) > Number(coordsList[2])) {
+        let tmp = coordsList[0];
+        coordsList[0] = coordsList[2];
+        coordsList[2] = tmp;
+      }
+      console.log("coordsList[1] after ", coordsList[1]);
+      bounds = [[this.currentMap.height - coordsList[1], coordsList[0]], [this.currentMap.height - coordsList[3], coordsList[2]]];
+      console.log("bounds after", place_name, bounds);
+      //L.rectangle(this.bounds, {color: "red", weight: 1}).addTo(this.map);
+
+      return (((y >= (this.currentMap.height - coordsList[1]))
+        && (y <= (this.currentMap.height - coordsList[3]))) && ((x >= (coordsList[0])) && (x <= (coordsList[2]))));
+
     }
-    if (Number(coordsList[0]) > Number(coordsList[2])) {
-      let tmp = coordsList[0];
-      coordsList[0] = coordsList[2];
-      coordsList[2] = tmp;
+    else {
+      console.log("isInsideRect coords=", coords);
+      console.log("isInsideRect x=", x);
+      console.log("isInsideRect y=", y);
+      let coordsList = coords.split(',');
+      console.log("isInsideRect coordsList=", coordsList);
+      let bounds = [[coordsList[1], coordsList[0]], [coordsList[3], coordsList[2]]];
+      console.log("bounds before ", place_name, bounds);
+      console.log("coordsList[1] before ", coordsList[1]);
+      console.log("height -coordsList[1] before ", this.currentMap.height - coordsList[1]);
+      console.log("coordsList[3] before ", coordsList[3]);
+      if ((Number(coordsList[1])) > ( Number(coordsList[3]))) {
+        let tmp = coordsList[1];
+        coordsList[1] = coordsList[3];
+        coordsList[3] = tmp;
+      }
+      if (Number(coordsList[0]) > Number(coordsList[2])) {
+        let tmp = coordsList[0];
+        coordsList[0] = coordsList[2];
+        coordsList[2] = tmp;
+      }
+      console.log("coordsList[1] after ", coordsList[1]);
+      bounds = [[coordsList[1], coordsList[0]], [coordsList[3], coordsList[2]]];
+      console.log("bounds after", place_name, bounds);
+      //L.rectangle(this.bounds, {color: "red", weight: 1}).addTo(this.map);
+      console.log((((x >= (coordsList[1]))
+        && (x <= (coordsList[3]))) && ((y >= (coordsList[0])) && (y <= (coordsList[2])))))
+      return (((x >= (coordsList[1]))
+        && (x <= (coordsList[3]))) && ((y >= (coordsList[0])) && (y <= (coordsList[2]))));
     }
-    console.log("coordsList[1] after ", coordsList[1]);
-    bounds = [[this.currentMap.height - coordsList[1], coordsList[0]], [this.currentMap.height - coordsList[3], coordsList[2]]];
-    console.log("bounds after", place_name, bounds);
-    //L.rectangle(this.bounds, {color: "red", weight: 1}).addTo(this.map);
-
-    return (((y >= (this.currentMap.height - coordsList[1]))
-      && (y <= (this.currentMap.height - coordsList[3]))) && ((x >= (coordsList[0])) && (x <= (coordsList[2]))));
-
-
   }
 
   isInsidePoly(x, y, coords) {
-    /*    for (var i = 0; i < placeList.length; i++) {
-            if (placeList[i].shape == 'poly') {
-                var tmpCoords = placeList[i].coords.split(',');
-                console.log("tmpCoords=", tmpCoords);
-                var tmpBounds = [];
-                for (var m = 0; m < tmpCoords.length; m = m + 2) {
-                    tmpBounds.push([height-tmpCoords[m + 1],tmpCoords[m]]);
-
-
-                }
-                console.log("tmpBounds=", tmpBounds);
-                L.polygon(tmpBounds, {color: 'green', weight: 2}).addTo(map);
-            }*/
-
 
     //prepare for check;
     let tmpBounds = [];
@@ -330,38 +481,58 @@ export class LeafletMapPage extends BaseLangPageProvider {
   }
 
 
+  private setCoords(coords: string) {
+
+    let mCoordsTmp = coords.split(',');
+    let mCoords: number[] = [];
+    console.log('mCoordsTmp= ', mCoordsTmp);
+    for (let mCoordsSingle of mCoordsTmp) {
+      if (mCoordsSingle) {
+        console.log("mCoordsSingle=", mCoordsSingle);
+        mCoords.push(Number(mCoordsSingle));
+      }
+
+
+    }
+    return mCoords;
+  }
+
   /**
-   * Show and place popups on the currentmap
+   * Show and place popupList on the currentmap
    * @param content - what will be shown on the popup
    * @param coords - where to place pop up (actualy, firtst two numbers from the coords)
    */
 
-  showPopup(content, coords) {
-    /*console.log("x=", x);
-    console.log("y=", y);*/
+  private showPopup(content, coords) {
+
+    //check if already on the map
     console.log("content=", content);
-    if (coords) {
+    let popup = L.popup({
+      closeOnClick: false,
+      autoClose: false,
+
+    });
+    let mCoords = this.setCoords(coords);
+    popup.setLatLng([this.currentMap.height - mCoords[1], mCoords[0]]);
+    popup.setContent(content);
+    popup.openOn(this.map);
+
+    this.popupList.push({name_map: this.currentMap.name_map, popup: popup, coords: coords});
+  }
 
 
-      let mCoordsTmp = coords.split(',');
-      let mCoords: number[] = [];
-      console.log('mCoordsTmp= ', mCoordsTmp);
-      for (let mCoordsSingle of mCoordsTmp) {
-        if (mCoordsSingle) {
-          console.log("mCoordsSingle=", mCoordsSingle);
-          mCoords.push(Number(mCoordsSingle));
-        }
+  private showTooltip(content, coords) {
+    let mCoords = this.setCoords(coords);
+    let tooltip = L.tooltip([this.currentMap.height - mCoords[1], mCoords[0]]);
+    tooltip.bindPopup(content);
+    tooltip.addTo(this.map);
+  }
 
-
-      }
-      L.popup({
-        closeOnClick: false,
-        autoClose: false
-      })
-        .setLatLng([this.currentMap.height - mCoords[1], mCoords[0]])
-        .setContent(content)
-        .openOn(this.map);
-    }
+  private showMarker(content, coords) {
+    let mCoords = this.setCoords(coords);
+    let marker = L.marker([this.currentMap.height - mCoords[1], mCoords[0]]);
+    marker.bindPopup(content);
+    marker.addTo(this.map);
 
 
   }
@@ -417,7 +588,6 @@ export class LeafletMapPage extends BaseLangPageProvider {
           console.log('check for poly');
           if (this.placeListForMap[i].shape == 'poly') {
             if (this.isInsidePoly(e.latlng.lng, e.latlng.lat, this.placeListForMap[i].coords)) {
-
               numFind = i;
               goDetail = true;
               break;
@@ -425,36 +595,25 @@ export class LeafletMapPage extends BaseLangPageProvider {
           }
         }
       }
-      /* ((this.placeListForMap[i].shape=='poly ') &&
-         (this.isInsidePoly(e.latlng.lng, e.latlng.lat, this.placeListForMap[i].coords)))){*/
-      //an example how to use coordinates with leaflet (look at height!!!)
-      //   this.showPopup(e.latlng.lng, this.currentMap.height - e.latlng.lat, this.placeListForMap[i].name_rus);
       if (goDetail) {
         console.log("this.placeListForMap[i]=", this.placeListForMap[numFind]);
         if (this.placeListForMap[numFind].goto) {
           //goto to the new map
-
           for (let i = 0; i < this.fullMapList.length; i++) {
             if (this.fullMapList[i].name_map == this.placeListForMap[numFind].goto) {
               this.currentMap = this.fullMapList[i];
-              // setMap();
+
               console.log("currentMap=", this.currentMap.name_map);
               this.currentMapNumber = i;
               break;
             }
-
           }
-          //this.getMapFromFullList();
-          this.setMap();
-          this.setButtonsEnable();
-          //if (this.showPopups) this.setPopups();
+          this.initMap();
+          //  this.setButtonsEnable();
         }
         else {
           let tmpSql = new MyForumSql(this.http);
-
           tmpSql.getRusParticipantFull('where a.place=' + this.placeListForMap[numFind].id).then(res => {
-
-
             if ((<any>res).length) {
               let participant = <any>res;
               console.log("participant=", participant);
@@ -462,7 +621,6 @@ export class LeafletMapPage extends BaseLangPageProvider {
             }
           });
         }
-
       }
     }
   }
@@ -474,22 +632,22 @@ export class LeafletMapPage extends BaseLangPageProvider {
     });
   }
 
-  /**
-   *   set a new map on a screen (deleting all layer before this)
-   */
-  setMap() {
 
-    this.deleteLayers();
-    this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
-    L.imageOverlay('assets/img/maps/' + this.currentMap.name_map, this.bounds).addTo(this.map);
-    this.map.fitBounds(this.bounds);
-
-    this.titleStr = this.currentMap['name_' + (this.lang == 'ru' ? 'rus' : 'eng')];
-    this.createPlaceListForMap();
+  areaClick(num: string, goto: string) {
+    alert(num);
+    console.log("goto in the begining=", goto);
+    if (goto) {
+      if (goto.endsWith(".jpg")) {
+        goto = goto.substr(0, goto.length - 4);
+        console.log("goto in the end=", goto);
+      }
+      if (goto = 'patriot-expo-map')
+        this.navCtrl.push(PatriotExpoMapPage);
+    }
   }
 
   /*  mapBounds() {
-      for (let popup of this.popups) {
+      for (let popup of this.popupList) {
         this.map.closePopup(popup);
       }
       this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
@@ -509,14 +667,6 @@ export class LeafletMapPage extends BaseLangPageProvider {
     placeSql.selectWhere(' goto="' + mapAsPlace + '"').then(res => {
       let place = <any>res[0];
       let content = place["name_" + ((this.lang == 'ru') ? 'rus' : 'eng')];// + '<br>' + this.popupElement.name;
-      /* let mCoordsTmp = place.coords.split(',');
-       let mCoords: number[] = [];
-       for (let mCoordsSingle of mCoordsTmp) {
-         console.log("setPopups mCoordsSingle=", mCoordsSingle);
-         mCoords.push(Number(mCoordsSingle));
-
-       }*/
-      //this.showPopup(mCoords[0], mCoords[1], content);
       this.showPopup(content, place.coords);
 
     });
@@ -524,20 +674,18 @@ export class LeafletMapPage extends BaseLangPageProvider {
 
   }
 
-  setPopups() {
+  /**
+   * show popups/tooltips/pins for currentMap;
+   */
+  setSigns() {
     if (!this.popupElement) return;
-    this.popups = [];
+    this.popupList = [];
     for (let m = 0; m < this.placeList.length; m++) {
-      let content = '';
-      let popup = L.popup({
-        closeOnClick: false,
-        autoClose: false
-      });
-      let mCoords: number[] = [];
-      content += '<b>' + this.placeList[m] + '</b>' + '<br>';
+      let content: string = '';
       for (let i = 0; i < this.popupElement.length; i++) {
         if ((this.popupElement[i].coords)
           && (this.popupElement[i].name_map == this.currentMap.name_map) && (this.popupElement[i].place_name_place == this.placeList[m])) {
+          content += '<b>' + this.placeList[m] + '</b>' + '<br>';
           console.log("this.popupElement[i].name_map ", this.popupElement[i].name_map);
           console.log("this.currentMap.name_map=", this.currentMap.name_map);
           console.log("this.popupElement[i].place_name_place=", this.popupElement[i].place_name_place);
@@ -550,27 +698,43 @@ export class LeafletMapPage extends BaseLangPageProvider {
           }
           content += this.popupElement[i].name.trim() + '<br>';
           console.log("content=", content);
+
           this.showPopup(content, this.popupElement[i].coords);
         }
-
-
       }
-      /*    let mCoordsTmp = this.popupElement[i].coords.split(',');
-          for (let mCoordsSingle of mCoordsTmp) {
-            console.log("setPopups mCoordsSingle=", mCoordsSingle);
-            mCoords.push(Number(mCoordsSingle));
-          }
-          console.log("mCoords=", mCoords);
-          console.log("mCoords[0]=", mCoords[0]);
-          console.log("mCoords[1]=", mCoords[1]);
-          if ((mCoords[1]) && (mCoords[0])) {
-            popup.setLatLng([this.currentMap.height - mCoords[1], mCoords[0]]);
-            //  popup.setLatLng([mCoords[1], mCoords[0]]);
-            popup.setContent(content);
-            popup.openOn(this.map);
-            this.popups.push(popup);
-          }*/
+    }
+  }
 
+  /**
+   * show signs for current map which MUST be shown
+   */
+  setSignsForMap() {
+    this.popupList = [];
+    if (this.placeListForMap) {
+      this.placeListForMap.forEach(placeSign => {
+        console.log("placeSign=", placeSign);
+        let zoom: number = this.map.getZoom();
+        let marker = (placeSign.marker ? placeSign.marker : this.map.getMaxZoom() + 1);
+        if (marker = 'min') marker = this.map.getMinZoom();
+        let tooltip = (placeSign.tooltip ? placeSign.tooltip : this.map.getMaxZoom() + 1);
+        if (tooltip = 'min') tooltip = this.map.getMinZoom();
+        let popup = (placeSign.popup ? placeSign.popup : this.map.getMaxZoom() + 1);
+        if (popup = 'min') popup = this.map.getMinZoom();
+
+        if ((zoom >= marker) && ( zoom < tooltip) && (zoom < popup)) {
+          let content = placeSign["name_" + (this.lang == 'ru' ? 'rus' : 'eng')];
+          this.showMarker(content, placeSign.coords);
+        }
+        if ((zoom >= tooltip) && (popup > zoom)) {
+          let content = placeSign["name_" + (this.lang == 'ru' ? 'rus' : 'eng')];
+          this.showTooltip(content, placeSign.coords);
+        }
+        if (zoom >= popup) {
+          let content = placeSign["name_" + (this.lang == 'ru' ? 'rus' : 'eng')];
+          this.showPopup(content, placeSign.coords);
+        }
+
+      });
     }
   }
 
@@ -583,70 +747,60 @@ export class LeafletMapPage extends BaseLangPageProvider {
     console.log("popupElement=", this.popupElement);
     console.log("place=", this.place);
     console.log("currentMap=", this.currentMap);
-    if (this.typeOfMap == 'participantDetail') {
+
+    if (this.typeOfMap == 'OpenStreetMap') {
       this.showArrow = false;
 
-      /*      this.map = L.map('map', {
-              crs: L.CRS.Simple,
-              //    minZoom: -5
-            });
+
+      this.popupList = [];
+      let center: L.PointTuple = [55.57066, 36.83169]; //Park Patriot
+
+      //setup leaflet map
 
 
-            this.bounds = [[0, 0], [this.currentMap.height, this.currentMap.width]];//new L.LatLngBounds(this.southWest, this.northEast);
-            L.imageOverlay('assets/img/maps/' + this.currentMap.name_map, this.bounds).addTo(this.map);
-            this.map.fitBounds(this.bounds);*/
+      this.map = L.map('map', {
+        center: center,
+        zoom: 13
+      });
 
+      //Add OSM Layer
+      L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png")
+        .addTo(this.map);
+
+      this.map.tap = true;
+      this.map.on('click', (e) => {
+        this.mapClick(e)
+      });
+
+      this.mapSql.select().then(res => {
+        this.fullMapList = <any>res;
+        console.log('this.fullMapList=', res);
+      });
+
+
+      this.titleStr = this.currentMap['name_' + (this.lang == 'ru' ? 'rus' : 'eng')];
+    }
+    if (this.typeOfMap == 'participantDetail') {
+      //this.showArrow = false;
       this.initMap();
-      /*let popup = */
-      /* L.popup({
-         closeOnClick: false,
-         autoClose: false
-       });*/
-      /*   let mCoordsTmp = this.place[0].coords.split(',');
-         let mCoords: number[] = [];
-         console.log('mCoordsTmp= ', mCoordsTmp);
-         for (let mCoordsSingle of mCoordsTmp) {
-           if (mCoordsSingle) {
-             console.log("mCoordsSingle=", mCoordsSingle);
-             mCoords.push(Number(mCoordsSingle));
-           }
-
-
-         }*/
+      this.showArrow = false;
       let content: string;
       content = this.place[0]["name_" + ((this.lang == 'ru') ? 'rus' : 'eng')] + '<br>' + this.popupElement.name;
-      /*console.log("mCoords[1]=", mCoords[1]);
-      console.log("mCoords[0]=", mCoords[0]);
-      popup.setLatLng([this.currentMap.height - mCoords[1], mCoords[0]]);
-
-
-      /!*if (this.lang == 'ru') {
-        content = this.place[0].name_rus
-      }
-      else {
-        content = this.place[0].name_eng + '<br>' + this.popupElement.name;
-      }*!/
-      popup.setContent(content);
-      popup.openOn(this.map);*/
-
-      // this.showPopup(mCoords[0], mCoords[1], content);
       this.showPopup(content, this.place[0].coords);
     }
 
+
     if (this.typeOfMap == 'conference') {
       this.createMapList();
-      //this.currentMapName = this.mapList[0];
       this.currentMapNumber = 0;
       this.mapSql.select().then(res => {
         this.fullMapList = <any>res;
         console.log('this.fullMapList=', res);
-        this.createPlaceList();
+        //    this.setButtonsEnable();
         this.initMap();
-        this.setButtonsEnable();
-        this.setPopups();
+        this.setSigns();
       });
     }
-
     if (this.typeOfMap == 'participant') {
       this.createMapList();
       /*this.currentMapName = this.mapList[0];*/
@@ -654,28 +808,23 @@ export class LeafletMapPage extends BaseLangPageProvider {
       this.mapSql.select().then(res => {
         this.fullMapList = <any>res;
         console.log('this.fullMapList=', res);
-        // this.getMapFromFullList();
-        this.createPlaceList();
+        // this.setButtonsEnable();
         this.initMap();
-        this.setButtonsEnable();
-        this.setPopups();
 
+        this.setSigns();
       });
     }
-
     if (this.typeOfMap == 'simple') {
-      //this.createMapList();
-      /*this.currentMapName = this.mapList[0];*/
       this.currentMapNumber = 0;
-      this.mapSql.select().then(res => {
-        this.fullMapList = <any>res;
+      this.mapSql.select().then((res: any) => {
+        this.fullMapList = res;
         console.log('this.fullMapList=', res);
+        // this.setButtonsEnable();
         this.initMap();
-        this.setButtonsEnable();
+        this.setSignsForMap();
+
       });
     }
-
-
   }
 
 
@@ -685,44 +834,22 @@ export class LeafletMapPage extends BaseLangPageProvider {
   }
 
 
-  areaClick(num: string, goto: string) {
-    alert(num);
-    console.log("goto in the begining=", goto);
-    if (goto) {
-      if (goto.endsWith(".jpg")) {
-        goto = goto.substr(0, goto.length - 4);
-        console.log("goto in the end=", goto);
-      }
-      if (goto = 'patriot-expo-map')
-        this.navCtrl.push(PatriotExpoMapPage);
-    }
-
-
-  }
-
-
   /**
    * set buttons for the current map according to the fields map_right, map_left, map_up, map_down
    */
-  setButtonsEnable() {
 
-    console.log("setButtonsEnable() this.currentMap=", this.currentMap);
+  /*
+    setButtonsEnable() {
+      console.log("setButtonsEnable() this.currentMap=", this.currentMap);
+      this.showLeftArrow = !!this.currentMap.map_left;
 
-
-    /*   this.showLeftArrow = !!this.fullMapList[this.currentMapNumber].map_left;
-
-       this.showRightArrow = !!this.fullMapList[this.currentMapNumber].map_right;
-       this.showUpArrow = !!this.fullMapList[this.currentMapNumber].map_up;
-       this.showDownArrow = !!this.fullMapList[this.currentMapNumber].map_down;
-       this.showPreviousArrow = !!this.fullMapList[this.currentMapNumber].place_previous;*/
-    this.showLeftArrow = !!this.currentMap.map_left;
-    this.showRightArrow = !!this.currentMap.map_right;
-    this.showUpArrow = !!this.currentMap.map_up;
-    this.showDownArrow = !!this.currentMap.map_down;
-    this.showPreviousArrow = !!this.currentMap.place_previous;
-    this.showArrow = this.showLeftArrow || this.showRightArrow
-      || this.showUpArrow || this.showDownArrow || this.showPreviousArrow;
-  }
+      this.showRightArrow = !!this.currentMap.map_right;
+      this.showUpArrow = !!this.currentMap.map_up;
+      this.showDownArrow = !!this.currentMap.map_down;
+      this.showPreviousArrow = !!this.currentMap.place_previous;
+      this.showArrow = false;//this.showLeftArrow || this.showRightArrow      || this.showUpArrow || this.showDownArrow || this.showPreviousArrow;
+    }
+  */
 
   /**
    * moving through the maps according to direction (up/down, left/right)
@@ -746,9 +873,9 @@ export class LeafletMapPage extends BaseLangPageProvider {
       }
     }
     //this.getMapFromFullList();
-    this.setMap();
-    this.setButtonsEnable();
-    if (this.showPopups) this.setPopups();
+    this.initMap();
+    // this.setButtonsEnable();
+    if (this.showPopups) this.setSigns();
 
   }
 
@@ -774,18 +901,25 @@ export class LeafletMapPage extends BaseLangPageProvider {
       }
     }
     //  this.getMapFromFullList();
-    this.setMap();
-    this.setButtonsEnable();
+    //this.setMap();
+    this.initMap();
+    // this.setButtonsEnable();
     console.log("old_map_name=", old_map_name);
     if (this.showPopups) this.setMapAsPlace(old_map_name);
   }
 
   updatePopups() {
     console.log('updatePopups=', this.showPopups);
-    if (this.showPopups) this.setPopups();
+    if (this.showPopups) {
+      for (let popup of this.popupList) {
+        if (popup.name_map == this.currentMap.name_map)
+          popup.popup.openOn(this.map);
+      }
+    } //this.setPopups();
     else {
-      for (let popup of this.popups) {
-        this.map.closePopup(popup);
+      for (let popup of this.popupList) {
+        if (popup.name_map == this.currentMap.name_map)
+          this.map.closePopup(popup.popup);
       }
     }
   }
@@ -795,12 +929,54 @@ export class LeafletMapPage extends BaseLangPageProvider {
     console.log("this.map.getCenter()=", this.map.getCenter());
     //Returns the geographical center of the map view
     console.log("this.map.getZoom()=", this.map.getZoom());
+    this.setSignsForMap();
     //Returns the current zoom level of the map view
     //  console.log("this.map.getBounds()=",this.map.getBounds());
-    this.showPopup('Привет!', this.map.getCenter().lat + ',' + this.map.getCenter().lng);
+    //  this.showPopup('Привет!', this.map.getCenter().lat + ',' + this.map.getCenter().lng);
+
+    //reset signs
+
   }
+
+
+  /*  onSwipe(event) {
+      /!* console.log(event);
+       if (event.offsetDirection) {
+         console.log("event.offseDirection=", event.offsetDirection);
+         switch (event.offsetDirection) {
+           case 4:
+             if (this.showLeftArrow) {
+               this.mapDirection('left');
+
+             }
+             break;
+           case 2:
+             if (this.showRightArrow) {
+               this.mapDirection('right');
+
+             }
+             break;
+         }
+
+       }*!/
+    }*/
+
 }
 
-
 // 790 strings before refactoring
+
+/*
+direction of swipe
+left =1
+right=
+up
+down
+
+
+
+
+offset direction
+left 4
+right 2
+ */
 

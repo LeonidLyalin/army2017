@@ -11,53 +11,7 @@
 </ion-header>
 
 
-<ion-content class="cards-bg">
-<ion-toolbar>
-  <custom-icon set="army2017" name="star"></custom-icon>
-</ion-toolbar>
-<ion-toolbar>
-  <page-conference-help>
-
-  </page-conference-help>
-</ion-toolbar>
-
-<ion-label>
-  {{filterStr}}
-</ion-label>
-
-  <page-filter-conference>
-
-  </page-filter-conference>
-
-    <page-filter-participant></page-filter-participant>
-    <ion-buttons >
-      <button ion-button  color="danger">
-        <ion-icon name="checkmark" ></ion-icon>
-
-      </button>
-
-      <button ion-button color="danger">
-        <ion-icon name="close-circle"></ion-icon>
-
-      </button>
-    </ion-buttons>
-    <ion-item>
-      {{filterStr}}
-    </ion-item>
-    <ion-row>
-      <ion-buttons >
-        <button ion-button  color="army-red">
-          <ion-icon name="checkmark"></ion-icon>
-
-        </button>
-
-        <button ion-button color="army-red">
-          <ion-icon name="close-circle"></ion-icon>
-
-        </button>
-      </ion-buttons>
-    </ion-row>
-
+<ion-content class="cards-bg" (swipeup)="onSwipeUp($event)">
   <ion-card>
 
     <img src="assets/img/army2017.png"/>
@@ -78,7 +32,7 @@
       <ion-col>
         <button ion-button clear small color="danger" icon-left>
           <ion-icon name='star'></ion-icon>
-          Мой форму
+          Мой форум
         </button>
       </ion-col>
 

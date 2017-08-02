@@ -45,7 +45,7 @@ export class ParticipantPage extends BaseListPageProvider {
               public filterProvider: FilterParticipantProvider,
               public events: Events) {
 //подгружаем список участников выставки
-    super(navCtrl, navParams, events, http, placeSql, mapSql);
+    super(navCtrl, navParams, events, http);//, placeSql, mapSql);
 
     console.log("navParams in constructor", navParams);
     console.log("navParams==null", this.navParams == null);

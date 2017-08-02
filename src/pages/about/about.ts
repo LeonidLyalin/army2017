@@ -20,6 +20,9 @@ export class AboutPage {
 
   }
 
+  onSwipeUp($event){
+    console.log($event);
+  }
 
 
 }

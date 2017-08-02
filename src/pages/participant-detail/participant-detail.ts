@@ -19,11 +19,9 @@ export class ParticipantDetailPage extends BaseLangPageProvider {
   participant: any;
   thematic: any;
   myForum: any;
-  // userId: any;
   iblockId: any = 1;
-  //lang: string;
   showMap: boolean;
-//@todo add icons insteed of words in html]
+
 
 
   //interface strings

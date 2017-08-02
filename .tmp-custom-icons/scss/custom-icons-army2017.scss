@@ -22,8 +22,28 @@
 @function army2017-char($filename) {
   $char: "";
   
-    @if $filename == star {
+    @if $filename == arrow-down {
       $char: "\EA01";
+    }
+  
+    @if $filename == arrow-left {
+      $char: "\EA02";
+    }
+  
+    @if $filename == arrow-right {
+      $char: "\EA03";
+    }
+  
+    @if $filename == arrow-up {
+      $char: "\EA04";
+    }
+  
+    @if $filename == level-up {
+      $char: "\EA05";
+    }
+  
+    @if $filename == star {
+      $char: "\EA06";
     }
   
   @return $char;
@@ -36,6 +56,26 @@
   }
 }
 
+
+  custom-icon.set-army2017.icon-arrow-down {
+    @include army2017(arrow-down);
+  }
+
+  custom-icon.set-army2017.icon-arrow-left {
+    @include army2017(arrow-left);
+  }
+
+  custom-icon.set-army2017.icon-arrow-right {
+    @include army2017(arrow-right);
+  }
+
+  custom-icon.set-army2017.icon-arrow-up {
+    @include army2017(arrow-up);
+  }
+
+  custom-icon.set-army2017.icon-level-up {
+    @include army2017(level-up);
+  }
 
   custom-icon.set-army2017.icon-star {
     @include army2017(star);

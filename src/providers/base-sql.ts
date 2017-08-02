@@ -333,8 +333,7 @@ export class BaseSql {
 
 
   getFieldFromTable(id, field, table) {
-    console.log('get ' + field + ' for ' + table
-    );
+    console.log('get ' + field + ' for ' + table );
     return new Promise(res => {
       let query = 'select ' + field + ' from ' + table;
       query += ' where id=' + id;

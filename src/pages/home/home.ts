@@ -18,6 +18,8 @@ import {BaseLangPageProvider} from "../../providers/base-lang-page/base-lang-pag
 import {CustomIconsModule} from 'ionic2-custom-icons';
 import {map} from "../../providers/map-sql/map-sql";
 import {LeafletMapPage} from "../maps/leaflet-map/leaflet-map";
+import {QrScannerPage} from "../qr-scanner/qr-scanner";
+import {BarScannerPage} from "../bar-scanner/bar-scanner";
 
 
 @Component({
@@ -137,10 +139,7 @@ export class HomePage extends BaseLangPageProvider {
       /**
        * init tables of database
        */
-      let loader = this.loadingCtrl.create({
-        content: this.waitLoadStr,
-        duration: 100000,
-      });
+
 
 
       let api = new BaseApi(this.http);
@@ -161,6 +160,10 @@ export class HomePage extends BaseLangPageProvider {
                 console.log("fields.length=", fields.length);
                 console.log("fields[1]", fields[1]);
                 if (!this.platform.is('core')) {
+                  let loader = this.loadingCtrl.create({
+                    content: this.waitLoadStr,
+                    duration: 100000,
+                  });
                   loader.present().then(() => {
                     if (data[i]["STATUS"] == 'recreate') {
 
@@ -173,9 +176,9 @@ export class HomePage extends BaseLangPageProvider {
                     }
                     tableAction.addItem({id: data[i]["ID"]}).then(res => {
                       console.log("tableAction.addItem res=", res);
-                      //loader.dismiss();
+                      loader.dismiss();
                     });
-                    loader.dismiss();
+                    //loader.dismiss();
                   });
                 }
               }
@@ -240,6 +243,29 @@ export class HomePage extends BaseLangPageProvider {
   /*toggleMenu(){
     this.navCtrl.m
   }*/
+
+  openStreetMap(){
+    let mapSql = new BaseSql(this.http, 'map');
+    mapSql.selectWhere('name_map="OpenStreetMap"').then(res => {
+
+
+     // 55.5726,36.7958,55.5396,36.8826
+
+      console.log("res=", res);
+      let map = <any>res[0];
+      this.navCtrl.push(LeafletMapPage, {
+        typeOfMap: 'OpenStreetMap',
+
+        map: map
+      });
+    });
+  }
+
+
+
+  BarScannerPage() {
+    this.navCtrl.push(BarScannerPage);
+  }
 }
 
 

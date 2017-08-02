@@ -8,36 +8,38 @@
     </button>
     <ion-title>{{titleStr}}</ion-title>
     <ion-buttons end>
-
+      <button ion-button icon-only (click)="showHideHelp()" [style.color]="colorHelp">
+        <ion-icon name="help-circle"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 
   <ion-toolbar *ngIf="showArrow">
     <ion-buttons>
       <button *ngIf="showLeftArrow" ion-button icon-only (click)="mapDirection('left')">
-        <i class="fa fa-arrow-circle-left fa-2x" ></i>
-       <!-- <ion-icon name="arrow-round-back" color="white"></ion-icon>-->
+        <i class="fa fa-arrow-circle-left fa-2x"></i>
+        <!-- <ion-icon name="arrow-round-back" color="white"></ion-icon>-->
       </button>
       <button *ngIf="!showLeftArrow" ion-button icon-only>
 
         <ion-icon name="arrow-round-back"></ion-icon>
       </button>
       <button *ngIf="showRightArrow" ion-button icon-only (click)="mapDirection('right')">
-        <i class="fa fa-arrow-circle-right fa-2x" ></i>
+        <i class="fa fa-arrow-circle-right fa-2x"></i>
         <!--<ion-icon name="arrow-round-forward" color="white"></ion-icon>-->
       </button>
       <button *ngIf="!showRightArrow" ion-button icon-only>
         <ion-icon name="arrow-round-forward"></ion-icon>
       </button>
       <button *ngIf="showUpArrow" ion-button icon-only (click)="mapDirection('up')">
-        <i class="fa fa-arrow-circle-up fa-2x" ></i>
+        <i class="fa fa-arrow-circle-up fa-2x"></i>
         <!--<ion-icon name="arrow-round-up" color="white"></ion-icon>-->
       </button>
       <button *ngIf="!showUpArrow" ion-button icon-only>
         <ion-icon name="arrow-round-up"></ion-icon>
       </button>
       <button *ngIf="showDownArrow" ion-button icon-only (click)="mapDirection('down')">
-        <i class="fa fa-arrow-circle-down fa-2x" ></i>
+        <i class="fa fa-arrow-circle-down fa-2x"></i>
         <!--<ion-icon name="arrow-round-down" color="white"></ion-icon>-->
       </button>
       <button *ngIf="!showDownArrow" ion-button icon-only>
@@ -62,6 +64,10 @@
 
 
 <ion-content no-padding no-margin="true">
+  <div *ngIf="showHelp">
+    <page-map-help>
+    </page-map-help>
+  </div>
   <div id="map">
 
   </div>

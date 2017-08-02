@@ -27,7 +27,7 @@ import {HomePage} from "../pages/home/home";
 import {ParkPatriotPage} from "../pages/park-patriot-all/park-patriot/park-patriot";
 import {WarTacticPage} from "../pages/park-patriot-all/war-tactic-page/war-tactic-page";
 import {Http} from "@angular/http";
-import { CustomIconsModule } from 'ionic2-custom-icons';
+
 
 
 export interface PageInterface {

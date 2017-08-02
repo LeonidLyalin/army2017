@@ -1,0 +1,143 @@
+<ion-scroll scrollY="true">
+  <ion-list *ngIf="lang=='ru'" scrollY="true">
+    <ion-item text-wrap>
+      {{titleStr}}
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Возможен переход к карте слева</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <i class="fa fa-arrow-circle-left fa-2x"></i>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Невозможен переход к карте слева для данной карты</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <ion-icon name="arrow-round-back" color="green"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Возможен переход к карте справа</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <i class="fa fa-arrow-circle-right fa-2x"></i>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Невозможен переход к карте справа для данной карты</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <ion-icon name="arrow-round-up"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Возможен переход к карте впереди</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <i class="fa fa-arrow-circle-up fa-2x"></i>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Невозможен переход к карте впереди для данной карты</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <ion-icon name="arrow-round-forward"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Возможен переход к карте позади</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <i class="fa fa-arrow-circle-down fa-2x"></i>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Невозможен переход к карте впереди для данной карты</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <ion-icon name="arrow-round-down"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Переход к карте уровнем выше</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <ion-icon name="arrow-dropup" color="white"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Скрыть/показать текущие метки</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <i class="fa fa-comment fa-2x" style="color:red"></i>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Нажатие на карту - переход к подробному описанию/карте</ion-label>
+    </ion-item>
+
+
+  </ion-list>
+  <ion-list *ngIf="lang=='en'" scrollY="true">
+    <ion-item text-wrap>
+      {{titleStr}}
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Go to the map on the left</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <i class="fa fa-arrow-circle-left fa-2x"></i>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>No map on the left for this map</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Go to the map on the right</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <i class="fa fa-arrow-circle-right fa-2x"></i>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>No map on the right for this map</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <ion-icon name="arrow-round-up"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Go to the map forward</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <i class="fa fa-arrow-circle-up fa-2x"></i>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>No map forward for this map</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <ion-icon name="arrow-round-forward"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Go to the map backward</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <i class="fa fa-arrow-circle-down fa-2x"></i>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>No map backward for this map</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <ion-icon name="arrow-round-down"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Go to the up level map</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <ion-icon name="arrow-dropup" color="white"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Show/hide popups</ion-label>
+      <button ion-button icon-only item-right color="army-red">
+        <i class="fa fa-comment fa-2x" style="color:red"></i>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label text-wrap>Tap on the map - go to the detail description/map</ion-label>
+    </ion-item>
+
+
+  </ion-list>
+
+</ion-scroll>

@@ -20,13 +20,6 @@ import {BaseListPageProvider} from "../../providers/base-list-page/base-list-pag
 export class ConferencePage extends BaseListPageProvider {
 
 
-  //title: string;
-
-  // filterStr: string;
-
-
- // showMainList: boolean = true;
-
   constructor(public navCtrl: NavController,
               public http: Http,
               public conferencetApi: ConferenceApi,
@@ -34,12 +27,11 @@ export class ConferencePage extends BaseListPageProvider {
               public sqlMyForum: MyForumSql,
               public navParams: NavParams,
               public toastCtrl: ToastController,
-              public mapSql: MapSql,
               public placeSql: PlaceSql,
               public filterProvider: FilterConferenceProvider,
               public events: Events) {
 
-    super(navCtrl, navParams, events, http, placeSql, mapSql);
+    super(navCtrl, navParams, events, http);//, placeSql, mapSql);
     // this.listOut = [];
     console.log("navParams in constructor", navParams);
     console.log("navParams==null", this.navParams == null);
@@ -102,23 +94,7 @@ export class ConferencePage extends BaseListPageProvider {
     });
   }
 
-  /**
-   *
-   * @param conferenceSingle
-   */
-/*  addOneItemConference(conferenceSingle) {
 
-    console.log('try to insert');
-    console.log(conferenceSingle);
-    this.conferenceSql.addItemConference(conferenceSingle
-    ).then(res => {
-        console.log('success');
-        console.log(res);
-      }
-    ).catch(err => {
-      console.error('Unable to insert storage tables', err.tx, err.err);
-    })
-  }*/
 
 
   /**
@@ -126,15 +102,12 @@ export class ConferencePage extends BaseListPageProvider {
    */
   addItemConference() {
     for (let conferenceSingle of this.listOut) {
-
-
       console.log('try to insert');
       console.log("conferenceSingle=", conferenceSingle);
       this.conferenceSql.addItemConference(conferenceSingle)
         .then(res => {
             console.log('success');
             console.log(res);
-
           }
         ).catch(err => {
         console.error('Unable to insert storage tables', err.tx, err.err);

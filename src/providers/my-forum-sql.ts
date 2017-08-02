@@ -498,7 +498,7 @@ export class MyForumSql extends BaseSql {
    * @param elementList - there we will insert my_forum_id value directly to avoid waiting
    * @returns {Promise<T>}
    */
-  addToMyForumSite(id, iblockId, userId, elementList: any = '') {
+  addToMyForumSite(id, iblockId, userId, elementList?) {
     console.log("elementList before inserting in addToMyForumSite =", elementList);
     console.log('add', id);
     let my_forum_id: any;

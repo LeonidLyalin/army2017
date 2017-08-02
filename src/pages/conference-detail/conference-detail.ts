@@ -87,7 +87,7 @@ export class ConferenceDetailPage extends BaseLangPageProvider {
         if (res) {
           console.log("res in thematicConference page=", res);
           this.thematic = <any>res;
-          //@TODO why participant SQL? Change for a conference
+
           this.conferenceDetailSql.getFieldFromTable(this.conferenceSingle.id, 'id', 'myforum').then(
             //getMyForumForId(this.conferenceSingle.id).then(
             rs => {
