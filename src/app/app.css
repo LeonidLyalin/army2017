@@ -1,0 +1,34 @@
+/*ion-header {
+  ion-navbar {
+    .toolbar-background {
+      background-color: color($colors, "army-red");
+      color: white;
+    }
+  }
+}*/
+/*
+@font-face {
+  font-family: 'PT Sans';
+  src: url('../assets/fonts/ptsans.woff2') format('woff2');
+
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'PT Sans' !important;
+}
+*/
+.alert-radio-label {
+  white-space: pre-line; }
+
+.alert-ios .alert-radio-label {
+  white-space: pre-line; }
+
+.alert-md .alert-radio-label {
+  white-space: pre-line; }
+
+.alert-wp .alert-radio-label {
+  white-space: pre-line; }
+
+/*# sourceMappingURL=app.css.map */

@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AACE,gCAAS;EACP,SAAS,EAAE,IAAI",
+"sources": ["participant-detail.scss"],
+"names": [],
+"file": "participant-detail.css"
+}

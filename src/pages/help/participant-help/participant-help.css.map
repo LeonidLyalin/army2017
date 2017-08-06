@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AACE,4BAAO;EACL,KAAK,EAAE,GAAG;AAGZ,0BAA2B;EACzB,gCAAW;IACT,MAAM,EAAC,KAAK;IACZ,KAAK,EAAC,IAAI;AAKd,0BAA2B;EACzB,gCAAW;IACT,MAAM,EAAC,KAAK;IACZ,KAAK,EAAC,IAAI",
+"sources": ["participant-help.scss"],
+"names": [],
+"file": "participant-help.css"
+}

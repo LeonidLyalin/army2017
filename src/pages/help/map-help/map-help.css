@@ -1,0 +1,12 @@
+page-map-help button {
+  width: 10%; }
+@media (max-height: 960px) {
+  page-map-help ion-scroll {
+    height: 500px;
+    width: 100%; } }
+@media (min-height: 961px) {
+  page-map-help ion-scroll {
+    height: 700px;
+    width: 100%; } }
+
+/*# sourceMappingURL=map-help.css.map */

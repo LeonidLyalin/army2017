@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEE,iCAAiB;EACf,KAAK,EAAE,GAAG;AAGZ,mCAAmB;EACjB,KAAK,EAAE,GAAG;AAGZ,2BAAU;EACR,KAAK,EAAE,UAAU",
+"sources": ["participant.scss"],
+"names": [],
+"file": "participant.css"
+}
