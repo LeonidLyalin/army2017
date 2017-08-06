@@ -5,14 +5,12 @@
 import {Component} from '@angular/core';
 import {Events, ModalController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {Http} from '@angular/http';
-import 'rxjs/add/operator/map';
-import {ParticipantApi} from '../shared/participant/participant-api.service';
+
 import {participant, ParticipantSql} from "../../providers/participant-sql";
 import {MyForumSql} from "../../providers/my-forum-sql";
 import {ParticipantDetailPage} from "../participant-detail/participant-detail";
-import {MyForumApi} from "../shared/my-forum/my-forum-api";
-import {PlaceSql} from "../../providers/place-sql/place-sql";
-import {MapSql} from "../../providers/map-sql/map-sql";
+import {MyForumApi} from "../../providers/my-forum/my-forum-api";
+
 import {FilterParticipantProvider} from "../../providers/filter-provider/filter-participant-provider";
 import {BaseListPageProvider} from "../../providers/base-list-page/base-list-page";
 
@@ -20,7 +18,7 @@ import {BaseListPageProvider} from "../../providers/base-list-page/base-list-pag
 @Component({
   selector: 'page-participant',
   templateUrl: 'participant.html',
-  providers: [ParticipantSql],
+  providers: [FilterParticipantProvider],
 })
 
 export class ParticipantPage extends BaseListPageProvider {
@@ -33,32 +31,29 @@ export class ParticipantPage extends BaseListPageProvider {
 
   constructor(public navCtrl: NavController,
               public http: Http,
-              public participantApi: ParticipantApi,
               public myForumApi: MyForumApi,
               public participantSql: ParticipantSql,
               public sqlMyForum: MyForumSql,
               public navParams: NavParams,
               public toastCtrl: ToastController,
-              public placeSql: PlaceSql,
-              public mapSql: MapSql,
-              public modalCtrl: ModalController,
+
               public filterProvider: FilterParticipantProvider,
               public events: Events) {
 //подгружаем список участников выставки
     super(navCtrl, navParams, events, http);//, placeSql, mapSql);
 
-    console.log("navParams in constructor", navParams);
-    console.log("navParams==null", this.navParams == null);
-    console.log("navParams.data.length", navParams.data.length);
+    //console.log("navParams in constructor", navParams);
+    //console.log("navParams==null", this.navParams == null);
+    //console.log("navParams.data.length", navParams.data.length);
     let param = navParams.get('select');
-    console.log("navParams.get('select')", param);
+    //console.log("navParams.get('select')", param);
     if (param == 'thematic') {
       let toast = this.toastCtrl.create({
         message: this.loadStr,
         duration: 5000
       });
       toast.present();
-      console.log("navParams.data", navParams.data.data);
+      //console.log("navParams.data", navParams.data.data);
       this.listOut = navParams.data.data;
     }
     this.iblockId  = 1;//for my_forum
@@ -75,17 +70,17 @@ export class ParticipantPage extends BaseListPageProvider {
 
   ionViewDidLoad() {
     super.ionViewDidLoad();
-    console.log('ionViewDidLoad MyForumPage');
-    console.log("this.navParams=", this.navParams);
-    console.log("this.navParams.data=", this.navParams.data);
-    console.log("navParams==null", this.navParams == null);
+    //console.log('ionViewDidLoad MyForumPage');
+    //console.log("this.navParams=", this.navParams);
+    //console.log("this.navParams.data=", this.navParams.data);
+    //console.log("navParams==null", this.navParams == null);
     let param = this.navParams.get('select');
     if (param == 'thematic') {
-      console.log("this.navParams in ioViewDidLoad =", this.navParams);
+      //console.log("this.navParams in ioViewDidLoad =", this.navParams);
       this.listOut = this.navParams.data.data;
     }
     else {
-      console.log("this.selectParticipantAll()");
+      //console.log("this.selectParticipantAll()");
       let toast = this.toastCtrl.create({
         message: this.loadStr,
         duration: 2000
@@ -102,15 +97,15 @@ export class ParticipantPage extends BaseListPageProvider {
    * @param id
    */
   addToMyForum(id) {
-    console.log('add', id);
+    //console.log('add', id);
     this.myForumApi.addToMyForumSite(this.iblockId, id).subscribe(data => {
-      console.log("here are the results of adding through api");
-      console.log(data);
+      //console.log("here are the results of adding through api");
+      //console.log(data);
       //@TODO make an api and prepare all parameters for insert
       //  this.sqlMyForum.addItemAndSelect(data, this.userId, this.iblockId, id).then(res => {
       this.sqlMyForum.addItem({id: data, user: this.userId, my_iblock_id: this.iblockId, my_id: id}).then(res => {
-        console.log('added', id);
-        console.log(res);
+        //console.log('added', id);
+        //console.log(res);
         if (this.lang == 'ru') {
           this.selectParticipantRus()
         }
@@ -126,14 +121,14 @@ export class ParticipantPage extends BaseListPageProvider {
    * @param participant - record in the json format for current Participant element
    */
   goToParticipantDetail(participant) {
-    console.log("goToParticipantDetail()");
-    console.log(participant);
+    //console.log("goToParticipantDetail()");
+    //console.log(participant);
     // go to the session detail page
     // and pass in the session data
     if (this.lang == 'ru') {
       this.sqlMyForum.getRusParticipantFull('where a.id=' + participant.id).then(res => {
         let participant = <any>res;
-        console.log("participantDetail=", participant);
+        //console.log("participantDetail=", participant);
         this.navCtrl.push(ParticipantDetailPage, {
           participant
         });
@@ -153,8 +148,8 @@ export class ParticipantPage extends BaseListPageProvider {
    */
   checkParticipantForId(id) {
     this.participantSql.checkForId(id).then(res => {
-        console.log("check for participant");
-        console.log(res);
+        //console.log("check for participant");
+        //console.log(res);
         return res;
       }
     );
@@ -162,8 +157,8 @@ export class ParticipantPage extends BaseListPageProvider {
 
   selectParticipantRus() {
     this.sqlMyForum.getRusParticipant().then(res => {
-      console.log('our select');
-      console.log(res);
+      //console.log('our select');
+      //console.log(res);
       this.listOut = res;
     })
 
@@ -172,8 +167,8 @@ export class ParticipantPage extends BaseListPageProvider {
 
   selectParticipantEng() {
     this.sqlMyForum.getEngParticipant().then(res => {
-      console.log('our select');
-      console.log(res);
+      //console.log('our select');
+      //console.log(res);
       this.listOut = res;
     })
 
@@ -183,12 +178,12 @@ export class ParticipantPage extends BaseListPageProvider {
   selectParticipantAll() {
     if (this.lang == 'ru') {
       this.sqlMyForum.getRusParticipant().then(res => {
-        console.log('this.sqlMyForum.getRusParticipant().then( res=', res);
-        console.log('(<participant[]>res).length=', (<participant[]>res).length);
+        //console.log('this.sqlMyForum.getRusParticipant().then( res=', res);
+        //console.log('(<participant[]>res).length=', (<participant[]>res).length);
         this.listOut = res;
         /*if ((<participant[]>res).length) {
-          console.log('our select');
-          console.log(res);
+          //console.log('our select');
+          //console.log(res);
           this.listOut = res;
 
 
@@ -199,19 +194,19 @@ export class ParticipantPage extends BaseListPageProvider {
             duration: 5000
           });
           toast.present();
-          console.log(' this.getPlaceApiInsertBase()');
+          //console.log(' this.getPlaceApiInsertBase()');
           this.getParticipantApiInsertBase();
         }*/
       })
     }
     else {
       this.sqlMyForum.getEngParticipant().then(res => {
-        console.log('this.sqlMyForum.getEngParticipant().then( res=', res);
-        console.log('(<participant[]>res).length=', (<participant[]>res).length);
+        //console.log('this.sqlMyForum.getEngParticipant().then( res=', res);
+        //console.log('(<participant[]>res).length=', (<participant[]>res).length);
         this.listOut = res;
         /*if ((<participant[]>res).length) {
-          console.log('our select');
-          console.log(res);
+          //console.log('our select');
+          //console.log(res);
           this.listOut = res;
 
 
@@ -222,7 +217,7 @@ export class ParticipantPage extends BaseListPageProvider {
             duration: 5000
           });
           toast.present();
-          console.log(' this.getPlaceApiInsertBase()');
+          //console.log(' this.getPlaceApiInsertBase()');
           this.getParticipantApiInsertBase();
         }*/
       })
@@ -256,19 +251,19 @@ export class ParticipantPage extends BaseListPageProvider {
 
   getListOut() {
     this.filterStr = this.filterProvider.filterStr;
-    console.log("this.filterStr", this.filterStr);
+    //console.log("this.filterStr", this.filterStr);
     if (this.lang == 'ru') {
       this.sqlMyForum.getRusParticipant(this.filterStr).then(res => {
-        console.log('our select');
-        console.log(res);
+        //console.log('our select');
+        //console.log(res);
         this.listOut = res;
         //  this.showHideFilter();
       });
     }
     else {
       this.sqlMyForum.getEngParticipant(this.filterStr).then(res => {
-        console.log('our select');
-        console.log(res);
+        //console.log('our select');
+        //console.log(res);
         this.listOut = res;
 
       });
@@ -280,16 +275,16 @@ export class ParticipantPage extends BaseListPageProvider {
     this.getListOut();
     /*  if (this.lang == 'ru') {
         this.sqlMyForum.getRusParticipant(this.filterStr).then(res => {
-          console.log('our select');
-          console.log(res);
+          //console.log('our select');
+          //console.log(res);
           this.listOut = res;
         //  this.showHideFilter();
         });
       }
       else {
         this.sqlMyForum.getEngParticipant(this.filterStr).then(res => {
-          console.log('our select');
-          console.log(res);
+          //console.log('our select');
+          //console.log(res);
           this.listOut = res;
 
         });

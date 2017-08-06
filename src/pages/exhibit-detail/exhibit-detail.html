@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title text-left>{{titleStr}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+
+    <ion-card-header text-wrap>
+      <p>{{element.name}}</p>
+    </ion-card-header>
+    <ion-card-content>
+
+      <p *ngIf="!element.place_name_place">
+        <ion-icon name="pin" color="danger"></ion-icon>
+        {{element.place_name}}
+      </p>
+      <p *ngIf="element.place_name_place">
+        <ion-icon name="pin" color="danger"></ion-icon>
+        {{element.place_name_place}}
+      </p>
+      <p *ngIf="element.purpose">
+        <ion-icon name="information-circle" color="danger"></ion-icon>
+        {{element.purpose}}
+      </p>
+      <p>{{element.characteristics}}</p>
+      <ion-list>
+        <ion-list-header color="danger">
+          {{charactersStr}}
+        </ion-list-header>
+        <ion-item *ngFor="let character of characters">
+          <h4 *ngIf="character.size==2" text-left text-wrap>{{character.text}}</h4>
+          <p *ngIf="character.size!=2" text-right text-wrap>{{character.text}}</p>
+        </ion-item>
+      </ion-list>
+
+
+
+    </ion-card-content>
+
+
+    <ion-row no-padding>
+      <ion-col>
+        <button ion-button clear small color="danger" icon-left>
+          <ion-icon name='map'></ion-icon>
+          {{onMapStr}}
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button clear small color="danger" icon-left>
+          <ion-icon item-left *ngIf="myForum" name="star" color="danger"
+                    (click)="deleteFromMyForum(myForum)"></ion-icon>
+          <ion-icon item-left *ngIf="!myForum" name="star-outline" (click)="addToMyForumSite(element.id)"></ion-icon>
+          {{myForumStr}}
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-content>

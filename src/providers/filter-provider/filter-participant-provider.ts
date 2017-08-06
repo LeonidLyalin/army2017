@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
+import {BaseLangPageProvider} from "../base-lang-page/base-lang-page";
+import {Events, NavController} from "ionic-angular";
 
 /*
  Generated class for the FilterParticipantProvider provider.
@@ -9,7 +11,7 @@ import 'rxjs/add/operator/map';
  for more info on providers and Angular 2 DI.
  */
 @Injectable()
-export class FilterParticipantProvider {
+export class FilterParticipantProvider extends BaseLangPageProvider {
   public thematicField: string;
 
 
@@ -31,20 +33,50 @@ export class FilterParticipantProvider {
 
   public partOfName: string;
 
-  setFilterStr: string;
-  cancelFilterStr: string;
+ /* setFilterStr: string;
+  cancelFilterStr: string;*/
   findName: string;
 
-  constructor(public http: Http) {
-    console.log('Hello FilterParticipantProvider Provider');
+
+  constructor(public navCtrl: NavController,
+              public http: Http,
+              public events: Events) {
+    super(navCtrl, events, http)
+    //console.log('Hello FilterExhibitProvider Provider');
+
   }
 
   setFilterValue(filterStr) {
     this.filterStr = filterStr;
-    console.log("provider this.filterStr",this.filterStr)
+    //console.log("provider this.filterStr",this.filterStr)
   }
 
+  setRussianStrings() {
+    super.setRussianStrings();
+    this.thematicTitle = 'Тематика';
+    this.mapTitle = 'Павильоны';
+    this.placeTitle = 'Стенды';
+    this.countryTitle = 'Страны';
 
+    //interface strings
+    this.setFilterStr = 'Установить';
+    this.cancelFilterStr = 'Отменить';
+    this.findName = 'Наименование';
+
+  }
+
+  setEnglishStrings(){
+    super.setEnglishStrings();
+    this.thematicTitle = 'Thema';
+    this.mapTitle = 'Hall';
+    this.placeTitle = 'Stand';
+    this.countryTitle = 'Country';
+
+    //interface strings
+    this.setFilterStr = 'Set';
+    this.cancelFilterStr = 'Cancel';
+    this.findName = 'Name';
+  }
 
 
   cancelFilter() {

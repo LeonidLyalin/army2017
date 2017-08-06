@@ -18,7 +18,7 @@ export class WarTacticPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad WarTacticPage');
+    //console.log('ionViewDidLoad WarTacticPage');
   }
 
 }

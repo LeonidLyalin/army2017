@@ -18,10 +18,13 @@ export class TableActionSql extends BaseSql{
   constructor(public http: Http) {
     super(http,'table_action',[
       {name:"id", type:"text PRIMARY KEY"    },
-
+      {name:"table_name", type:"text"    },
+      {name:"action", type:"text"    },
+      {name:"date_change", type:"text"    },
+      {name:"time_change", type:"text"    }
       ]
     );
-    console.log('Hello table_action constructor');
+    //console.log('Hello table_action constructor');
     //this.openDb();
   }
 

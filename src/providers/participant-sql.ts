@@ -53,7 +53,7 @@ export class ParticipantSql extends BaseSql{
       {name:"name_rus_upper", type:"text"},
       ]
     );
-    console.log('Hello ThematicConferenceSql Provider');
+    //console.log('Hello ThematicConferenceSql Provider');
    /* this.openDb();*/
   }
 
@@ -98,12 +98,12 @@ export class ParticipantSql extends BaseSql{
         participantSingle.place,
         participantSingle.thematic,
         participantSingle.name_rus.toUpperCase()], (r) => {
-        console.log('Inserted... Sucess..', parseInt(participantSingle.id));
+        //console.log('Inserted... Sucess..', parseInt(participantSingle.id));
         this.select().then(s => {
           resolve(true)
         });
       }, e => {
-        console.log('Inserted Error', e);
+        //console.log('Inserted Error', e);
         resolve(false);
       })
     })
@@ -119,12 +119,12 @@ export class ParticipantSql extends BaseSql{
     return new Promise(res => {
       let query = "UPDATE Todo SET todoItem=?  WHERE id=?";
       this.db.executeSql(query, [txt, id], (s) => {
-        console.log('Update Success...', s);
+        //console.log('Update Success...', s);
         this.select().then(s => {
           res(true);
         });
       }, (err) => {
-        console.log('Updating Error', err);
+        //console.log('Updating Error', err);
       });
     })
 

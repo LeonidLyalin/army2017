@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {AlertController, Events, NavController, NavParams} from 'ionic-angular';
-import {QRScanner, QRScannerStatus} from '@ionic-native/qr-scanner';
+
 import {BaseSql} from "../../providers/base-sql";
 import {Http} from "@angular/http";
 import {BaseLangPageProvider} from "../../providers/base-lang-page/base-lang-page";
@@ -32,18 +32,18 @@ export class QrScannerPage extends BaseLangPageProvider {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public qrScanner: QRScanner,
+              //public qrScanner: QRScanner,
               public http: Http,
               public alertCtrl: AlertController,
               public events: Events) {
     super(navCtrl, events, http);
-    console.log('create QrScannerPage');
+    //console.log('create QrScannerPage');
 
   }
 
   ionViewDidLoad() {
     super.ionViewDidLoad();
-    console.log('ionViewDidLoad QrScannerPage');
+    //console.log('ionViewDidLoad QrScannerPage');
     //  this.scan2();
 
   }
@@ -96,24 +96,24 @@ export class QrScannerPage extends BaseLangPageProvider {
 
     Прототип Object*/
   scan2() {
-    this.qrScanner.prepare()
+    /*this.qrScanner.prepare()
       .then((status: QRScannerStatus) => {
-        console.log("status=", status);
+        //console.log("status=", status);
         if (status.authorized) {
           // camera permission was granted
 
-          console.log("start scanning");
+          //console.log("start scanning");
           // start scanning
 
           let scanSub = this.qrScanner.scan().subscribe((text: string) => {
-            console.log('Scanned something', text);
+            //console.log('Scanned something', text);
             //alert(text);
             this.qrScanner.hide(); // hide camera preview
             scanSub.unsubscribe(); // stop scanning
           });
 
           // show camera preview
-          this.qrScanner.show().then(data => console.log(data),err => console.log(err));
+          this.qrScanner.show().then(data => //console.log(data),err => //console.log(err));
 
           // wait for user to scan something, then the observable callback will be called
 
@@ -127,13 +127,13 @@ export class QrScannerPage extends BaseLangPageProvider {
           alert('denied slightly');
         }
       })
-      .catch((e: any) => console.log('Error is', e));
+      .catch((e: any) => //console.log('Error is', e));*/
   }
 
   scan() {
 
 // Optionally request the permission early
-    this.qrScanner.prepare()
+   /* this.qrScanner.prepare()
       .then((status: QRScannerStatus) => {
         if (status.authorized) {
           // camera permission was granted
@@ -141,7 +141,7 @@ export class QrScannerPage extends BaseLangPageProvider {
 
           // start scanning
           let scanSub = this.qrScanner.scan().subscribe((qrcode: string) => {
-            console.log('Scanned something', qrcode);
+            //console.log('Scanned something', qrcode);
             this.qrScanner.show();
             this.qrScanner.hide(); // hide camera preview
             scanSub.unsubscribe(); // stop scanning
@@ -168,16 +168,16 @@ export class QrScannerPage extends BaseLangPageProvider {
                         {
                           text: this.yesStr,
                           handler: () => {
-                            console.log('Yes clicked');
+                            //console.log('Yes clicked');
                             tableMyForum.addToMyForumSite(rec.id, this.participantId, this.userId).then(res => {
-                              console.log(rec.name_rus, " added");
+                              //console.log(rec.name_rus, " added");
                             })
                           }
                         },
                         {
                           text: this.noStr,
                           handler: () => {
-                            console.log('No clicked');
+                            //console.log('No clicked');
                           }
                         }
                       ]
@@ -211,16 +211,16 @@ export class QrScannerPage extends BaseLangPageProvider {
                             {
                               text: this.yesStr,
                               handler: () => {
-                                console.log('Yes clicked');
+                                //console.log('Yes clicked');
                                 tableMyForum.addToMyForumSite(rec.id, this.conferenceId, this.userId).then(res => {
-                                  console.log(rec.name_rus, " added");
+                                  //console.log(rec.name_rus, " added");
                                 });
                               }
                             },
                             {
                               text: this.noStr,
                               handler: () => {
-                                console.log('No clicked');
+                                //console.log('No clicked');
                               }
                             }
                           ]
@@ -251,7 +251,7 @@ export class QrScannerPage extends BaseLangPageProvider {
           // permission was denied, but not permanently. You can ask for permission again at a later time.
         }
       })
-      .catch((e: any) => console.log('Error is', e));
+      .catch((e: any) => //console.log('Error is', e));*/
 
   }
 

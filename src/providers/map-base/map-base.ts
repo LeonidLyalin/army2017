@@ -2,7 +2,7 @@ import {Injectable, ViewChild} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {place, PlaceSql} from "../place-sql/place-sql";
 import {AlertController, NavController, NavParams, ToastController} from "ionic-angular";
-import {PlaceApi} from "../../pages/shared/place/place-api-service";
+import {PlaceApi} from "../place/place-api-service";
 import {DrawFunctionProvider} from "../draw-function/draw-function";
 import {ParticipantDetailPage} from "../../pages/participant-detail/participant-detail";
 
@@ -39,7 +39,7 @@ export class MapBaseProvider {
               width:number,
               height:number,
               name_map:string) {
-    console.log('Hello MapBaseProvider Provider');
+    //console.log('Hello MapBaseProvider Provider');
     this.width_map = width;
     this.height_map = height;
     this.name_map = name_map;
@@ -47,9 +47,9 @@ export class MapBaseProvider {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HallAMapPage');
+    //console.log('ionViewDidLoad HallAMapPage');
     //check if there are data in the base
-    console.log("this.places.length=", this.places.length);
+    //console.log("this.places.length=", this.places.length);
     if (!this.places.length) {
       let toast = this.toastCtrl.create({
         message: 'Чтение из базы',
@@ -67,14 +67,14 @@ export class MapBaseProvider {
       toast.present();
       this.placeSql.selectWhere('map='+'"'+this.name_map+'"').then(
         res => {
-          console.log("res=", res);
+          //console.log("res=", res);
           let length = (<place[]>res).length;
-          console.log("length=", length);
+          //console.log("length=", length);
           if ((<place[]>res).length) {
             //if there are records in database
-            console.log("res=", res);
+            //console.log("res=", res);
             this.places = <place[]>res;
-            console.log("this.places=", this.places);
+            //console.log("this.places=", this.places);
           }
           else {
             //if not - go to api
@@ -82,7 +82,7 @@ export class MapBaseProvider {
               message: 'В базе нет записей. Запрос API',
               duration: 2000
             });
-            console.log('В базе нет записей. Запрос API и запись базы');
+            //console.log('В базе нет записей. Запрос API и запись базы');
             toast.present();
             this.getPlaceApiInsertBase();
 
@@ -94,12 +94,12 @@ export class MapBaseProvider {
 
   addItemPlace() {
     for (let placeSingle of this.places) {
-      console.log('try to insert place');
-      console.log(<place>placeSingle);
+      //console.log('try to insert place');
+      //console.log(<place>placeSingle);
       this.placeSql.addItemPlace(placeSingle
       ).then(res => {
-          console.log('success insert into thematic');
-          console.log(res);
+          //console.log('success insert into thematic');
+          //console.log(res);
         }
       ).catch(err => {
         console.error('Unable to insert storage tables thametic', err.tx, err.err);
@@ -119,10 +119,10 @@ export class MapBaseProvider {
 
 
     //alert(placeSingle.id + "  " + placeSingle.name_rus);
-    console.log("placeSingle in areaClick=", placeSingle);
+    //console.log("placeSingle in areaClick=", placeSingle);
     if (placeSingle.id) {
       this.placeSql.getPlaceParticipant(placeSingle.id).then(res => {
-        console.log(res);
+        //console.log(res);
         if (res) {
 
           this.navCtrl.push(ParticipantDetailPage, {
@@ -140,12 +140,12 @@ export class MapBaseProvider {
   getPlaceApi() {
     this.placeApi.getPlace(this.name_map).subscribe(res => {
 
-      console.log(res);
+      //console.log(res);
       for (let item of res) {
-        console.log("item of res=", item);
+        //console.log("item of res=", item);
         let tmpCoord: place;
         let tmpShape: string = '';
-        console.log(item.coords);
+        //console.log(item.coords);
         if (item.coords) {
           /* if (item.coords.length > 4) tmpShape = "poly"
            else tmpShape = "rect";*/
@@ -161,30 +161,30 @@ export class MapBaseProvider {
             shape: tmpShape
 
           };
-          console.log("tmpCoord=", tmpCoord);
+          //console.log("tmpCoord=", tmpCoord);
           this.places.push(tmpCoord);
         }
 
       }
-      console.log("this.places=", this.places);
+      //console.log("this.places=", this.places);
     });
 
   }
 
   drawFigure(placeSingle: place, event) {
-    console.log("placeSingle=", placeSingle);
+    //console.log("placeSingle=", placeSingle);
     //  alert(placeSingle.name_rus);
     this.drawFunction.drawFigure(placeSingle, this.drawingCanvas, this.imageMap, event);
     this.participant_name = '';
-    console.log("placeSingle.id=", placeSingle.id);
+    //console.log("placeSingle.id=", placeSingle.id);
     if (placeSingle.id) {
       this.placeSql.getPlaceParticipant(placeSingle.id).then(res => {
-        console.log(res);
+        //console.log(res);
         if (res) {
           this.participant_name = (<any>res).name_rus;
-          console.log("res in draw figure=", res);
-          console.log("(<any>res).name_rus=", (<any>res).name_rus);
-          console.log("participant_name=", this.participant_name);
+          //console.log("res in draw figure=", res);
+          //console.log("(<any>res).name_rus=", (<any>res).name_rus);
+          //console.log("participant_name=", this.participant_name);
           let alert = this.alertCtrl.create({
             title: placeSingle.name_rus,
             message: this.participant_name,
@@ -204,10 +204,10 @@ export class MapBaseProvider {
 
       })
     }
-    console.log("participant_name near alert1=", this.participant_name);
+    //console.log("participant_name near alert1=", this.participant_name);
     // alert(this.participant_name);
 
-    console.log("participant_name near alert=", this.participant_name);
+    //console.log("participant_name near alert=", this.participant_name);
     //  alert1.setMessage(participant_name1);
 
 
@@ -221,9 +221,9 @@ export class MapBaseProvider {
     toast.present();
     return this.placeApi.getPlace(this.name_map).subscribe(res => {
       this.places = [];
-      console.log("getPlaceApi res=", res);
+      //console.log("getPlaceApi res=", res);
       for (let item of res) {
-        console.log("item of res=", item);
+        //console.log("item of res=", item);
         this.places.push(<place>item);
         this.placeSql.addItemPlace(<place>item);
       }

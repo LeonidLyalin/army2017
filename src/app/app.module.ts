@@ -15,44 +15,40 @@ import {BrowserModule} from "@angular/platform-browser";
 import {StatusBar} from "@ionic-native/status-bar";
 import {ParticipantPage} from "../pages/participant/participant";
 
-import {ParticipantApi} from "../pages/shared/participant/participant-api.service";
+import {ParticipantApi} from "../providers/participant/participant-api.service";
 
 import {SQLite} from '@ionic-native/sqlite'
 import {MyForumPage} from "../pages/my-forum/my-forum";
-import {MyForumApi} from "../pages/shared/my-forum/my-forum-api";
+import {MyForumApi} from "../providers/my-forum/my-forum-api";
 import {MyForumSql} from "../providers/my-forum-sql";
 import {ParticipantDetailPage} from "../pages/participant-detail/participant-detail";
-import {UserData} from "../pages/providers/user-data";
+import {UserData} from "../providers/user-data";
 import {LoginPage} from "../pages/login/login";
 import {IonicStorageModule} from '@ionic/storage';
-import {ConferenceData} from "../pages/providers/conference-data";
+
 import {SupportPage} from "../pages/support/support";
 import {SignupPage} from "../pages/signup/signup";
-import {SchedulePage} from "../pages/schedule/schedule";
 
-import {SpeakerListPage} from "../pages/speaker-list/speaker-list";
+
+
 import {TutorialPage} from "../pages/tutorial/tutorial";
-import {UserApi} from "../pages/shared/user/user-api.service";
+import {UserApi} from "../providers/user/user-api.service";
 
 import {ParkPatriotPage} from "../pages/park-patriot-all/park-patriot/park-patriot";
 import {WarTacticPage} from "../pages/park-patriot-all/war-tactic-page/war-tactic-page";
-import {ForumMapPage} from "../pages/maps/forum-map/forum-map";
+
 import {SectorVksPage} from "../pages/park-patriot-all/sektor-vks-page/sector-vks-page";
 import {DemoOpkPage} from "../pages/park-patriot-all/demo-opk-page/demo-opk-page";
 
-import {WaterClusterMapPage} from "../pages/maps/water-cluster-map/water-cluster-map";
-import {GroundClusterMapPage} from "../pages/maps/ground-cluster-map/ground-cluster-map";
-import {AirClusterMapPage} from "../pages/maps/air-cluster-map/air-cluster-map";
-import {ParkPatriotMapPage} from "../pages/maps/park-patriot-map/park-patriot-map";
+
+
 import {PlaceSql} from '../providers/place-sql/place-sql';
 import {ThematicSql} from '../providers/thematic-sql';
 import {ThematicPage} from "../pages/thematic/thematic";
-import {ThematicApi} from "../pages/shared/thematic/thematic-api-service";
-import {PatriotExpoMapPage} from "../pages/maps/patriot-expo-map/patriot-expo-map";
-import {PlaceApi} from "../pages/shared/place/place-api-service";
-import {HallAMapPage} from "../pages/maps/hall-a-map/hall-a-map";
-import {HallBMapPage} from "../pages/maps/hall-b-map/hall-b-map";
-import {ForumMap1Page} from "../pages/maps/forum-map1/forum-map1";
+import {ThematicApi} from "../providers/thematic/thematic-api-service";
+
+import {PlaceApi} from "../providers/place/place-api-service";
+
 import {DrawFunctionProvider} from '../providers/draw-function/draw-function';
 import {ConferenceSql} from '../providers/conference-sql/conference-sql';
 import {ThematicConferenceSql} from '../providers/thematic-conference-sql/thematic-conference-sql';
@@ -62,10 +58,9 @@ import {ConferenceApi} from "../providers/conference-sql/conference-api-service"
 import {MapSql} from "../providers/map-sql/map-sql";
 
 import {ConferenceDetailPage} from "../pages/conference-detail/conference-detail";
-import {BaseApi} from "../pages/shared/base-api-service";
-import {HallCMapPage} from "../pages/maps/hall-c-map/hall-c-map";
-import {HallDMapPage} from "../pages/maps/hall-d-map/hall-d-map";
-import { MapBaseProvider } from '../providers/map-base/map-base';
+import {BaseApi} from "../providers/base-api-service";
+
+import {MapBaseProvider } from '../providers/map-base/map-base';
 import {LeafletMapPage} from "../pages/maps/leaflet-map/leaflet-map";
 import {FilterPage} from "../pages/filter/filter";
 import {FilterParticipantPage} from "../pages/filter/filter-participant/filter-participant";
@@ -83,9 +78,16 @@ import { BaseListPageProvider } from '../providers/base-list-page/base-list-page
 import { CustomIconsModule } from 'ionic2-custom-icons';
 import {MapHelpPage} from "../pages/help/map-help/map-help";
 import {QrScannerPage} from "../pages/qr-scanner/qr-scanner";
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+//import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import {BarScannerPage} from "../pages/bar-scanner/bar-scanner";
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
+import {ExhibitPage} from "../pages/exhibit/exhibit";
+import {FilterExhibitPage} from "../pages/filter/filter-exhibit/filter-exhibit";
+import {ExhibitHelpPage} from "../pages/help/exhibit-help/exhibit-help";
+import {ExhibitApiService} from "../providers/exhibit/exhibit-api-service";
+import {ExhibitSql} from "../providers/exhibit/exhibit-sql";
+import {FilterExhibitProvider} from "../providers/filter-provider/filter-exhibit-provider";
+import {ExhibitDetailPage} from "../pages/exhibit-detail/exhibit-detail";
 
 
 
@@ -94,7 +96,6 @@ import {BarcodeScanner} from "@ionic-native/barcode-scanner";
   declarations: [
     MyApp,
     AboutPage,
-
     HomePage,
     TabsPage,
     SettingsPage,
@@ -106,40 +107,29 @@ import {BarcodeScanner} from "@ionic-native/barcode-scanner";
     LoginPage,
     SupportPage,
     SignupPage,
-    SchedulePage,
-    SpeakerListPage,
     TutorialPage,
-
-
     ParkPatriotPage,
     WarTacticPage,
-    ForumMapPage,
     SectorVksPage,
     DemoOpkPage,
-
-    WaterClusterMapPage,
-    GroundClusterMapPage,
-    AirClusterMapPage,
-    ParkPatriotMapPage,
     ThematicPage,
-    PatriotExpoMapPage,
-    HallAMapPage,
-    HallBMapPage,
-    ForumMap1Page,
     ConferencePage,
     ConferenceDetailPage,
-    HallCMapPage,
-    HallDMapPage,
     LeafletMapPage,
     FilterPage,
     FilterParticipantPage,
     FilterConferencePage,
+    FilterExhibitPage,
     DemoProgramPage,
     ParticipantHelpPage,
     ConferenceHelpPage,
+    ExhibitHelpPage,
     MapHelpPage,
     QrScannerPage,
-    BarScannerPage
+    BarScannerPage,
+    ExhibitPage,
+    ExhibitDetailPage,
+
 
 
 
@@ -152,7 +142,6 @@ import {BarcodeScanner} from "@ionic-native/barcode-scanner";
       }, {
       links: [
         { component: TabsPage, name: 'TabsPage', segment: 'tabs-page' },
-        { component: SchedulePage, name: 'Schedule', segment: 'schedule' },
         { component: AboutPage, name: 'About', segment: 'about' },
         { component: TutorialPage, name: 'Tutorial', segment: 'tutorial' },
         { component: SupportPage, name: 'SupportPage', segment: 'support' },
@@ -168,49 +157,35 @@ import {BarcodeScanner} from "@ionic-native/barcode-scanner";
   entryComponents: [
     MyApp,
     AboutPage,
-
     HomePage,
     TabsPage,
     SettingsPage,
     AccountPage,
     EventPage,
     ParticipantPage,
+    ConferencePage,
     MyForumPage,
     ParticipantDetailPage,
     LoginPage,
     SupportPage,
     SignupPage,
-    SchedulePage,
-    SpeakerListPage,
     TutorialPage,
-
     ParkPatriotPage,
     WarTacticPage,
-    ForumMapPage,
     SectorVksPage,
     DemoOpkPage,
-
-    WaterClusterMapPage,
-    GroundClusterMapPage,
-    AirClusterMapPage,
-    ParkPatriotMapPage,
-    ThematicPage,
-    PatriotExpoMapPage,
-    HallAMapPage,
-    HallBMapPage,
-    ForumMap1Page,
-    ConferencePage,
-    ConferenceDetailPage,
-    HallCMapPage,
-    HallDMapPage,
     LeafletMapPage,
     FilterPage,
     DemoProgramPage,
     ParticipantHelpPage,
     ConferenceHelpPage,
+    ExhibitHelpPage,
     MapHelpPage,
     QrScannerPage,
-    BarScannerPage
+    BarScannerPage,
+    ExhibitPage,
+    ExhibitDetailPage,
+    ConferenceDetailPage
 
 
 
@@ -223,8 +198,6 @@ import {BarcodeScanner} from "@ionic-native/barcode-scanner";
     MyForumApi,
     UserApi,
     UserData,
-
-    ConferenceData,
     ParticipantSql,
     PlaceApi,
     MyForumSql,
@@ -236,23 +209,24 @@ import {BarcodeScanner} from "@ionic-native/barcode-scanner";
     ConferenceSql,
     ThematicConferenceSql,
     ConferenceApi,
-
     ConferenceApi,
     MapSql,
-
     BaseApi,
     MapBaseProvider,
     FilterParticipantPage,
     FilterConferencePage,
-    FilterParticipantProvider,
+    FilterExhibitPage,
     LanguageProvider,
+    FilterParticipantProvider,
     FilterConferenceProvider,
     TableActionSql,
     BaseLangPageProvider,
     BaseListPageProvider,
-
-    QRScanner,
-    BarcodeScanner
+    //QRScanner,
+    BarcodeScanner,
+    ExhibitApiService,
+    ExhibitSql,
+    FilterExhibitProvider
 
 
 

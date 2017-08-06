@@ -15,9 +15,9 @@ export class ConferenceDetailPage extends BaseLangPageProvider {
   conferenceSingle: any;
   thematic: any;
   myForum: any;
-  userId: any;
+
   iblockId: any = 14;
-  lang: string;
+
 
   //interface strings
   title: string;
@@ -33,8 +33,8 @@ export class ConferenceDetailPage extends BaseLangPageProvider {
               public events: Events,
               public http: Http) {
     super(NavCtrl, events, http);
-    console.log("now in conference detail");
-    console.log(navParams);
+    //console.log("now in conference detail");
+    //console.log(navParams);
     this.thematic = [];
     if (navParams.data.conferenceSingle)
       this.conferenceSingle = navParams.data.conferenceSingle;
@@ -52,7 +52,7 @@ export class ConferenceDetailPage extends BaseLangPageProvider {
 
        this.lang = localStorage.getItem('lang');
        if (this.lang == 'ru') {
-         console.log('this.events.subscribe(language:change)', this.lang);
+         //console.log('this.events.subscribe(language:change)', this.lang);
          this.setRussianStrings();
        }
        else {
@@ -85,19 +85,19 @@ export class ConferenceDetailPage extends BaseLangPageProvider {
     this.thematicConferenceSql.getThematicOfConference(this.conferenceSingle.id).then(
       res => {
         if (res) {
-          console.log("res in thematicConference page=", res);
+          //console.log("res in thematicConference page=", res);
           this.thematic = <any>res;
 
-          this.conferenceDetailSql.getFieldFromTable(this.conferenceSingle.id, 'id', 'myforum').then(
+        /*  this.conferenceDetailSql.getFieldFromTable(this.conferenceSingle.id, 'id', 'myforum').then(
             //getMyForumForId(this.conferenceSingle.id).then(
             rs => {
               if (rs) {
-                console.log("res in conferenceSingle myForumParticipant", rs);
+                //console.log("res in conferenceSingle myForumParticipant", rs);
                 this.myForum = <any>rs;
               }
 
             }
-          )
+          );*/
         }
       }
     );

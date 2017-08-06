@@ -1,0 +1,103 @@
+
+<ion-scroll scrollY="true">
+<ion-list *ngIf="lang=='ru'" scrollY="true">
+  <ion-item text-wrap>
+    {{titleStr}}
+  </ion-item>
+  <ion-item>
+
+    <ion-label text-wrap>Вызвать установку фильтра</ion-label>
+    <button ion-button icon-only item-right color="army-red">
+      <ion-icon name="search"></ion-icon>
+    </button>
+  </ion-item>
+  <ion-item>
+
+    <ion-label text-wrap>Показать элементы списка на карте</ion-label>
+    <button ion-button icon-only item-right color="army-red">
+      <ion-icon name="map"></ion-icon>
+    </button>
+  </ion-item>
+  <ion-item>
+
+    <ion-label text-wrap>Сбросить единичный параметр фильтра</ion-label>
+    <button ion-button icon-only item-right color="army-red">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </ion-item>
+  <ion-item>
+
+    <ion-label text-wrap>Выбрать значение фильтра из списка</ion-label>
+    <button ion-button icon-only item-right color="army-red">
+      <ion-icon name="list"></ion-icon>
+    </button>
+  </ion-item>
+  <ion-item>
+
+    <ion-label text-wrap>Установить фильтр</ion-label>
+    <button ion-button icon-only item-right color="army-red">
+      <ion-icon name="checkmark"></ion-icon>
+    </button>
+  </ion-item>
+  <ion-item>
+    <ion-label text-wrap>Сбросить все параметры фильтра</ion-label>
+    <button ion-button icon-only item-right color="army-red">
+      <ion-icon name="close-circle"></ion-icon>
+    </button>
+  </ion-item>
+  <ion-item>
+    <ion-label text-wrap>Нажатие на элемент списка - переход к его детальному описанию</ion-label>
+  </ion-item>
+</ion-list>
+
+<ion-list *ngIf="lang=='en'" scrollY="true">
+  <ion-item text-wrap>
+    {{titleStr}}
+  </ion-item>
+  <ion-item>
+
+    <ion-label text-wrap>Set filter form</ion-label>
+    <button ion-button icon-only item-right color="army-red">
+      <ion-icon name="search"></ion-icon>
+    </button>
+  </ion-item>
+  <ion-item>
+
+    <ion-label text-wrap>Show list of elements on the map</ion-label>
+    <button ion-button icon-only item-right color="army-red">
+      <ion-icon name="map"></ion-icon>
+    </button>
+  </ion-item>
+  <ion-item>
+
+    <ion-label text-wrap>Cancel the parameter of filter</ion-label>
+    <button ion-button icon-only item-right color="army-red">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </ion-item>
+  <ion-item>
+
+    <ion-label text-wrap>Choose value for filter from the list</ion-label>
+    <button ion-button icon-only item-right color="army-red">
+      <ion-icon name="list"></ion-icon>
+    </button>
+  </ion-item>
+  <ion-item>
+
+    <ion-label text-wrap>Set filter</ion-label>
+    <button ion-button icon-only item-right color="army-red">
+      <ion-icon name="checkmark"></ion-icon>
+    </button>
+  </ion-item>
+  <ion-item>
+    <ion-label text-wrap>Cancel all parameters of the filter</ion-label>
+    <button ion-button icon-only item-right color="army-red">
+      <ion-icon name="close-circle"></ion-icon>
+    </button>
+  </ion-item>
+  <ion-item>
+    <ion-label text-wrap>Click on the element - go to the detail page</ion-label>
+  </ion-item>
+
+</ion-list>
+</ion-scroll>

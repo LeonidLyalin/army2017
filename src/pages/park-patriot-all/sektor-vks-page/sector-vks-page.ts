@@ -18,7 +18,7 @@ export class SectorVksPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SectorVksPage');
+    //console.log('ionViewDidLoad SectorVksPage');
   }
 
 }

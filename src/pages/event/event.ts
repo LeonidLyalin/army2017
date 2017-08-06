@@ -20,11 +20,11 @@ export class EventPage {
 
   constructor(public navCtrl: NavController, public http: Http) {
 //events list from bitirix
-    console.log('список событий');
+    //console.log('список событий');
     this.http.get('http://army2017.ru/api/event_list.php').map(res => res.json()).subscribe(data => {
-      console.log(data.data);
+      //console.log(data.data);
       this.events = data.data.company;
-      console.log(this.events)
+      //console.log(this.events)
     });
 
   }

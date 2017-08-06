@@ -3,7 +3,7 @@ import {Component} from '@angular/core';
 import {HomePage} from '../home/home';
 import {AboutPage} from '../about/about';
 import {MyForumPage} from "../my-forum/my-forum";
-import {ForumMap1Page} from "../maps/forum-map1/forum-map1";
+
 import {Events, NavController} from "ionic-angular";
 import {BaseLangPageProvider} from "../../providers/base-lang-page/base-lang-page";
 import {Http} from "@angular/http";

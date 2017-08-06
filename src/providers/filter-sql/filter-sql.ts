@@ -29,11 +29,11 @@ export class FilterSql extends BaseSql {
   constructor(public http: Http, tableName:string) {
 
     super(http, tableName);
-    console.log('Hello ThematicSql Provider');
+    //console.log('Hello ThematicSql Provider');
 
 
     this.countTable().then(res => {
-      console.log("after count table", res);
+      //console.log("after count table", res);
     })
   }
 

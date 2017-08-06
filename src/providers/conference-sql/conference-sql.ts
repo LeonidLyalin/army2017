@@ -148,12 +148,12 @@ addFromApi(){
         conferenceSingle.name_rus.toUpperCase()
 
       ], (r) => {
-        console.log('Inserted... Sucess..', parseInt(conferenceSingle.id));
+        //console.log('Inserted... Sucess..', parseInt(conferenceSingle.id));
         this.select().then(s => {
           resolve(true)
         });
       }, e => {
-        console.log('Inserted Error', e);
+        //console.log('Inserted Error', e);
         resolve(false);
       })
     })

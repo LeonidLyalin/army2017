@@ -1,0 +1,12 @@
+page-exhibit-help button {
+  width: 10%; }
+@media (max-height: 960px) {
+  page-exhibit-help ion-scroll {
+    height: 500px;
+    width: 100%; } }
+@media (min-height: 961px) {
+  page-exhibit-help ion-scroll {
+    height: 700px;
+    width: 100%; } }
+
+/*# sourceMappingURL=exhibit-help.css.map

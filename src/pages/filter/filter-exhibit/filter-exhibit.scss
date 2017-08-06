@@ -1,0 +1,35 @@
+@import "../../../theme/variables.scss";
+page-filter-exhibit {
+  ion-navbar {
+    .toolbar-background {
+      background-color: white;
+      color: map_get($colors,"army-red");
+    }
+
+  }
+
+  button {
+    width: 10%;
+  }
+
+  @media (max-height: 960px) {
+    ion-scroll {
+      height:400px;
+      width:100%;
+
+    }
+  }
+
+  @media (min-height: 961px) {
+    ion-scroll {
+      height:600px;
+      width:100%;
+
+    }
+
+
+  }
+  i {
+    color: rgb(140,10,20);
+  }
+}

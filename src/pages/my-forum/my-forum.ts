@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 
 
 import {MyForumSql} from "../../providers/my-forum-sql";
-import {UserData} from "../providers/user-data";
+import {UserData} from "../../providers/user-data";
 import {ParticipantDetailPage} from "../participant-detail/participant-detail";
 import {ConferenceDetailPage} from "../conference-detail/conference-detail";
 import {PlaceSql, place} from "../../providers/place-sql/place-sql";
@@ -63,7 +63,7 @@ export class MyForumPage {
 
       this.lang = localStorage.getItem('lang');
       if (this.lang == 'ru') {
-        console.log('this.events.subscribe(language:change)', this.lang);
+        //console.log('this.events.subscribe(language:change)', this.lang);
         this.setRussianStrings();
       }
       else {
@@ -93,13 +93,13 @@ export class MyForumPage {
   getApi() {
     //get My Forum for the User
     if (!this.userId) alert("Незарегистрированный пользователь");
-    console.log('run promise for myForumParticipant. run!');
+    //console.log('run promise for myForumParticipant. run!');
     this.http.get('http://army2017.ru/api/my_forum/my_forum_list.php?USER=' + this.userId + '&LOWERCASE=1').map(res => res.json()).subscribe(data => {
       this.myForumApi = data;
-      console.log(this.myForumApi);
-      console.log('delete all');
+      //console.log(this.myForumApi);
+      //console.log('delete all');
       this.sqlMyForum.delAll();
-      console.log('insert new elements for myforum');
+      //console.log('insert new elements for myforum');
       this.sqlMyForum.addItemList(this.myForumApi);
       if (this.lang == 'ru') {
         this.selectParticipantRus();
@@ -117,18 +117,18 @@ export class MyForumPage {
 
   ionViewDidLoad() {
 //    this.openDataBase();
-    console.log('ionViewDidLoad MyForumPage');
-    console.log('getIP');
-    console.log('try to get userID');
+    //console.log('ionViewDidLoad MyForumPage');
+    //console.log('getIP');
+    //console.log('try to get userID');
     try {
       this.userId = localStorage.getItem('userid');//this.userData.getUserId();
       this.refreshMyForum();
     }
     catch (err) {
-      console.log(err);
+      //console.log(err);
       this.userId = 0;
     }
-    console.log('userid=', this.userId);
+    //console.log('userid=', this.userId);
 
 
 
@@ -139,17 +139,17 @@ export class MyForumPage {
   }
 
  refreshMyForum() {
-    console.log("refreshMyForum");
+    //console.log("refreshMyForum");
     this.getApi();
 
 
   }
 
   selectParticipantRus() {
-    console.log('selectParticipantRus');
+    //console.log('selectParticipantRus');
     this.sqlMyForum.getRusParticipantMyForum(this.userId).then(res => {
-      console.log('our select');
-      console.log(res);
+      //console.log('our select');
+      //console.log(res);
       this.myForumParticipant = res;
     })
 
@@ -157,10 +157,10 @@ export class MyForumPage {
 
 
   selectParticipantEng() {
-    console.log('selectParticipantEng');
+    //console.log('selectParticipantEng');
     this.sqlMyForum.getEngParticipantMyForum(this.userId).then(res => {
-      console.log('our select');
-      console.log(res);
+      //console.log('our select');
+      //console.log(res);
       this.myForumParticipant = res;
     })
 
@@ -168,10 +168,10 @@ export class MyForumPage {
 
 
   selectConferenceRus() {
-    console.log('selectConferenceRus');
+    //console.log('selectConferenceRus');
     this.sqlMyForum.getRusConferenceMyForum(this.userId).then(res => {
-      console.log('our select');
-      console.log(res);
+      //console.log('our select');
+      //console.log(res);
       this.myForumConference = res;
     })
 
@@ -179,10 +179,10 @@ export class MyForumPage {
 
 
   selectConferenceEng() {
-    console.log('selectConferenceEng');
+    //console.log('selectConferenceEng');
     this.sqlMyForum.getEngConferenceMyForum(this.userId).then(res => {
-      console.log('our select');
-      console.log(res);
+      //console.log('our select');
+      //console.log(res);
       this.myForumConference = res;
     })
 
@@ -195,21 +195,21 @@ export class MyForumPage {
 
 /*
   selectItems() {
-    //console.log("this.myForumParticipant");
+    ////console.log("this.myForumParticipant");
     // this.myForumParticipant=this.sqlMyForum.getRows2();
 
-    //console.log(this.myForumParticipant);
+    ////console.log(this.myForumParticipant);
     this.sqlMyForum.select().then(res => {
-      console.log('our select');
-      console.log(res);
+      //console.log('our select');
+      //console.log(res);
       this.myForumParticipant = res;
     })
   }
 */
 
   goToParticipantDetail(participant) {
-    console.log("goToParticipantDetail()");
-    console.log(participant);
+    //console.log("goToParticipantDetail()");
+    //console.log(participant);
     // go to the session detail page
     // and pass in the session data
     this.navCtrl.push(ParticipantDetailPage, {
@@ -225,8 +225,8 @@ export class MyForumPage {
 
 
   goToConferenceDetail(conferenceSingle) {
-    console.log("goToParticipantDetail()");
-    console.log(conferenceSingle);
+    //console.log("goToParticipantDetail()");
+    //console.log(conferenceSingle);
     // go to the session detail page
     // and pass in the session data
     this.navCtrl.push(ConferenceDetailPage, {
@@ -240,7 +240,7 @@ export class MyForumPage {
       this.placeSql.select().then(res => {
         let place: place[] = (<place[]>res);
         this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
-          console.log("res=", res);
+          //console.log("res=", res);
           let map = <map[]>res;
           this.navCtrl.push(LeafletMapPage, {
             typeOfMap: 'conference',
@@ -256,7 +256,7 @@ export class MyForumPage {
       this.placeSql.select().then(res => {
         let place: place[] = (<place[]>res);
         this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
-          console.log("res=", res);
+          //console.log("res=", res);
           let map = <map[]>res;
           this.navCtrl.push(LeafletMapPage, {
             typeOfMap: 'participant',

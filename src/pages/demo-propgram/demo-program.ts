@@ -7,7 +7,7 @@ import {ConferenceDetailPage} from "../conference-detail/conference-detail";
 import {MapSql} from "../../providers/map-sql/map-sql";
 import {place, PlaceSql} from "../../providers/place-sql/place-sql";
 import {FilterConferenceProvider} from "../../providers/filter-provider/filter-conference-provider";
-import {BaseApi} from "../shared/base-api-service";
+import {BaseApi} from "../../providers/base-api-service";
 
 
 @Component({
@@ -43,7 +43,7 @@ export class DemoProgramPage {
 
   filterStr: string;
   /**
-   * @TODO change ConferenceApi for Base api for ConferenceSql
+   * @TODO change BaseApi for Base api for ConferenceSql
    */
   constructor(public navCtrl: NavController,
               public http: Http,
@@ -64,18 +64,18 @@ export class DemoProgramPage {
 
 
     this.demoProgramList = [];
-    console.log("navParams in constructor", navParams);
-    console.log("navParams==null", this.navParams == null);
-    console.log("navParams.data.length", navParams.data.length);
+    //console.log("navParams in constructor", navParams);
+    //console.log("navParams==null", this.navParams == null);
+    //console.log("navParams.data.length", navParams.data.length);
     let param = navParams.get('select');
-    console.log("navParams.get('select')", param);
+    //console.log("navParams.get('select')", param);
     if (param == 'thematicConference') {
       let toast = this.toastCtrl.create({
         message: 'Загрузка из API ',
         duration: 5000
       });
       toast.present();
-      console.log("navParams.data", navParams.data.data);
+      //console.log("navParams.data", navParams.data.data);
       this.demoProgramList = navParams.data.data;
     }
 
@@ -84,7 +84,7 @@ export class DemoProgramPage {
 
       this.lang = localStorage.getItem('lang');
       if (this.lang == 'ru') {
-        console.log('this.events.subscribe(language:change)', this.lang);
+        //console.log('this.events.subscribe(language:change)', this.lang);
         this.setRussianStrings();
       }
       else {
@@ -100,16 +100,16 @@ export class DemoProgramPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ');
+    //console.log('ionViewDidLoad ');
 
     this.userId = localStorage.getItem('userid');
 
-    console.log("this.navParams=", this.navParams);
-    console.log("this.navParams.data=", this.navParams.data);
-    console.log("navParams==null", this.navParams == null);
+    //console.log("this.navParams=", this.navParams);
+    //console.log("this.navParams.data=", this.navParams.data);
+    //console.log("navParams==null", this.navParams == null);
     let param = this.navParams.get('select');
     if (param == 'thematicConference') {
-      console.log("this.navParams in ioViewDidLoad =", this.navParams);
+      //console.log("this.navParams in ioViewDidLoad =", this.navParams);
       this.demoProgramList = this.navParams.data;
     }
     else {
@@ -120,14 +120,14 @@ export class DemoProgramPage {
   }
 
   conferenceRefresh() {
-    console.log("this.selectConferenceAll()");
+    //console.log("this.selectConferenceAll()");
     let toast = this.toastCtrl.create({
       message: 'Загрузка из базы ',
       duration: 5000
     });
     toast.present();
     this.selectConferenceAll();
-    console.log("step 1");
+    //console.log("step 1");
 
 
 
@@ -137,11 +137,11 @@ export class DemoProgramPage {
 
 
   /*getConferenceApi() {
-    console.log('run promise. run!');
+    //console.log('run promise. run!');
 
     this.demoProgramApi.getApi(`http://army2017.ru/api/conference_list.php`).subscribe(data => {
-      console.log("here are the results");
-      console.log(data);
+      //console.log("here are the results");
+      //console.log(data);
       this.demoProgramList = data
     });
 
@@ -153,8 +153,8 @@ export class DemoProgramPage {
    * @param conferenceSingle
    */
   goToConferenceDetail(conferenceSingle) {
-    console.log("goToParticipantDetail()");
-    console.log(conferenceSingle);
+    //console.log("goToParticipantDetail()");
+    //console.log(conferenceSingle);
     // go to the session detail page
     // and pass in the session data
     this.navCtrl.push(ConferenceDetailPage, {
@@ -168,31 +168,31 @@ export class DemoProgramPage {
    */
   /*refreshCoference() {
     //let tmpParticipant: any = [];
-    console.log('run refresh run!');
+    //console.log('run refresh run!');
     this.demoProgramApi.getApi(`http://army2017.ru/api/conference_list.php`).subscribe(data => {
-      console.log("here are the results for refresh");
-      console.log(data);
+      //console.log("here are the results for refresh");
+      //console.log(data);
       ///   tmpConference = data;
-      console.log("refresh for just began");
+      //console.log("refresh for just began");
       for (let conference of data) {
-        console.log("demoProgramList.id");
-        console.log(conference.id);
-        console.log(conference.name_rus);
-        console.log("this.checkConferenceForId(demoProgramList.id)");
-        // console.log(this.checkParticipantForId(demoProgramList.id));
+        //console.log("demoProgramList.id");
+        //console.log(conference.id);
+        //console.log(conference.name_rus);
+        //console.log("this.checkConferenceForId(demoProgramList.id)");
+        // //console.log(this.checkParticipantForId(demoProgramList.id));
 
         this.conferenceSql.checkForId(conference.id).then(res => {
           if (res) {
-            console.log("there was true")
+            //console.log("there was true")
             this.conferenceSql.delId(conference.id).then(
               res => {
-                console.log("try to add new demoProgramList after delete")
+                //console.log("try to add new demoProgramList after delete")
                 this.addOneItemConference(conference);
               });
           }
           else {
-            console.log("there was false")
-            console.log("try to add new demoProgramList without delete")
+            //console.log("there was false")
+            //console.log("try to add new demoProgramList without delete")
             this.addOneItemConference(conference);
           }
         });
@@ -201,8 +201,8 @@ export class DemoProgramPage {
 
     this.sqlMyForum.getRusConference().then(res => {
 
-      console.log('our select in refresh demoProgramList');
-      console.log(res);
+      //console.log('our select in refresh demoProgramList');
+      //console.log(res);
       this.demoProgramList = res;
     });
   }*/
@@ -211,8 +211,8 @@ export class DemoProgramPage {
 
   selectConferenceRus() {
     this.sqlMyForum.getRusConference().then(res => {
-      console.log('our select');
-      console.log(res);
+      //console.log('our select');
+      //console.log(res);
       this.demoProgramList = res;
     })
 
@@ -220,12 +220,12 @@ export class DemoProgramPage {
 
   addOneItemConference(conferenceSingle) {
 
-    console.log('try to insert');
-    console.log(conferenceSingle);
+    //console.log('try to insert');
+    //console.log(conferenceSingle);
     this.conferenceSql.addItemConference(conferenceSingle
     ).then(res => {
-        console.log('success');
-        console.log(res);
+        //console.log('success');
+        //console.log(res);
       }
     ).catch(err => {
       console.error('Unable to insert storage tables', err.tx, err.err);
@@ -242,12 +242,12 @@ export class DemoProgramPage {
     for (let conferenceSingle of this.demoProgramList) {
 
 
-      console.log('try to insert');
-      console.log("conferenceSingle=", conferenceSingle);
+      //console.log('try to insert');
+      //console.log("conferenceSingle=", conferenceSingle);
       this.conferenceSql.addItemConference(conferenceSingle)
         .then(res => {
-            console.log('success');
-            console.log(res);
+            //console.log('success');
+            //console.log(res);
 
           }
         ).catch(err => {
@@ -261,16 +261,16 @@ export class DemoProgramPage {
 
 
   selectConferenceAll(whereStr = '') {
-    console.log("selectConferenceAll() where=", whereStr);
+    //console.log("selectConferenceAll() where=", whereStr);
     this.sqlMyForum.getRusConference(whereStr).then(res => {
-      console.log('this.sqlMyForum.getRusConference().then( res=', res);
-      console.log('(<conferenceRusMyForum[]>res).length=', (<conferenceRusMyForum[]>res).length);
+      //console.log('this.sqlMyForum.getRusConference().then( res=', res);
+      //console.log('(<conferenceRusMyForum[]>res).length=', (<conferenceRusMyForum[]>res).length);
       if ((<conferenceRusMyForum[]>res).length) {
-        console.log('selectConferenceAll() after  select res');
-        console.log(res);
+        //console.log('selectConferenceAll() after  select res');
+        //console.log(res);
         this.demoProgramList = <conferenceRusMyForum[]>res;
-        console.log("this.demoProgramList");
-        console.log(this.demoProgramList);
+        //console.log("this.demoProgramList");
+        //console.log(this.demoProgramList);
       }
       else {
         let toast = this.toastCtrl.create({
@@ -278,13 +278,13 @@ export class DemoProgramPage {
           duration: 5000
         });
         toast.present();
-        console.log(' this.getPlaceApiInsertBase()');
+        //console.log(' this.getPlaceApiInsertBase()');
         this.getConferenceApiInsertBase();
       }
     })
     /*    this.sqlMyForum.getRusConferenceReturn().subscribe(data => {
-     console.log("here are the results of getRusConferenceReturn()");
-     console.log(data);
+     //console.log("here are the results of getRusConferenceReturn()");
+     //console.log(data);
      this.demoProgramList = data
 
 
@@ -306,8 +306,8 @@ export class DemoProgramPage {
 
   getConferenceApiInsertBase() {
     this.demoProgramApi.getApi(`http://army2017.ru/api/conference_list.php`).subscribe(data => {
-      console.log("here are the results");
-      console.log(data);
+      //console.log("here are the results");
+      //console.log(data);
 
       this.demoProgramList = data;
       this.addItemConference();
@@ -328,12 +328,12 @@ export class DemoProgramPage {
   addToMyForumSite(id) {
     this.sqlMyForum.addToMyForumSite(id, this.iblockId, this.userId, this.demoProgramList).then(res => {
 
-        console.log("and refresh now");
-        console.log("res=", res);
+        //console.log("and refresh now");
+        //console.log("res=", res);
         /* if (res) {
          for (let conference of this.demoProgramList) {
          if (conference.id == id) conference.my_forum_id = res;
-         console.log("demoProgramList after inserting=", this.demoProgramList);
+         //console.log("demoProgramList after inserting=", this.demoProgramList);
 
          }
          }*/
@@ -341,7 +341,7 @@ export class DemoProgramPage {
       }
     );
 
-    // console.log("and refresh now2");
+    // //console.log("and refresh now2");
     // this.conferenceRefresh();
   }
 
@@ -355,7 +355,7 @@ export class DemoProgramPage {
     this.placeSql.select().then(res => {
       let place: place[] = (<place[]>res);
       this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
-        console.log("res=", res);
+        //console.log("res=", res);
         let map = <map[]>res;
         this.navCtrl.push(LeafletMapPage, {
           typeOfMap: 'conference',
@@ -369,7 +369,7 @@ export class DemoProgramPage {
 */
 
   setRussianStrings() {
-    console.log('this.setRussianStrings()');
+    //console.log('this.setRussianStrings()');
 
 
     this.setFilterStr = 'Установить';
@@ -378,7 +378,7 @@ export class DemoProgramPage {
   }
 
   setEnglishStrings() {
-    console.log('this.setEnglishStrings()');
+    //console.log('this.setEnglishStrings()');
 
 
     this.setFilterStr = 'Set';
@@ -388,10 +388,10 @@ export class DemoProgramPage {
 
   setFilterStrConference() {
     this.filterStr = this.filterProvider.filterStr;
-    console.log("this.filterStr", this.filterStr);
+    //console.log("this.filterStr", this.filterStr);
     this.sqlMyForum.getRusConference(this.filterStr).then(res => {
-      console.log('our select');
-      console.log(res);
+      //console.log('our select');
+      //console.log(res);
       this.demoProgramList = res;
       this.showHideFilter();
     });

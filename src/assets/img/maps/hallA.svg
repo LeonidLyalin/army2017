@@ -6,7 +6,7 @@
 	 xml:space="preserve">
  <script type="application/ecmascript"> <![CDATA[
      function myclick() {
-         console.log("ddddd");
+         //console.log("ddddd");
      }
      ]]> </script>
 

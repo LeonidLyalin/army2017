@@ -1,0 +1,86 @@
+
+<ion-header>
+  <ion-navbar>
+
+
+    <ion-title text-left>{{titleStr}}</ion-title>
+    <ion-buttons end>
+
+      <button ion-button icon-only (click)="showHideFilter()" [style.color]="colorFilter">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="showMapList('exhibit')">
+        <ion-icon name="map"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="showHideHelp()" [style.color]="colorHelp">
+        <ion-icon name="help-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+
+</ion-header>
+
+
+<ion-content no-padding="true" no-margin="true">
+
+  <div *ngIf="showFilter">
+
+    <ion-item>
+      <ion-buttons align-items-center>
+        <button ion-button (click)="setFilterStrExhibit()" color="army-red">
+          <ion-icon name="checkmark"></ion-icon>
+          {{setFilterStr}}
+        </button>
+        <button ion-button (click)="filterProvider.cancelFilter()" color="army-red">
+          <ion-icon name="close-circle"></ion-icon>
+          {{cancelFilterStr}}
+        </button>
+      </ion-buttons>
+    </ion-item>
+    <page-filter-exhibit>
+    </page-filter-exhibit>
+  </div>
+  <div *ngIf="showHelp">
+    <page-exhibit-help>
+    </page-exhibit-help>
+  </div>
+
+  <div *ngIf="showMainList">
+    <div *ngFor="let element of listOut">
+
+      <ion-list>
+        <ion-item-sliding text-wrap="true" #slidingItem no-padding="true"
+                          no-margin="true">
+          <button ion-item (click)="goToExhibitDetail(element)">
+            <ion-icon item-left *ngIf="element.my_forum_id" name="star" color="danger"></ion-icon>
+            <ion-icon item-left *ngIf="!element.my_forum_id" name="star-outline"></ion-icon>
+            <p>{{element.name}}</p>
+            <p *ngIf="!element.place_name_place">
+              <ion-icon name="pin" color="danger"></ion-icon>
+              {{element.place_name}}
+            </p>
+            <p *ngIf="element.place_name_place">
+              <ion-icon name="pin" color="danger"></ion-icon>
+              {{element.place_name_place}}
+            </p>
+          </button>
+          <ion-item-options>
+            <button ion-button color="danger" *ngIf="!element.my_forum_id"
+                    (click)="addToMyForumSite(element.id)">
+              {{addMyForumStr}}
+            </button>
+            <button ion-button color="favorite" *ngIf="element.my_forum_id"
+                    (click)="deleteFromMyForum(element.my_forum_id)">
+              {{delMyForumStr}}
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </div>
+  </div>
+
+
+</ion-content>
+
+

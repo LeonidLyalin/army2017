@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 import {AlertController, Events, NavController} from 'ionic-angular';
 
-import {UserData} from '../providers/user-data';
+import {UserData} from '../../providers/user-data';
 import {TabsPage} from "../tabs/tabs";
 
 
@@ -34,7 +34,7 @@ export class AccountPage {
 
       this.lang = localStorage.getItem('lang');
       if (this.lang == 'ru') {
-        console.log('this.events.subscribe(language:change)', this.lang);
+        //console.log('this.events.subscribe(language:change)', this.lang);
         this.setRussianStrings();
       }
       else {
@@ -71,7 +71,7 @@ export class AccountPage {
   }
 
   updatePicture() {
-    console.log('Clicked to update picture');
+    //console.log('Clicked to update picture');
   }
 
   ionViewDidLoad(){
@@ -118,7 +118,7 @@ export class AccountPage {
   }
 
   changePassword() {
-    console.log('Clicked to change password');
+    //console.log('Clicked to change password');
   }
 
   logout() {

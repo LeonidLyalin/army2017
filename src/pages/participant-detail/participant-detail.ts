@@ -41,8 +41,8 @@ export class ParticipantDetailPage extends BaseLangPageProvider {
               http: Http) {
     super(navCtrl, events, http);
     //this.lang = localStorage.getItem('lang');
-    console.log("now in Participant detail");
-    console.log(navParams);
+    //console.log("now in Participant detail");
+    //console.log(navParams);
     this.thematic = [];
    /* if (this.navParams.data.map) this.showMap = this.navParams.data.map;
     else this.showMap = true;*/
@@ -60,14 +60,14 @@ export class ParticipantDetailPage extends BaseLangPageProvider {
 
     if (this.showMap) this.showMap=!!this.participant.place_name;
 
-    console.log('this.participant=', this.participant);
+    //console.log('this.participant=', this.participant);
     this.thematicSql.getThematicOfParticipant(this.participant.id).then(
       res => {
-        console.log("res in thematic page=", res);
+        //console.log("res in thematic page=", res);
         this.thematic = res;
         this.participantSql.getFieldFromTable(this.participant.id, 'id', 'myforum').then(//getMyForumForId(this.participant.id).then(
           res => {
-            console.log("res in participant myForumParticipant", res);
+            //console.log("res in participant myForumParticipant", res);
             this.myForum = res;
           }
         )
@@ -107,14 +107,14 @@ export class ParticipantDetailPage extends BaseLangPageProvider {
   }
 
   showLeafLetMap(participant) {
-    console.log("participant=", participant);
+    //console.log("participant=", participant);
 
 
     this.placeSql.selectWhere('id=' + participant.place).then(res => {
-      console.log('showLeafLetMap res=', res);
+      //console.log('showLeafLetMap res=', res);
       let place: place[] = (<place[]>res);
       this.mapSql.getRecordForFieldValue('name_map', "'" + place[0].name_map + "'").then(res => {
-        console.log("res=", res);
+        //console.log("res=", res);
         let map = <map[]>res;
         this.navCtrl.push(LeafletMapPage, {
           typeOfMap: 'participantDetail',

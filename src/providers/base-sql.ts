@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
-import {BaseApi} from "../pages/shared/base-api-service";
+import {BaseApi} from "../providers/base-api-service";
 
 
 /*
@@ -34,7 +34,7 @@ export class BaseSql {
               // public thematicApi: ThematicConferenceApi,
               tableName: string,
               fields?, constrains?, status?) {
-    console.log('Hello BaseSql Provider for ', tableName);
+    //console.log('Hello BaseSql Provider for ', tableName);
 
     this.tableName = tableName;
     if (fields) {
@@ -42,7 +42,7 @@ export class BaseSql {
       let fieldsStr = this.createFieldStr();
 
       if ((constrains) && (constrains != '')) {
-        console.log(constrains);
+        //console.log(constrains);
         fieldsStr += ',' + constrains;
 
       }
@@ -68,7 +68,7 @@ export class BaseSql {
       fieldStr += field.name + ' ' + field.type;
 
     }
-    console.log("createFieldStr=", fieldStr);
+    //console.log("createFieldStr=", fieldStr);
     return fieldStr;
   }
 
@@ -84,7 +84,7 @@ export class BaseSql {
       fieldStr += field.name;
 
     }
-    console.log("createFieldInsertStr=", fieldStr);
+    //console.log("createFieldInsertStr=", fieldStr);
     return fieldStr;
   }
 
@@ -99,7 +99,7 @@ export class BaseSql {
       if (fieldStr != '') fieldStr += ', ';
       fieldStr += '?';
     }
-    console.log("createQuestionMarkStr=", fieldStr);
+    //console.log("createQuestionMarkStr=", fieldStr);
     return fieldStr;
   }
 
@@ -118,6 +118,9 @@ export class BaseSql {
     this.db.transaction(
       (tx) => {
         if (fieldStr != '') {
+          //console.log('CREATE TABLE IF NOT EXISTS '
+            /*+ this.tableName
+            + ' (' + fieldStr + ')');*/
           tx.executeSql('CREATE TABLE IF NOT EXISTS '
             + this.tableName
             + ' (' + fieldStr + ')'
@@ -126,7 +129,7 @@ export class BaseSql {
       }
       ,
       (e) => {
-        console.log('Transaction Error ' + this.tableName + ' create', e);
+        //console.log('Transaction Error ' + this.tableName + ' create', e);
       }, () => {
       }
     )
@@ -140,41 +143,54 @@ export class BaseSql {
 
 
   createInsValues(item) {
-    console.log("createInsValues(item)=", this.fields);
-    console.log("item=", item);
+    //console.log("createInsValues(item)=", this.fields);
+    //console.log("item=", item);
     let insValues = [];
     for (let field of this.fields) {
-      console.log("field.name", field.name);
-      console.log("item[field.name]=", item[field.name]);
+      //console.log("field.name", field.name);
+      //console.log("item[field.name]=", item[field.name]);
       insValues.push(item[field.name]);
     }
-    console.log("insValues=", insValues);
+    //console.log("insValues=", insValues);
     return insValues;
   }
 
   addItem(item) {
-    console.log("base addItem item=", item);
+    //console.log("base addItem item=", item);
     return new Promise(resolve => {
       let insertQuery = 'insert or replace into ' + this.tableName + '(' +
         this.createFieldInsertStr() +
         ') values (' + this.createQuestionMarkStr() + ')';
-      console.log('insert query=', insertQuery);
-      //  console.log('insert values=',  this.createInsValues(item));
+      //console.log('insert query=', insertQuery);
+      //  //console.log('insert values=',  this.createInsValues(item));
       this.db.executeSql(insertQuery, this.createInsValues(item), (r) => {
-        console.log('base sql addItem(item) Inserted... Success..', r);
+        //console.log('base sql addItem(item) Inserted... Success..', r);
       }, e => {
-        console.log('Inserted Error', e);
+        //console.log('Inserted Error', e);
         resolve(false);
       })
     })
   }
 
   addItemList(itemList) {
-    console.log("base addItem itemList=", itemList);
+
+    //console.log("base addItem itemList=", itemList);
     return new Promise(resolve => {
+      let insertQuery = 'insert or replace into ' + this.tableName + '(' +
+        this.createFieldInsertStr() +
+        ') values (' + this.createQuestionMarkStr() + ')';
+      //console.log('insert query=', insertQuery);
+      //  //console.log('insert values=',  this.createInsValues(item));
       for (let item of itemList) {
-        this.addItem(item);
+        this.db.executeSql(insertQuery, this.createInsValues(item), (r) => {
+          //console.log('base sql addItem(item) Inserted... Success..', r);
+        }, e => {
+          //console.log('Inserted Error', e);
+          resolve(false);
+        })
       }
+
+
       resolve(true)
     });
 
@@ -195,7 +211,7 @@ export class BaseSql {
       if (fieldSort) {
         if (fieldSort != '') query += 'order by ' + fieldSort;
       }
-      console.log("query=", query);
+      //console.log("query=", query);
       this.db.executeSql(query, [], rs => {
 
         if (rs.rows.length > 0) {
@@ -209,7 +225,7 @@ export class BaseSql {
         else res(false);
       }, (e) => {
         res(false);
-        console.log('Sql Query Error', e);
+        //console.log('Sql Query Error', e);
       });
     })
 
@@ -227,7 +243,7 @@ export class BaseSql {
       if (fieldSort) {
         if (fieldSort != '') query += ' order by ' + fieldSort;
       }
-      console.log("query=", query);
+      //console.log("query=", query);
       this.db.executeSql(query, [], rs => {
 
         if (rs.rows.length > 0) {
@@ -241,7 +257,7 @@ export class BaseSql {
         else res(false);
       }, (e) => {
         res(false);
-        console.log('Sql Query Error', e);
+        //console.log('Sql Query Error', e);
       });
     })
 
@@ -261,9 +277,9 @@ export class BaseSql {
           query += ' order by ' + fieldSort;
         }
       }
-      console.log("selectDistinct query=", query);
+      //console.log("selectDistinct query=", query);
       this.db.executeSql(query, [], rs => {
-        console.log("rs=", rs);
+        //console.log("rs=", rs);
         if (rs.rows.length > 0) {
           this.arr = [];
 
@@ -275,7 +291,7 @@ export class BaseSql {
         else res(false);
       }, (e) => {
         res(false);
-        console.log('Sql Query Error', e);
+        //console.log('Sql Query Error', e);
       });
     })
 
@@ -287,18 +303,18 @@ export class BaseSql {
    * @returns {Promise<any>}
    */
   delAll(whereStr?) {
-    console.log('try to delete all ' + this.tableName);
+    //console.log('try to delete all ' + this.tableName);
     return new Promise(resolve => {
       let query = "DELETE FROM " + this.tableName;
       if (whereStr) {
         query += ' where ' + whereStr;
       }
-      console.log('Delete All query', query);
+      //console.log('Delete All query', query);
       this.db.executeSql(query, [], (s) => {
-        console.log('DeleteAll  Success...', s, whereStr);
+        //console.log('DeleteAll  Success...', s, whereStr);
 
       }, (err) => {
-        console.log('Deleting Error', err);
+        //console.log('Deleting Error', err);
       });
     })
 
@@ -310,14 +326,14 @@ export class BaseSql {
    */
 
   dropTable() {
-    console.log('try to drop table ' + this.tableName);
+    //console.log('try to drop table ' + this.tableName);
     return new Promise(resolve => {
       let query = "drop table " + this.tableName;
       this.db.executeSql(query, [], (s) => {
-        console.log('Drop table Success...', s);
+        //console.log('Drop table Success...', s);
 
       }, (err) => {
-        console.log('Dropping table Error', err);
+        //console.log('Dropping table Error', err);
       });
     })
 
@@ -333,20 +349,27 @@ export class BaseSql {
 
 
   getFieldFromTable(id, field, table) {
-    console.log('get ' + field + ' for ' + table );
+    //console.log('get ' + field + ' for ' + table);
     return new Promise(res => {
       let query = 'select ' + field + ' from ' + table;
       query += ' where id=' + id;
-      console.log(query);
+      //console.log(query);
       this.db.executeSql(query, [], rs => {
-        console.log(rs);
-        let list = rs.rows.item(0).thematic;
-        console.log(list);
-        this.getFieldTableList(list, field).then(rs => {
-            console.log("res after getThematicList=", rs);
-            res(rs);
+        if (rs) {
+          if ((<any>rs).rows.length){
+            let list=[];
+            for (let i=0; i<(<any>rs).rows.length;i++){
+              list.push((<any>rs).rows.item[i]);
+            }
+            res(list);
           }
-        )
+          else res(rs);
+
+
+        }
+        else rs(false);
+      }, (err) => {
+        //console.log(query, '  Error', err);
       });
 
     });
@@ -361,19 +384,19 @@ export class BaseSql {
 
   getFieldTableList(list: string, fieldName) {
     return new Promise(res => {
-      console.log('get ' + this.tableName + ' list=', list);
+      //console.log('get ' + this.tableName + ' list=', list);
       let thematic: string[];
       thematic = list.split(',');
-      console.log('an array=', thematic);
+      //console.log('an array=', thematic);
       let whereStr: string = ' where ';
       for (let i = 0; i < thematic.length; i++) {
         if (i > 0) whereStr += ' or ';
         whereStr += fieldName + '=' + thematic[i];
       }
-      console.log("whereStr=", whereStr);
+      //console.log("whereStr=", whereStr);
       let query = "SELECT * FROM " + this.tableName;
       query += ' ' + whereStr;
-      console.log(query);
+      //console.log(query);
       this.arr = [];
       this.db.executeSql(query, [], rs => {
         if (rs.rows.length > 0) {
@@ -384,7 +407,7 @@ export class BaseSql {
         }
         res(this.arr);
       }, (e) => {
-        console.log('Sql Query Error', e);
+        //console.log('Sql Query Error', e);
       });
     })
   }
@@ -398,11 +421,11 @@ export class BaseSql {
       this.arr = [];
       let query = "SELECT count(*) as count FROM " + this.tableName;
       this.db.executeSql(query, [], rs => {
-        console.log("rs=", rs);
-        console.log("table " + this.tableName + ". rs.rows.item[0].count=", <any>rs.rows.item[0].count);
+        //console.log("rs=", rs);
+        //console.log("table " + this.tableName + ". rs.rows.item[0].count=", <any>rs.rows.item[0].count);
         res(<any>rs.rows.item[0].count);
       }, (e) => {
-        console.log('Sql Query Error', e);
+        //console.log('Sql Query Error', e);
       });
     })
 
@@ -412,12 +435,12 @@ export class BaseSql {
     return new Promise(resolve => {
       let query = "DELETE FROM " + this.tableName + " WHERE id=?";
       this.db.executeSql(query, [id], (s) => {
-        console.log('Delete from place Success...', s);
+        //console.log('Delete from place Success...', s);
 
         resolve(true);
 
       }, (err) => {
-        console.log('Deleting Error', err);
+        //console.log('Deleting Error', err);
         resolve(false);
       });
     })
@@ -432,9 +455,9 @@ export class BaseSql {
     return new Promise(res => {
       let query = 'SELECT * FROM ' + this.tableName + ' WHERE id=' + id;
       this.db.executeSql(query, [], rs => {
-        console.log("checkForId(id)!!! id=", id, query);
-        console.log(rs);
-        console.log(rs.rows.length);
+        //console.log("checkForId(id)!!! id=", id, query);
+        //console.log(rs);
+        //console.log(rs.rows.length);
         return res(rs.rows.length > 0);
 
 
@@ -448,17 +471,17 @@ export class BaseSql {
       whereStr += ((whereStr != '') ? ' and ' : '') + field.name + '=' + ((field.type == "text") ? '"' : '') + field.value + ((field.type == "text") ? '"' : '');
     }
 
-    console.log("checkForFieldValues whereStr=", whereStr);
+    //console.log("checkForFieldValues whereStr=", whereStr);
 
     let query = 'SELECT count(*) as count FROM ' + this.tableName;
 
     query += ((whereStr != '') ? ' where ' + whereStr : '');
-    console.log(query);
+    //console.log(query);
     return new Promise(res => {
       this.db.executeSql(query, [], rs => {
-        console.log("checkForFieldValues(fields)=", fields);
-        console.log(rs);
-        console.log(rs.rows.length);
+        //console.log("checkForFieldValues(fields)=", fields);
+        //console.log(rs);
+        //console.log(rs.rows.length);
         if (rs.rows.length > 0) res(rs.rows.item(0).count);
         else res(0);
 
@@ -480,11 +503,11 @@ export class BaseSql {
       let query = "SELECT * FROM " + this.tableName;
       query += ' where ' + field + '=' + value;
       this.db.executeSql(query, [], rs => {
-        console.log("rs=", rs);
-        console.log("table " + this.tableName + ". rs.rows.item[0]=", <any>rs.rows.item[0]);
+        //console.log("rs=", rs);
+        //console.log("table " + this.tableName + ". rs.rows.item[0]=", <any>rs.rows.item[0]);
         res(<any>rs.rows.item(0));
       }, (e) => {
-        console.log('Sql Query Error', e);
+        //console.log('Sql Query Error', e);
       });
     })
 
@@ -498,19 +521,19 @@ export class BaseSql {
    */
   getTableFieldDistinctList(list, fieldName: string) {
     return new Promise(res => {
-      console.log('get thematicConference list=', list);
+      //console.log('get thematicConference list=', list);
       let tableList: string[];
       tableList = list.split(',');
-      console.log('an array=', tableList);
+      //console.log('an array=', tableList);
       let whereStr: string = ' where ';
       for (let i = 0; i < tableList.length; i++) {
         if (i > 0) whereStr += ' or ';
         whereStr += 'id=' + tableList[i];
       }
-      console.log("whereStr=", whereStr);
+      //console.log("whereStr=", whereStr);
       let query = "SELECT distinct(" + fieldName + ") FROM " + this.tableName;
       query += ' ' + whereStr;
-      console.log(query);
+      //console.log(query);
       this.arr = [];
       this.db.executeSql(query, [], rs => {
         if (rs.rows.length > 0) {
@@ -521,7 +544,7 @@ export class BaseSql {
         }
         res(this.arr);
       }, (e) => {
-        console.log('Sql Query Error', e);
+        //console.log('Sql Query Error', e);
       });
     })
   }
@@ -529,14 +552,35 @@ export class BaseSql {
   loadApi(path) {
     let api = new BaseApi(this.http);
     api.getApi(path).subscribe(data => {
-        for (let i = 0; i < data.length; i++) {
-          console.log("try to insert data[i]=", data[i]);
+        this.addItemList(data);
+        /*for (let i = 0; i < data.length; i++) {
+          //console.log("try to insert data[i]=", data[i]);
           this.addItem(data[i]).then(res => {
-            console.log('after insert res=', res);
+            //console.log('after insert res=', res);
             return res;
           });
-        }
+        }*/
       }
     )
   }
+
+  updateApi(path) {
+    let api = new BaseApi(this.http);
+    api.getApi(path).subscribe(data => {
+
+      for (let i = 0; i < data.length; i++) {
+        this.delId(data[i].id).then(rs => {
+
+            //console.log("updateApi addItem(data[i]=", data[i]);
+            this.addItem(data[i]).then(res => {
+              //console.log('updateApi after insert res=', res);
+              return res;
+            });
+          }
+        )
+        ;
+      }
+    });
+  }
+
 }

@@ -14,7 +14,7 @@ import {place} from "../place-sql/place-sql";
 export class DrawFunctionProvider {
 
   constructor(public http: Http) {
-    console.log('Hello DrawFunctionProvider Provider');
+    //console.log('Hello DrawFunctionProvider Provider');
 
 
 
@@ -44,24 +44,24 @@ export class DrawFunctionProvider {
   /* logXY(event: MouseEvent): void {
    //alert( event.clientX);
    // alert( event.clientY);
-   console.log('Width: ' + this.platform.width());
-   console.log('Height: ' + this.platform.height());
-   console.log("scrollTop=" + this.content.scrollTop);
-   console.log("scrollToTop=" + this.content.scrollToTop);
-   console.log("contentTop=" + this.content.contentTop);
-   console.log("contentBottom=" + this.content.contentBottom);
-   console.log("diretionX=" + this.content.directionX);
-   console.log("diretionY=" + this.content.directionY);
-   console.log("content height=" + this.content.contentHeight);
-   console.log("content width=" + this.content.contentWidth);
-   console.log("getContentDimensions().contentTop=" + this.content.getContentDimensions().contentTop);
-   console.log("getContentDimensions().scrollTop=" + this.content.getContentDimensions().scrollTop);
-   console.log("getContentDimensions().contentLeft=" + this.content.getContentDimensions().contentLeft);
-   console.log("getContentDimensions().contentWidth=" + this.content.getContentDimensions().contentWidth);
+   //console.log('Width: ' + this.platform.width());
+   //console.log('Height: ' + this.platform.height());
+   //console.log("scrollTop=" + this.content.scrollTop);
+   //console.log("scrollToTop=" + this.content.scrollToTop);
+   //console.log("contentTop=" + this.content.contentTop);
+   //console.log("contentBottom=" + this.content.contentBottom);
+   //console.log("diretionX=" + this.content.directionX);
+   //console.log("diretionY=" + this.content.directionY);
+   //console.log("content height=" + this.content.contentHeight);
+   //console.log("content width=" + this.content.contentWidth);
+   //console.log("getContentDimensions().contentTop=" + this.content.getContentDimensions().contentTop);
+   //console.log("getContentDimensions().scrollTop=" + this.content.getContentDimensions().scrollTop);
+   //console.log("getContentDimensions().contentLeft=" + this.content.getContentDimensions().contentLeft);
+   //console.log("getContentDimensions().contentWidth=" + this.content.getContentDimensions().contentWidth);
 
-   console.log("getContentDimensions().scrollLeft=" + this.content.getContentDimensions().scrollLeft);
-   console.log("getContentDimensions().scrollHeight=" + this.content.getContentDimensions().scrollHeight);
-   console.log("scrollLeft=" + this.content.scrollLeft);
+   //console.log("getContentDimensions().scrollLeft=" + this.content.getContentDimensions().scrollLeft);
+   //console.log("getContentDimensions().scrollHeight=" + this.content.getContentDimensions().scrollHeight);
+   //console.log("scrollLeft=" + this.content.scrollLeft);
 
 
    let posX = event.clientX + this.content.getContentDimensions().scrollLeft;
@@ -69,8 +69,8 @@ export class DrawFunctionProvider {
    if (this.forumMap.x > this.platform.width()) posX = posX * this.forumMap.x / this.platform.width();
 
    let posY = event.clientY + this.content.getContentDimensions().scrollTop;
-   console.log("X=" + event.clientX + "; Y=" + event.clientY);
-   console.log("posX=" + posX + "; posY=" + posY);
+   //console.log("X=" + event.clientX + "; Y=" + event.clientY);
+   //console.log("posX=" + posX + "; posY=" + posY);
    for (let point of this.coords) {
    if (((point.x1 < posX) && (point.x2 > posX)) && ((point.y1 < posY) && (point.y2 > posY))) {
    this.navCtrl.push(point.page);
@@ -85,31 +85,31 @@ export class DrawFunctionProvider {
    // alert( event.clientY);
    let X: number;
    let Y: number;
-   console.log('Width: ' + this.platform.width());
-   console.log('Height: ' + this.platform.height());
-   console.log("scrollTop=" + this.content.scrollTop);
-   console.log("scrollToTop=" + this.content.scrollToTop);
-   console.log("contentTop=" + this.content.contentTop);
-   console.log("contentBottom=" + this.content.contentBottom);
-   console.log("diretionX=" + this.content.directionX);
-   console.log("diretionY=" + this.content.directionY);
-   console.log("content height=" + this.content.contentHeight);
-   console.log("content width=" + this.content.contentWidth);
-   console.log("getContentDimensions().contentTop=" + this.content.getContentDimensions().contentTop);
-   console.log("getContentDimensions().scrollTop=" + this.content.getContentDimensions().scrollTop);
-   console.log("getContentDimensions().contentLeft=" + this.content.getContentDimensions().contentLeft);
-   console.log("getContentDimensions().contentWidth=" + this.content.getContentDimensions().contentWidth);
-   console.log("getContentDimensions().scrollLeft=" + this.content.getContentDimensions().scrollLeft);
-   console.log("getContentDimensions().scrollHeight=" + this.content.getContentDimensions().scrollHeight);
-   console.log("scrollLeft=" + this.content.scrollLeft);
-   console.log("event.clientX=", event.clientX);
-   console.log("event.clientY=", event.clientY);
-   console.log("this.scroll.scrollX=", this.scroll.scrollX);
-   console.log("this.scroll.scrollY=", this.scroll.scrollY)
-   console.log("getContentDimensions().contentHeight" + this.content.getContentDimensions().contentHeight);
-   console.log("getContentDimensions().contentBottom" + this.content.getContentDimensions().contentBottom);
-   console.log("getContentDimensions().scrollHeight" + this.content.getContentDimensions().scrollHeight);
-   console.log("getContentDimensions().scrollWidth" + this.content.getContentDimensions().scrollWidth);
+   //console.log('Width: ' + this.platform.width());
+   //console.log('Height: ' + this.platform.height());
+   //console.log("scrollTop=" + this.content.scrollTop);
+   //console.log("scrollToTop=" + this.content.scrollToTop);
+   //console.log("contentTop=" + this.content.contentTop);
+   //console.log("contentBottom=" + this.content.contentBottom);
+   //console.log("diretionX=" + this.content.directionX);
+   //console.log("diretionY=" + this.content.directionY);
+   //console.log("content height=" + this.content.contentHeight);
+   //console.log("content width=" + this.content.contentWidth);
+   //console.log("getContentDimensions().contentTop=" + this.content.getContentDimensions().contentTop);
+   //console.log("getContentDimensions().scrollTop=" + this.content.getContentDimensions().scrollTop);
+   //console.log("getContentDimensions().contentLeft=" + this.content.getContentDimensions().contentLeft);
+   //console.log("getContentDimensions().contentWidth=" + this.content.getContentDimensions().contentWidth);
+   //console.log("getContentDimensions().scrollLeft=" + this.content.getContentDimensions().scrollLeft);
+   //console.log("getContentDimensions().scrollHeight=" + this.content.getContentDimensions().scrollHeight);
+   //console.log("scrollLeft=" + this.content.scrollLeft);
+   //console.log("event.clientX=", event.clientX);
+   //console.log("event.clientY=", event.clientY);
+   //console.log("this.scroll.scrollX=", this.scroll.scrollX);
+   //console.log("this.scroll.scrollY=", this.scroll.scrollY)
+   //console.log("getContentDimensions().contentHeight" + this.content.getContentDimensions().contentHeight);
+   //console.log("getContentDimensions().contentBottom" + this.content.getContentDimensions().contentBottom);
+   //console.log("getContentDimensions().scrollHeight" + this.content.getContentDimensions().scrollHeight);
+   //console.log("getContentDimensions().scrollWidth" + this.content.getContentDimensions().scrollWidth);
 
 
    //Prepare our X and Y
@@ -128,20 +128,20 @@ export class DrawFunctionProvider {
 
    if ((i % 2) == 0) {
    nvert++;
-   console.log(point.coords[i]);
+   //console.log(point.coords[i]);
    vertx.push(point.coords[i]);
    }
    else {
-   console.log(point.coords[i]);
+   //console.log(point.coords[i]);
    verty.push(point.coords[i]);
    }
 
    }
-   console.log(nvert);
-   console.log(vertx);
-   console.log(verty);
-   console.log("X=", X);
-   console.log("Y=", Y);
+   //console.log(nvert);
+   //console.log(vertx);
+   //console.log(verty);
+   //console.log("X=", X);
+   //console.log("Y=", Y);
    if (this.pnpoly(nvert, vertx, verty, X, Y)) {
    alert(point.name_rus)
    }
@@ -150,21 +150,21 @@ export class DrawFunctionProvider {
    }*/
 
   drawPoly(placeSingle: place, canvas, imageMap:any) {
-    console.log("placeSingle.coords=", placeSingle.coords);
+    //console.log("placeSingle.coords=", placeSingle.coords);
 
     let mCoordsStr = placeSingle.coords.toString();
     let mCoordsTmp = mCoordsStr.split(',');
-    console.log("mCoordsTmp=", mCoordsTmp);
+    //console.log("mCoordsTmp=", mCoordsTmp);
     let mCoords: number[]=[];
 
     for (let mCoordsSingle of mCoordsTmp) {
-      console.log("mCoordsSingle=", mCoordsSingle);
+      //console.log("mCoordsSingle=", mCoordsSingle);
       mCoords.push(Number(mCoordsSingle));
 
     }
     let i, n;
     n = mCoords.length;
-    console.log("mCoords=", mCoords);
+    //console.log("mCoords=", mCoords);
     // set the 'default' values for the colour/width of fill/stroke operations
     let hdc = canvas.nativeElement.getContext('2d');
     hdc.drawImage(imageMap, 0, 0);
@@ -183,20 +183,20 @@ export class DrawFunctionProvider {
 
   drawRect(placeSingle: place, canvas, imageMap:any) {
     let mCoordsStr: string = placeSingle.coords.toString();
-    console.log("mCoordsStr=", mCoordsStr);
+    //console.log("mCoordsStr=", mCoordsStr);
     let mCoords = mCoordsStr.split(',');
-    console.log(mCoords);
-    console.log("placeSingle.coords=", placeSingle.coords);
-    console.log("placeSingle.coords[0]=", placeSingle.coords[0]);
+    //console.log(mCoords);
+    //console.log("placeSingle.coords=", placeSingle.coords);
+    //console.log("placeSingle.coords[0]=", placeSingle.coords[0]);
     let top, left, bot, right: number;
     left = Number(mCoords[0]);
     top = Number(mCoords[1]);
     right = Number(mCoords[2]);
     bot = Number(mCoords[3]);
-    console.log("left=", left);
-    console.log("top=", top);
-    console.log("right=", right);
-    console.log("bot=", bot);
+    //console.log("left=", left);
+    //console.log("top=", top);
+    //console.log("right=", right);
+    //console.log("bot=", bot);
     // set the 'default' values for the colour/width of fill/stroke operations
     let hdc = canvas.nativeElement.getContext('2d');
     hdc.drawImage(imageMap, 0, 0);
@@ -210,8 +210,8 @@ export class DrawFunctionProvider {
   drawFigure(placeSingle: place,canvas, imageMap:any, event) {
 
     let element=event.target;
-    console.log("element=",element);
-    console.log("element.shape=",element.shape);
+    //console.log("element=",element);
+    //console.log("element.shape=",element.shape);
     if (element.shape=='poly'){
       this.drawPoly(placeSingle, canvas, imageMap);
       return true;

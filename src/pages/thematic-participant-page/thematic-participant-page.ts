@@ -18,7 +18,7 @@ export class ThematicParticipantPagePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ThematicParticipantPagePage');
+    //console.log('ionViewDidLoad ThematicParticipantPagePage');
   }
 
 }

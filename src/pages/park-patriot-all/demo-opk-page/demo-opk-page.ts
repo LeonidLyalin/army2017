@@ -18,7 +18,7 @@ export class DemoOpkPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad DemoOpkPage');
+    //console.log('ionViewDidLoad DemoOpkPage');
   }
 
 }

@@ -43,8 +43,8 @@ export class PlaceSql extends BaseSql {
         {name: "shape", type: "text"},
       ]
     );
-    console.log('Hello ThematicConferenceSql Provider');
-    console.log('Hello PlaceSql Provider');
+    //console.log('Hello ThematicConferenceSql Provider');
+    //console.log('Hello PlaceSql Provider');
     /*    this.openDb();*/
   }
 
@@ -65,9 +65,9 @@ export class PlaceSql extends BaseSql {
         'goto text,' +
         'shape text)');
     }, (e) => {
-      console.log('Transaction place create Error', e);
+      //console.log('Transaction place create Error', e);
     }, () => {
-      console.log('Created Place OK..');
+      //console.log('Created Place OK..');
     })
   }*/
 
@@ -75,12 +75,12 @@ export class PlaceSql extends BaseSql {
     return new Promise(resolve => {
       var query = "DELETE FROM place WHERE id=?";
       this.db.executeSql(query, [id], (s) => {
-        console.log('Delete from place Success...', s);
+        //console.log('Delete from place Success...', s);
 
         resolve(true);
 
       }, (err) => {
-        console.log('Deleting Error', err);
+        //console.log('Deleting Error', err);
       });
     })
 
@@ -90,9 +90,9 @@ export class PlaceSql extends BaseSql {
     return new Promise(res => {
       let query = 'SELECT * FROM place WHERE id=' + id;
       this.db.executeSql(query, [], rs => {
-        console.log("checkPlaceForId(id)!!! id=", id, query);
-        console.log(rs);
-        console.log(rs.rows.length);
+        //console.log("checkPlaceForId(id)!!! id=", id, query);
+        //console.log(rs);
+        //console.log(rs.rows.length);
         if (rs.rows.length > 0) return res(true)
         else return res(false);
 
@@ -122,10 +122,10 @@ export class PlaceSql extends BaseSql {
         placeIns.goto,
         placeIns.shape
       ], (r) => {
-        console.log('Inserted... Sucess..', placeIns.id);
+        //console.log('Inserted... Sucess..', placeIns.id);
 
       }, e => {
-        console.log('Inserted Error', e);
+        //console.log('Inserted Error', e);
         resolve(false);
       })
     })
@@ -153,14 +153,14 @@ export class PlaceSql extends BaseSql {
         if (rs.rows.length > 0) {
           this.arr = [];
           for (var i = 0; i < rs.rows.length; i++) {
-            console.log("<place>rs.rows.item(i)=", <place>rs.rows.item(i));
+            //console.log("<place>rs.rows.item(i)=", <place>rs.rows.item(i));
             this.arr.push((<place>rs.rows.item(i))
             );
           }
         }
         res(this.arr);
       }, (e) => {
-        console.log('Sql Query Error', e);
+        //console.log('Sql Query Error', e);
       });
     })
   }*/
@@ -171,25 +171,25 @@ export class PlaceSql extends BaseSql {
    * @returns {Promise<T>}
    */
 /*  selectPlaceMap(nameMap: string) {
-    console.log('selectPlaceMap');
+    //console.log('selectPlaceMap');
     return new Promise(res => {
       this.arr = [];
       let query = "SELECT * FROM place";
       if (nameMap != '') query += ' where name_map="' + nameMap + '"';
 
-      console.log(query);
+      //console.log(query);
       this.db.executeSql(query, [], rs => {
         if (rs.rows.length > 0) {
 
           for (var i = 0; i < rs.rows.length; i++) {
-            console.log("<place>rs.rows.item(i)=", <place>rs.rows.item(i));
+            //console.log("<place>rs.rows.item(i)=", <place>rs.rows.item(i));
             this.arr.push(<place>rs.rows.item(i));
           }
         }
-        console.log(this.arr);
+        //console.log(this.arr);
         res(this.arr);
       }, (e) => {
-        console.log('Sql Query Error', e);
+        //console.log('Sql Query Error', e);
       });
     })
 
@@ -197,17 +197,17 @@ export class PlaceSql extends BaseSql {
 
 /*
   delAllPlace(name_map: string = '') {
-    console.log('try to delete all places');
+    //console.log('try to delete all places');
     return new Promise(resolve => {
       var query = "DELETE FROM place";
       if (name_map != '') query = query + ' where name_map="' + name_map + '"';
-      console.log('query for delete');
-      console.log(query);
+      //console.log('query for delete');
+      //console.log(query);
       this.db.executeSql(query, [], (s) => {
-        console.log('Delete All Success...', s);
+        //console.log('Delete All Success...', s);
 
       }, (err) => {
-        console.log('Deleting Error', err);
+        //console.log('Deleting Error', err);
       });
     })
 
@@ -219,16 +219,16 @@ export class PlaceSql extends BaseSql {
    * @returns {Promise<T>}
    */
   getPlaceParticipant(id) {
-    console.log('try to find participant=', id);
+    //console.log('try to find participant=', id);
     return new Promise(res => {
 
       this.arr = [];
       let query = 'SELECT * FROM participant WHERE place=' + id;
-      console.log('query from getPlaceParticipant=', query);
+      //console.log('query from getPlaceParticipant=', query);
       this.db.executeSql(query, [], rs => {
-          console.log("select participant place=", id, query);
-          console.log("rs=", rs);
-          console.log("rs.rows.length=", rs.rows.length);
+          //console.log("select participant place=", id, query);
+          //console.log("rs=", rs);
+          //console.log("rs.rows.length=", rs.rows.length);
           if (rs.rows.length > 0) return res(<any>rs.rows.item(0));
             /*{
             id: rs.rows.item(0).id,
@@ -252,7 +252,7 @@ export class PlaceSql extends BaseSql {
           else return res(false);
 
         }, (err) => {
-          console.log('Select Error in getPlaceParticipant=', err);
+          //console.log('Select Error in getPlaceParticipant=', err);
         }
       );
     });

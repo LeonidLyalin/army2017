@@ -44,12 +44,12 @@ export class FilterPage {
     this.filterOrder = navParams.get('order');
 
 
-    console.log("this.filterTable=", this.filterTable);
-    console.log("this.filterField=", this.filterField);
-    console.log("this.filterValue=", this.filterValue);
-    console.log("this.filterWhere=", this.filterWhere);
-    console.log("this.filteTitle=", this.filterTitle);
-    console.log("this.filteOrder=", this.filterOrder);
+    //console.log("this.filterTable=", this.filterTable);
+    //console.log("this.filterField=", this.filterField);
+    //console.log("this.filterValue=", this.filterValue);
+    //console.log("this.filterWhere=", this.filterWhere);
+    //console.log("this.filteTitle=", this.filterTitle);
+    //console.log("this.filteOrder=", this.filterOrder);
 
     this.filterSql = new BaseSql(http, this.filterTable);
     this.filterSql.tableName = this.filterTable;
@@ -58,18 +58,18 @@ export class FilterPage {
   ionViewDidLoad() {
     this.userId = localStorage.getItem('userid');
     this.lang = localStorage.getItem('lang');
-    console.log('ionViewDidLoad FilterPage');
+    //console.log('ionViewDidLoad FilterPage');
     this.filterList = [];
     if (this.filterDistinct) {
       this.filterSql.selectDistinct(this.filterDistinct,this.filterWhere,this.filterOrder).then(res => {
-        console.log(" distinct res=", res);
+        //console.log(" distinct res=", res);
         for (let i = 0; i < res.length; i++) {
           let tmpFilter: filter = {field: '', value: ''};
-          console.log("res[i]=", res[i]);
+          //console.log("res[i]=", res[i]);
           let tmpRes = <any>res[i];
           tmpFilter.field = tmpRes[this.filterField];
           tmpFilter.value = tmpRes[this.filterValue];
-          console.log("tmpFilter=", tmpFilter);
+          //console.log("tmpFilter=", tmpFilter);
           this.filterList.push(tmpFilter);
         }
       })
@@ -78,29 +78,29 @@ export class FilterPage {
       if (this.filterWhere) {
 
         this.filterSql.selectWhere(this.filterWhere,this.filterOrder).then(res => {
-          console.log("res=", res);
+          //console.log("res=", res);
           for (let i = 0; i < res.length; i++) {
             let tmpFilter: filter = {field: '', value: ''};
-            console.log("res[i]=", res[i]);
+            //console.log("res[i]=", res[i]);
             let tmpRes = <any>res[i];
             tmpFilter.field = tmpRes[this.filterField];
             tmpFilter.value = tmpRes[this.filterValue];
-            console.log("tmpFilter=", tmpFilter);
+            //console.log("tmpFilter=", tmpFilter);
             this.filterList.push(tmpFilter);
           }
         })
       }
       else {
         this.filterSql.select(this.filterOrder).then(res => {
-          console.log("res=", res);
+          //console.log("res=", res);
           for (let i = 0; i < res.length; i++) {
             let tmpFilter: filter = {field: '', value: ''};
-            console.log("res[i]=", res[i]);
+            //console.log("res[i]=", res[i]);
             let tmpRes = <any>res[i];
-            console.log("tmpRes=", tmpRes);
+            //console.log("tmpRes=", tmpRes);
             tmpFilter.field = tmpRes[this.filterField];
             tmpFilter.value = tmpRes[this.filterValue];
-            console.log("tmpFilter=", tmpFilter);
+            //console.log("tmpFilter=", tmpFilter);
             this.filterList.push(tmpFilter);
           }
         })

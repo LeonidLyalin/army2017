@@ -3,7 +3,7 @@ import {NgForm} from '@angular/forms';
 
 import {Events, NavController} from 'ionic-angular';
 
-import {UserData} from '../providers/user-data';
+import {UserData} from '../../providers/user-data';
 
 import {TabsPage} from '../tabs/tabs';
 import {SignupPage} from '../signup/signup';
@@ -33,7 +33,7 @@ signUpStr:string;
 
       this.lang = localStorage.getItem('lang');
       if (this.lang == 'ru') {
-        console.log('this.events.subscribe(language:change)', this.lang);
+        //console.log('this.events.subscribe(language:change)', this.lang);
         this.setRussianStrings();
       }
       else {

@@ -5,7 +5,7 @@ import {BaseLangPageProvider} from "../../providers/base-lang-page/base-lang-pag
 import {Http} from "@angular/http";
 import {BaseSql} from "../../providers/base-sql";
 import {MyForumSql} from "../../providers/my-forum-sql";
-import {BaseApi} from "../shared/base-api-service";
+
 
 /**
  * Generated class for the BarScannerPage page.
@@ -37,7 +37,7 @@ export class BarScannerPage extends BaseLangPageProvider {
 
   ionViewDidLoad() {
     super.ionViewDidLoad();
-    console.log('ionViewDidLoad QrScannerPage');
+    //console.log('ionViewDidLoad QrScannerPage');
     //  this.scan2();
 
   }
@@ -69,23 +69,23 @@ export class BarScannerPage extends BaseLangPageProvider {
 
 
   scanBarCode() {
-    console.log('scannig product barcode');
+    //console.log('scannig product barcode');
     this.platform.ready().then(() => {
       this.barcodeScanner.scan().then((result) => {
         if (!result.cancelled) {
-          console.log(result.text);
-          console.log(result.format);
+          //console.log(result.text);
+          //console.log(result.format);
           let qrcode = result.text;
           let tableParticipant = new BaseSql(this.http, 'participant');
           tableParticipant.selectWhere('qrcode="' + qrcode+'"').then(res => {
-            console.log("res",<any>res);
+            //console.log("res",<any>res);
             if (res) {
 
               let rec = <any>res[0];
-              console.log(rec);
+              //console.log(rec);
               let tableMyForum = new MyForumSql(this.http);
               tableMyForum.selectWhere('my_iblock_id=' + this.participantId + ' and my_id=' + rec.id+' and user='+this.userId).then(rs => {
-                console.log("rs=",rs);
+                //console.log("rs=",rs);
                 if (rs) {
                   let alert = this.alertCtrl.create({
                     title: this.participantStr + this.inMyForumStr,
@@ -102,16 +102,16 @@ export class BarScannerPage extends BaseLangPageProvider {
                       {
                         text: this.yesStr,
                         handler: () => {
-                          console.log('Yes clicked');
+                          //console.log('Yes clicked');
                           tableMyForum.addToMyForumSite(rec.id, this.participantId, this.userId).then(res => {
-                            console.log(rec.name_rus, " added");
+                            //console.log(rec.name_rus, " added");
                           })
                         }
                       },
                       {
                         text: this.noStr,
                         handler: () => {
-                          console.log('No clicked');
+                          //console.log('No clicked');
                         }
                       }
                     ]
@@ -126,11 +126,11 @@ export class BarScannerPage extends BaseLangPageProvider {
               tableConference.selectWhere('qrcode="' + qrcode+'"').then(resConference => {
                 if (resConference) {
                   let rec = <any>resConference[0];
-                  console.log(rec);
+                  //console.log(rec);
                   let tableMyForum = new MyForumSql(this.http);
                   tableMyForum.selectWhere('my_iblock_id=' + this.conferenceId +
                     ' and my_id=' + rec.id+' and user='+this.userId).then(rsMyForumConference => {
-                    console.log("rsMyForumConference=",rsMyForumConference);
+                    //console.log("rsMyForumConference=",rsMyForumConference);
                     if (rsMyForumConference) {
                       let alert = this.alertCtrl.create({
                         title: this.conferenceStr + this.inMyForumStr,
@@ -147,16 +147,16 @@ export class BarScannerPage extends BaseLangPageProvider {
                           {
                             text: this.yesStr,
                             handler: () => {
-                              console.log('Yes clicked');
+                              //console.log('Yes clicked');
                               tableMyForum.addToMyForumSite(rec.id, this.conferenceId, this.userId).then(res => {
-                                console.log(rec.name_rus, " added");
+                                //console.log(rec.name_rus, " added");
                               });
                             }
                           },
                           {
                             text: this.noStr,
                             handler: () => {
-                              console.log('No clicked');
+                              //console.log('No clicked');
                             }
                           }
                         ]
@@ -198,7 +198,7 @@ export class BarScannerPage extends BaseLangPageProvider {
 
         }
       }, (error) => {
-        console.log('error when scanning product barcode', error);
+        //console.log('error when scanning product barcode', error);
       });
     });
 

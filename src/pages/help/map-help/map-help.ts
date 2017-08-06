@@ -24,7 +24,7 @@ export class MapHelpPage extends BaseLangPageProvider{
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MapHelpPage');
+    //console.log('ionViewDidLoad MapHelpPage');
   }
 
 }

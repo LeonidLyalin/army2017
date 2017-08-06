@@ -34,24 +34,24 @@ export class CountrySql extends BaseSql{
 
       ]
     );
-    console.log('Hello CountrySql Provider');
+    //console.log('Hello CountrySql Provider');
     //this.openDb();
   }
 
 
 
 /*  getThematicOfConference(conferenceId) {
-    console.log('getThematic for participant');
+    //console.log('getThematic for participant');
     return new Promise(res => {
       let query = 'select thematic_conference from conference';
       query += ' where id=' + conferenceId;
-      console.log(query);
+      //console.log(query);
       this.db.executeSql(query, [], rs => {
-        console.log(rs);
+        //console.log(rs);
         let list = rs.rows.item(0).thematic_conference;
-        console.log(list);
+        //console.log(list);
         this.getTableList(list).then(rs => {
-            console.log("res after getThematicList=", rs);
+            //console.log("res after getThematicList=", rs);
             res(rs);
           }
         )
@@ -63,20 +63,20 @@ export class CountrySql extends BaseSql{
 /*
   getThematicList(list: string) {
     return new Promise(res => {
-      console.log('get thematicConference list=', list);
+      //console.log('get thematicConference list=', list);
       let thematic: string[];
       thematic = [];
       thematic = list.split(',');
-      console.log('an array=', thematic);
+      //console.log('an array=', thematic);
       let whereStr: string = ' where ';
       for (let i = 0; i < thematic.length; i++) {
         if (i > 0) whereStr += ' or ';
         whereStr += 'id=' + thematic[i];
       }
-      console.log("whereStr=", whereStr);
+      //console.log("whereStr=", whereStr);
       let query = "SELECT * FROM "+this.tableName;
       query += ' ' + whereStr;
-      console.log(query);
+      //console.log(query);
       this.arr = [];
       this.db.executeSql(query, [], rs => {
         if (rs.rows.length > 0) {
@@ -87,22 +87,22 @@ export class CountrySql extends BaseSql{
         }
         res(this.arr);
       }, (e) => {
-        console.log('Sql Query Error', e);
+        //console.log('Sql Query Error', e);
       });
     })
   }
 */
 
   getParticipantForCountry(country: string) {
-    console.log("getParticipantForThematic");
-    console.log("country=", country);
+    //console.log("getParticipantForThematic");
+    //console.log("country=", country);
     return new Promise(res => {
       let query = 'select a.id, a.name_rus, a.name_eng, a.desc_rus as desc, ' +
         'a.desc_eng as desc, a.logo, a.address_rus, a.address_eng, a.phone, a.email, ' +
         'a.www, b.id as my_forum_id, c.name_rus as country_name ' +
         'from participant a left join myforum b on a.id=b.my_id left join country c on a.place=c.id ' +
         ' where a.name_rus like "' + country + ',%" or a.country like "%,' + country + ',%" or a.country like "%,' + country + '" or a.country="' + country + '"';
-      console.log(query);
+      //console.log(query);
       this.db.executeSql(query, [], rs => {
         this.arr = [];
         if (rs.rows.length > 0) {
@@ -127,7 +127,7 @@ export class CountrySql extends BaseSql{
         }
         res(this.arr);
       }, (e) => {
-        console.log('Sql Query Error', e);
+        //console.log('Sql Query Error', e);
       });
     })
   }

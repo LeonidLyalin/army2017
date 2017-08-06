@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
-import {BaseApi} from "../../pages/shared/base-api-service";
+import {BaseApi} from "../../providers/base-api-service";
 import {BaseSql} from "../base-sql";
 
 /*

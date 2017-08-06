@@ -12,12 +12,12 @@ import {ParticipantPage} from "../pages/participant/participant";
 import {LoginPage} from "../pages/login/login";
 import {SupportPage} from "../pages/support/support";
 import {SignupPage} from "../pages/signup/signup";
-import {SchedulePage} from "../pages/schedule/schedule";
+
 
 import {AboutPage} from "../pages/about/about";
-import {SpeakerListPage} from "../pages/speaker-list/speaker-list";
-import {ConferenceData} from "../pages/providers/conference-data";
-import {UserData} from "../pages/providers/user-data";
+
+
+import {UserData} from "../providers/user-data";
 import {TutorialPage} from "../pages/tutorial/tutorial";
 
 
@@ -89,15 +89,8 @@ export class MyApp {
 
 
   appPages: PageInterface[] = [
-    {title: 'Программа', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'calendar'},
-    {
-      title: 'Контакты',
-      name: 'TabsPage',
-      component: TabsPage,
-      tabComponent: SpeakerListPage,
-      index: 1,
-      icon: 'contacts'
-    },
+
+
 
     {
       title: 'О форуме',
@@ -115,7 +108,7 @@ export class MyApp {
               public menu: MenuController,
               public events: Events,
               public userData: UserData,
-              public confData: ConferenceData,
+
               public storage: Storage,
               public http: Http,
               public alertCtrl: AlertController) {
@@ -133,7 +126,7 @@ export class MyApp {
 
     localStorage.setItem('viewcount', '0');
 
-    console.log("hi!");
+    //console.log("hi!");
     this.lang = localStorage.getItem('lang');
     if (!this.lang) {
       let confirm = this.alertCtrl.create({
@@ -143,7 +136,7 @@ export class MyApp {
           {
             text: 'English',
             handler: () => {
-              console.log('English clicked');
+              //console.log('English clicked');
               localStorage.setItem('lang', 'en');
               this.lang = 'en';
               this.langVal = true;
@@ -154,7 +147,7 @@ export class MyApp {
           {
             text: 'Русский',
             handler: () => {
-              console.log('Русский clicked');
+              //console.log('Русский clicked');
               this.lang = 'ru';
               localStorage.setItem('lang', 'ru');
               this.langVal = false;
@@ -181,11 +174,11 @@ export class MyApp {
 
       this.lang = localStorage.getItem('lang');
       if (this.lang == 'ru') {
-        console.log('this.events.subscribe(language:change) ru= ', this.lang);
+        //console.log('this.events.subscribe(language:change) ru= ', this.lang);
         this.setRussianStrings();
       }
       else {
-        console.log('this.events.subscribe(language:change) en= ', this.lang);
+        //console.log('this.events.subscribe(language:change) en= ', this.lang);
         this.setEnglishStrings();
       }
     });
@@ -198,7 +191,7 @@ export class MyApp {
       }
       this.platformReady()
     });
-    confData.load();
+
 
     // decide which menu items should be hidden by current login status stored in local storage
     this.userData.hasLoggedIn().then((hasLoggedIn) => {
@@ -228,7 +221,7 @@ export class MyApp {
       // Set the root of the nav with params if it's a tab index
     } else {
       this.nav.setRoot(page.name, params).catch((err: any) => {
-        console.log(`Didn't set nav root: ${err}`);
+        //console.log(`Didn't set nav root: ${err}`);
       });
     }
 
@@ -304,22 +297,9 @@ export class MyApp {
 
 
     this.appPages = [
-      {
-        title: 'Программа',
-        name: 'TabsPage',
-        component: TabsPage,
-        tabComponent: SchedulePage,
-        index: 0,
-        icon: 'calendar'
-      },
-      {
-        title: 'Контакты',
-        name: 'TabsPage',
-        component: TabsPage,
-        tabComponent: SpeakerListPage,
-        index: 1,
-        icon: 'contacts'
-      },
+
+
+
 
       {
         title: 'О форуме',
@@ -351,22 +331,8 @@ export class MyApp {
 
 
     this.appPages = [
-      {
-        title: 'Programm',
-        name: 'TabsPage',
-        component: TabsPage,
-        tabComponent: SchedulePage,
-        index: 0,
-        icon: 'calendar'
-      },
-      {
-        title: 'Contacts',
-        name: 'TabsPage',
-        component: TabsPage,
-        tabComponent: SpeakerListPage,
-        index: 1,
-        icon: 'contacts'
-      },
+
+
 
       {
         title: 'About',
@@ -381,13 +347,13 @@ export class MyApp {
 
 
   setLangRuEn() {
-    console.log('setLangRuEn ru before=', this.lang);
+    //console.log('setLangRuEn ru before=', this.lang);
     if (this.lang == 'ru') {
       this.lang = 'en';
 
       this.language = 'English';
       localStorage.setItem('lang', 'en');
-      console.log('set language=', 'en');
+      //console.log('set language=', 'en');
       this.events.publish('language:change');
 
     }
@@ -395,7 +361,7 @@ export class MyApp {
       this.lang = 'ru';
       this.language = 'Русский';
       localStorage.setItem('lang', 'ru');
-      console.log('set language=', 'ru');
+      //console.log('set language=', 'ru');
       this.events.publish('language:change');
     }
 
